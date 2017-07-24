@@ -16,6 +16,7 @@ const std::string CURSOR = "_";
 // Constructor
 // ------------------------------------------------------------
 Console::Console(Game *g) :
+	height(22),
 	text("fonts/terminus_bold.ttf", 20),
 	cursor("fonts/terminus_bold.ttf", 20),
 	game(g) {
@@ -43,13 +44,13 @@ void Console::Render(Window &window) {
 		// draw background
 		//
 		Primitives::fill_color = Primitives::outline_color = Color(0, 0, 0, 255);
-		Primitives::Rectangle(window, 0, 0, window.GetSize().x, window.GetSize().y / 3);
+		Primitives::Rectangle(window, 0, 0, window.GetSize().x, height);
 
 		//
 		// draw history
 		//
 		int line_height = 22;
-		int y = window.GetSize().y / 3;
+		int y = height;
 		y -= line_height;
 // 		for (auto it = history.rbegin(); it != history.rend(); ++it) {
 // 			text.SetText (*it);
@@ -72,7 +73,7 @@ void Console::Render(Window &window) {
 		// draw current line
 		//
 		text.SetText(PREFIX + current_line);
-		text.SetPosition(0, window.GetSize().y / 3 - line_height);
+		text.SetPosition(0, height - line_height);
 		text.Render(window);
 
 		if (timer.GetTicks() > 500) {
@@ -91,7 +92,7 @@ void Console::Render(Window &window) {
 			cursor_text += "_";
 		}
 		cursor.SetText(cursor_text);
-		cursor.SetPosition(0, window.GetSize().y / 3 - line_height);
+		cursor.SetPosition(0, height - line_height);
 		cursor.Render(window);
 	}
 }
@@ -101,7 +102,7 @@ void Console::Render(Window &window) {
 // ------------------------------------------------------------
 void Console::OnKey(const std::string &character) {
 
-	if (character == "tab") {
+	if (character == "tab" || character == "escape") {
 		visible = !visible;
 		return;
 	}

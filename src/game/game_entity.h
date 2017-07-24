@@ -21,6 +21,12 @@ public:
     */
     GameEntity(void);
 
+	/**
+    * \brief construct with ready made physical aspect
+	* \param p ready made physical aspect
+    */
+    GameEntity(Physical *p);
+
     /**
      * \brief destruct
      */
@@ -57,6 +63,10 @@ public:
 	 */
 	std::string GetName();
 
+	/**
+	 * \brief like a rpc call
+	 * \param params list of params
+	 */
 	virtual void Call(std::vector<std::string> params);
 
     /// a game entity has a physical and graphical aspect
@@ -77,7 +87,7 @@ protected:
 	/**
 	 * \brief align the sprite accordig to physical position, sprite size and anchor type
 	 */
-	void anchor();	
+	void anchor();
 
 	/// unique name
 	std::string name;

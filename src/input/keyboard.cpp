@@ -44,6 +44,7 @@ Keyboard::Keyboard(){
 	keys.insert(std::make_pair(code++, "7"));
 	keys.insert(std::make_pair(code++, "8"));
 	keys.insert(std::make_pair(code++, "9"));
+	keys.insert(std::make_pair(code++, "escape"));
 
 	keys.insert(std::make_pair(57, " "));
 

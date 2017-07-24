@@ -34,6 +34,9 @@ public:
 	void Echo(const std::vector< std::string > &texts);
 private:
 
+	// console height
+	int height;
+
 	/// text renderable
 	Label text;
 

@@ -57,20 +57,12 @@ void Console::Render (Window &window) {
 		// draw background
 		//
 		Primitives::fill_color = Primitives::outline_color = Color (0, 0, 0, 255);
-		Primitives::Rectangle (window, 0, 0, window.GetSize().x, window.GetSize().y / 3);
+		Primitives::Rectangle (window, 0, 0, window.GetSize().x, 22);
 
 		//
 		// draw history
 		//
 		int line_height = 22;
-		int y = window.GetSize().y / 3;
-		y -= line_height;
-// 		for (auto it = history.rbegin(); it != history.rend(); ++it) {
-// 			text.SetText (*it);
-// 			y -= line_height;
-// 			text.SetPosition (0, y);
-// 			text.Render (window);
-// 		}
 
 		//
 		// draw echo list
