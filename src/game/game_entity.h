@@ -57,7 +57,7 @@ public:
 	 */
 	std::string GetName();
 
-	virtual void Call(std::vector<std::string> params){};
+	virtual void Call(std::vector<std::string> params);
 
     /// a game entity has a physical and graphical aspect
     Physical 	*physical;
@@ -77,7 +77,7 @@ protected:
 	/**
 	 * \brief align the sprite accordig to physical position, sprite size and anchor type
 	 */
-	void anchor();
+	void anchor();	
 
 	/// unique name
 	std::string name;

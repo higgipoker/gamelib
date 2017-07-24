@@ -166,6 +166,24 @@ std::vector<std::string> Game::GetEntityNames() {
 }
 
 // ------------------------------------------------------------
+// GetEntityNames
+// ------------------------------------------------------------
+GameEntity* Game::GetEntity(const std::string &name){
+
+	GameEntity *entity = nullptr;
+
+	for (auto it = game_entities.begin(); it != game_entities.end(); ++it) {
+			std::cout << (*it)->GetName() << std::endl;
+			if ((*it)->GetName() == name) {
+				return *it;				
+			}
+		}
+		std::cout << "Entity not found: " << name << std::endl;
+
+	return entity;
+}
+
+// ------------------------------------------------------------
 // Call
 // ------------------------------------------------------------
 void Game::Call(std::vector<std::string> params) {

@@ -96,5 +96,15 @@ std::string GameEntity::GetName(){
 	return name;
 }
 
+// ------------------------------------------------------------
+// Call
+// ------------------------------------------------------------
+void GameEntity::Call(std::vector<std::string> params){
+	if(params[0] == "setposition"){
+		std::vector<std::string> new_params(params.begin() + 1, params.end());
+		SetPosition( atoi ( new_params[0].c_str() ), atoi (new_params[1].c_str()) );
+	}
+}
+
 }// GameLiib
 

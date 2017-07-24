@@ -49,6 +49,11 @@ public:
 	std::vector<std::string> GetEntityNames();
 
 	/**
+	\brief get an entity based on id
+	*/
+	GameEntity* GetEntity(const std::string &name);
+
+	/**
 	 * \brief call a function
 	 * \param params list of params
 	 */
