@@ -16,7 +16,7 @@ const std::string CURSOR = "_";
 // Constructor
 // ------------------------------------------------------------
 Console::Console(Game *g)
-	: height(22), text("fonts/terminus_bold.ttf", 20),
+	: height(200), text("fonts/terminus_bold.ttf", 20),
 	  cursor("fonts/terminus_bold.ttf", 20), game(g) {
   hud = true;
   text.SetColor(Color(0, 255, 0, 255));
