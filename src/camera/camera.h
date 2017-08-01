@@ -11,12 +11,14 @@ public:
 
 	Camera(){
 		physical = new Physical();
+        renderable = new Renderable();
 		following = nullptr;
 		name = "camera";
 		zoom_clicks = 0;
 	}
 	~Camera(){
 		delete physical;
+        delete renderable;
 	}
 
 	/**

@@ -58,6 +58,8 @@ src/console/console.cpp
 
 src/utils/timer.cpp
 src/utils/converter.cpp
+src/utils/log.cpp
+src/utils/grid.cpp
 )
 # ----------------------------------------------------------------------------------------------------
 
@@ -131,4 +133,6 @@ DESTINATION include/gamelib/console)
 install(FILES
 src/utils/timer.h
 src/utils/converter.h
+src/utils/log.h
+src/utils/grid.h
 DESTINATION include/gamelib/utils)

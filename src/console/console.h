@@ -8,11 +8,16 @@
 namespace GameLib {
 class Game;
 class Console : public GameEntity, public Renderable {
-public:
+ public:
   /**
    * \brief construct
    */
   Console(Game *g);
+
+  /**
+    \brief destruct
+   */
+  ~Console();
 
   /**
   * \brief render
@@ -32,7 +37,7 @@ public:
    */
   void Echo(const std::vector<std::string> &texts);
 
-private:
+ private:
   // console height
   int height;
 
@@ -71,4 +76,4 @@ private:
   void execute();
 };
 
-} // GameLib
+}  // GameLib

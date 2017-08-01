@@ -32,16 +32,20 @@ GameLib::Window::Window(const std::string &title, unsigned int x,
                         unsigned int y, unsigned int w, unsigned int h,
                         bool fullsscreen) {
   // default style
-  unsigned int window_style = sf::Style::Default;
+  unsigned int window_style = sf::Style::Default;    
 
   // if fullscreen, look for a compatible video mode
   if (fullsscreen) {
-    if (valid_videomode(w, h)) {
-      window_style = sf::Style::Fullscreen;
-    } else {
-      std::cout << "No valid fullscreen mode for " << w << "x" << h
-                << std::endl;
-    }
+    sf::VideoMode desktop_mode = sf::VideoMode::getDesktopMode();
+    window_style = sf::Style::Fullscreen;
+    w = desktop_mode.width;
+    h = desktop_mode.height;
+//    if (valid_videomode(w, h)) {
+//      window_style = sf::Style::Fullscreen;
+//    } else {
+//      std::cout << "No valid fullscreen mode for " << w << "x" << h
+//                << std::endl;
+//    }
   }
 
   // create new window with requested styles

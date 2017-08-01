@@ -35,7 +35,7 @@ public:
     * \brief main game loop
     * \param dt time delta
     */
-    void Loop(float dt);
+    void Run(float dt);
 
     /**
     * \brief add a game entity

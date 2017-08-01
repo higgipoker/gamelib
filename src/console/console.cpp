@@ -24,12 +24,20 @@ Console::Console(Game *g)
 
   // a wee trick
   this->renderable = this;
+  physical = new Physical();
 
   name = "console";
   visible = false;
   history_iterator = 0;
 
   timer.Start();
+}
+
+// ------------------------------------------------------------
+// Destructor
+// ------------------------------------------------------------
+Console::~Console(){
+    delete physical;
 }
 
 // ------------------------------------------------------------
