@@ -2,46 +2,45 @@
 
 #include <vector>
 
-#include "game_entity.h"
-#include "../graphics/window.h"
-#include "../graphics/renderable.h"
-#include "../physics/physical.h"
 #include "../camera/camera.h"
 #include "../console/console.h"
+#include "../graphics/renderable.h"
+#include "../graphics/window.h"
+#include "../physics/physical.h"
 #include "../utils/timer.h"
+#include "game_entity.h"
 
 namespace GameLib {
 
 class Game {
-public:
-
-    /**
-    * \brief constructor
-    * \param gamename name of game
+  public:
+	/**
+	* \brief constructor
+	* \param gamename name of game
 	* \param x window x position
 	* \param y window y position
 	* \param w window width
 	* \param h window height
 	* \param fullscreen full screen or not
-    */
-    explicit Game(const std::string &gamename, int x, int y, int w, int h, bool fullscreen);
+	*/
+	explicit Game(const std::string &gamename, int x, int y, int w, int h, bool fullscreen);
 
-    /**
-     * \brief destructor
-     */
-    virtual ~Game(void);
+	/**
+	 * \brief destructor
+	 */
+	virtual ~Game(void);
 
-    /**
-    * \brief main game loop
-    * \param dt time delta
-    */
-    void Run(float dt);
+	/**
+	* \brief main game loop
+	* \param dt time delta
+	*/
+	void Run(float dt);
 
-    /**
-    * \brief add a game entity
+	/**
+	* \brief add a game entity
 	* \param entity entity to add
-    */
-    void AddEntity(GameEntity &entity);
+	*/
+	void AddEntity(GameEntity &entity);
 
 	/**
 	 * \brief get list of entity names
@@ -51,7 +50,7 @@ public:
 	/**
 	\brief get an entity based on id
 	*/
-	GameEntity* GetEntity(const std::string &name);
+	GameEntity *GetEntity(const std::string &name);
 
 	/**
 	 * \brief call a function
@@ -67,7 +66,7 @@ public:
 	void Call(std::string func, std::string n, ...);
 
 	/// game main window
-    Window window;
+	Window window;
 
 	/// a camera
 	Camera camera;
@@ -78,13 +77,12 @@ public:
 	/// main loop control
 	bool running = true;
 
-protected:
-
-    /// game physical entities
-    std::vector< GameEntity* > game_entities;
+  protected:
+	/// game physical entities
+	std::vector<GameEntity *> game_entities;
 
 	/// hud entities
-    std::vector< GameEntity* > hud_entities;
+	std::vector<GameEntity *> hud_entities;
 
 	// non moving view for the hud
 	sf::View hud_view;
@@ -105,6 +103,8 @@ protected:
 	 */
 	void handle_keyboard();
 
+	virtual void on_mouse_click(int x, int y) = 0;
+
 	/// console
 	Console console;
 
@@ -118,4 +118,4 @@ protected:
 	float lastTime = 0.0f;
 };
 
-}// GameLib
+} // GameLib
