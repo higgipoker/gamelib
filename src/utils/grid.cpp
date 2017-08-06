@@ -44,6 +44,13 @@ int Grid::CoordinatesToSector(int cx, int cy) {
     cx -= x;
     cy -= y;
 
+    if (cx < 0 || cy < 0)
+        return -1;
+    if (cx > cols * sector_width)
+        return -1;
+    if (cy > rows * sector_height)
+        return -1;
+
     int sector = 0;
 
     int col = cx / sector_width;
@@ -57,6 +64,10 @@ int Grid::CoordinatesToSector(int cx, int cy) {
     }
 
     return sector;
+}
+
+int Grid::PointToSector(Point p) {
+    return CoordinatesToSector(p.x, p.y);
 }
 
 //  --------------------------------------------------

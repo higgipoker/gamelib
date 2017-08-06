@@ -12,7 +12,7 @@ struct Rectangle {
     void init(float _x, float _y, float _w, float _h);
     float area() const;
     void contract(float amount);
-	Point GetCenter(void) const;
+    Point GetCenter(void) const;
     Point getRandomPoint(void) const;
     bool overlaps(const Rectangle &_rect) const;
     bool contains(const Point &_p) const;
@@ -53,6 +53,7 @@ struct Circle {
     Circle(float _x, float _y, float _radius);
     Circle();
 
+    bool in_rect(const Rectangle &r);
     float x, y, radius;
 };
 
@@ -88,4 +89,4 @@ struct FlatPlane {
     FlatPlane(float _x, float _y, float _w, float _h, float _z);
     float x, y, width, height, z;
 };
-}  // namespace GameLib
+} // namespace GameLib

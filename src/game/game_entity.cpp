@@ -12,17 +12,20 @@ std::set<std::string> GameEntity::entity_names;
 // ------------------------------------------------------------
 // Constructor
 // ------------------------------------------------------------
-GameEntity::GameEntity(void) : physical(nullptr), renderable(nullptr), anchor_type(ANCHOR_CENTER) {}
+GameEntity::GameEntity(void) : physical(nullptr), renderable(nullptr), anchor_type(ANCHOR_CENTER) {
+}
 
 // ------------------------------------------------------------
 // Constructor
 // ------------------------------------------------------------
-GameEntity::GameEntity(Physical *p) : physical(p), renderable(nullptr), anchor_type(ANCHOR_CENTER) {}
+GameEntity::GameEntity(Physical *p) : physical(p), renderable(nullptr), anchor_type(ANCHOR_CENTER) {
+}
 
 // ------------------------------------------------------------
 //
 // ------------------------------------------------------------
-GameEntity::~GameEntity(void) {}
+GameEntity::~GameEntity(void) {
+}
 
 // ------------------------------------------------------------
 // Update
@@ -58,6 +61,10 @@ void GameEntity::SetPosition(float x, float y, float z) {
     }
 }
 
+Point GameEntity::GetPosition() {
+    return Point(physical->position.x, physical->position.y);
+}
+
 // ------------------------------------------------------------
 // anchor
 // ------------------------------------------------------------
@@ -80,19 +87,21 @@ void GameEntity::anchor() {
 // ------------------------------------------------------------
 // SetName
 // ------------------------------------------------------------
-void GameEntity::SetName(const std::string &name) {
-
+void GameEntity::SetName(const std::string &n) {
+    name = n;
     if (entity_names.find(name) == entity_names.end()) {
         entity_names.insert(name);
     } else {
-        std::cout << "Could not set name" << std::endl;
+        std::cout << "Could not set name: " << name << std::endl;
     }
 }
 
 // ------------------------------------------------------------
 // GetName
 // ------------------------------------------------------------
-std::string GameEntity::GetName() { return name; }
+std::string GameEntity::GetName() {
+    return name;
+}
 
 // ------------------------------------------------------------
 // Call

@@ -8,72 +8,72 @@
 namespace GameLib {
 class Game;
 class Console : public GameEntity, public Renderable {
- public:
-  /**
-   * \brief construct
-   */
-  Console(Game *g);
+  public:
+    /**
+     * \brief construct
+     */
+    Console(Game *g);
 
-  /**
-    \brief destruct
-   */
-  ~Console();
+    /**
+      \brief destruct
+     */
+    ~Console();
 
-  /**
-  * \brief render
-  * \param window render target
-  */
-  virtual void Render(Window &window) override;
+    /**
+    * \brief render
+    * \param window render target
+    */
+    virtual void Render(Window &window) override;
 
-  /**
-   * \brief key press
-   * \param character the char pressed
-   */
-  void OnKey(const std::string &character);
+    /**
+     * \brief key press
+     * \param character the char pressed
+     */
+    void OnKey(std::string &character);
 
-  /**
-   * \brief echo something
-   * \param texts strings to echo
-   */
-  void Echo(const std::vector<std::string> &texts);
+    /**
+     * \brief echo something
+     * \param texts strings to echo
+     */
+    void Echo(const std::vector<std::string> &texts);
 
- private:
-  // console height
-  int height;
+  private:
+    // console height
+    int height;
 
-  /// text renderable
-  Label text;
+    /// text renderable
+    Label text;
 
-  /// cursor
-  Label cursor;
+    /// cursor
+    Label cursor;
 
-  /// current text
-  std::string current_line;
+    /// current text
+    std::string current_line;
 
-  /// command history
-  std::vector<std::string> history;
+    /// command history
+    std::vector<std::string> history;
 
-  /// track current history pointer
-  int history_iterator;
+    /// track current history pointer
+    int history_iterator;
 
-  /// an echo list
-  std::vector<std::string> echo_list;
+    /// an echo list
+    std::vector<std::string> echo_list;
 
-  /// pointer to game for function calls
-  Game *game;
+    /// pointer to game for function calls
+    Game *game;
 
-  /// a timer
-  Timer timer;
+    /// a timer
+    Timer timer;
 
-  /**
-   * \brief render the cursor
-   */
-  bool show_cursor = false;
+    /**
+     * \brief render the cursor
+     */
+    bool show_cursor = false;
 
-  /**
-   * \brief execute the current command
-   */
-  void execute();
+    /**
+     * \brief execute the current command
+     */
+    void execute();
 };
 
-}  // GameLib
+} // GameLib

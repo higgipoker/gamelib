@@ -33,6 +33,7 @@ class Grid {
 
     int ColRowToSector(int col, int row);
     int CoordinatesToSector(int x, int y);
+    int PointToSector(Point p);
     Point GetSectorCenter(int sector);
     int OffsetSectorY(int sector, int rows);
 
