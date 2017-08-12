@@ -5,27 +5,24 @@ namespace GameLib {
 // ------------------------------------------------------------
 // Follow
 // ------------------------------------------------------------
-void Camera::Follow (GameEntity *e) {
+void Camera::Follow(GameEntity *e) {
 	following = e;
-	view.zoom (1);
+	view.zoom(1);
 }
 
-#define SPEED 5000
+#define SPEED 50
 // ------------------------------------------------------------
 // Update
 // ------------------------------------------------------------
-void Camera::Update (float dt) {
+void Camera::Update(float dt) {
 
 	if (following) {
-		Vector3 distance = following->physical->position - Vector3 (view.getCenter().x, view.getCenter().y);
+		Vector3 distance = following->physical->position - Vector3(view.getCenter().x, view.getCenter().y);
 		double mag = distance.magnitude();
-
-		if (mag > 1) {
-			physical->velocity = distance.normalised() * SPEED * dt * (mag * 0.01f);
-			physical->position += physical->velocity;
-			update_position();
-		}
+		physical->velocity = distance.normalised() * SPEED * dt * mag;
+		physical->position += physical->velocity;
 	}
+	update_position();
 }
 
 // ------------------------------------------------------------
@@ -50,27 +47,23 @@ void Camera::update_position() {
 	}
 
 	// set viewport with "physical->position" at center point
-	view.setCenter (physical->position.x, physical->position.y);
+	view.setCenter(physical->position.x, physical->position.y);
 }
 
 // ------------------------------------------------------------
 // Zoom
 // ------------------------------------------------------------
-void Camera::ZoomOut () {
-	//if (zoom_clicks > -30) {
-		--zoom_clicks;
-		view.zoom (1.1);
-	//}
+void Camera::ZoomOut() {
+	--zoom_clicks;
+	view.zoom(1.1);
 }
 
 // ------------------------------------------------------------
 // Zoom
 // ------------------------------------------------------------
-void Camera::ZoomIn () {
-	//if (zoom_clicks < 30) {
-		++zoom_clicks;
-		view.zoom (0.9);
-	//}
+void Camera::ZoomIn() {
+	++zoom_clicks;
+	view.zoom(0.9);
 }
 
 }// GameLib
