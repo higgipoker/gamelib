@@ -10,7 +10,7 @@ project (gamelib)
 
 # ----------------------------------------------------------------------------------------------------
 # cmake environment varables
-set(LIBRARY_OUTPUT_PATH /home/higgi/gamedev/senseless_soccer/libs)
+set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 
 
 # ----------------------------------------------------------------------------------------------------
@@ -68,12 +68,12 @@ src/files/file.cpp
 
 # ----------------------------------------------------------------------------------------------------
 # install
-install (TARGETS gamelib DESTINATION /home/higgi/gamedev/senseless_soccer/libs)
+install (TARGETS gamelib DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../senseless_soccer/libs)
 
 #gamelib header
 install(FILES
 src/gamelib.h
-DESTINATION /home/higgi/gamedev/senseless_soccer/libs/include/gamelib)
+DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../senseless_soccer/libs/include/gamelib)
 
 #install graphics header files
 install(FILES
@@ -87,48 +87,48 @@ src/graphics/text.h
 src/graphics/primitives.h
 src/graphics/color.h
 src/graphics/palette.h
-DESTINATION /home/higgi/gamedev/senseless_soccer/include/gamelib/graphics)
+DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../senseless_soccer/libs/include/gamelib/graphics)
 
 #install camera header files
 install(FILES
 src/camera/camera.h
-DESTINATION /home/higgi/gamedev/senseless_soccer/include/gamelib/camera)
+DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../senseless_soccer/libs/include/gamelib/camera)
 
 #install input header files
 install(FILES
 src/input/input.h
 src/input/keyboard.h
-DESTINATION /home/higgi/gamedev/senseless_soccer/include/gamelib/input)
+DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../senseless_soccer/libs/include/gamelib/input)
 
 #install state machine header files
 install(FILES
 src/statemachine/state_machine.h
 src/statemachine/state.h
-DESTINATION /home/higgi/gamedev/senseless_soccer/include/gamelib/statemachine)
+DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../senseless_soccer/libs/include/gamelib/statemachine)
 
 #install math header files
 install(FILES
 src/math/constants.h
 src/math/vector3.h
 src/math/shapes.h
-DESTINATION /home/higgi/gamedev/senseless_soccer/include/gamelib/math)
+DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../senseless_soccer/libs/include/gamelib/math)
 
 #install physical header files
 install(FILES
 src/physics/physical.h
 src/physics/collision_detector.h
-DESTINATION /home/higgi/gamedev/senseless_soccer/include/gamelib/physics)
+DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../senseless_soccer/libs/include/gamelib/physics)
 
 #install game header files
 install(FILES
 src/game/game.h
 src/game/game_entity.h
-DESTINATION /home/higgi/gamedev/senseless_soccer/include/gamelib/game)
+DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../senseless_soccer/libs/include/gamelib/game)
 
 #install console header files
 install(FILES
 src/console/console.h
-DESTINATION /home/higgi/gamedev/senseless_soccer/include/gamelib/console)
+DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../senseless_soccer/libs/include/gamelib/console)
 
 #install utils header files
 install(FILES
@@ -136,14 +136,14 @@ src/utils/timer.h
 src/utils/converter.h
 src/utils/log.h
 src/utils/grid.h
-DESTINATION /home/higgi/gamedev/senseless_soccer/include/gamelib/utils)
+DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../senseless_soccer/libs/include/gamelib/utils)
 
 #install files header files
 install(FILES
 src/files/file.h
-DESTINATION /home/higgi/gamedev/senseless_soccer/include/gamelib/files)
+DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../senseless_soccer/libs/include/gamelib/files)
 
 #install gamelib header files
 install(FILES
 src/gamelib.h
-DESTINATION /home/higgi/gamedev/senseless_soccer/include/gamelib)
+DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../senseless_soccer/libs/include/gamelib)
