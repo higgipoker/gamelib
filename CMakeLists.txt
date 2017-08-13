@@ -16,6 +16,11 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 # ----------------------------------------------------------------------------------------------------
 # include dirs
 include_directories(${PROJECT_SOURCE_DIR}/src)
+include_directories(${PROJECT_SOURCE_DIR}/../dependencies/include)
+
+# ----------------------------------------------------------------------------------------------------
+# library dirs
+link_directories(${PROJECT_SOURCE_DIR}/../dependencies/libs)
 
 # ----------------------------------------------------------------------------------------------------
 # project build
@@ -147,3 +152,11 @@ DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../senseless_soccer/libs/include/gamelib
 install(FILES
 src/gamelib.h
 DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../senseless_soccer/libs/include/gamelib)
+
+# --------------------------------------------------
+# link libs
+# --------------------------------------------------
+target_link_libraries (gamelib gamelib)
+target_link_libraries (gamelib sfml-graphics)
+target_link_libraries (gamelib sfml-window)
+target_link_libraries (gamelib sfml-system)
