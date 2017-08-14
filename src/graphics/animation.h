@@ -10,50 +10,50 @@ namespace GameLib{
 class Animation{
 public:
 	/**
-	* \brief constructor with varialbe list
-	* \param id animatin name
-	* \param frametime timing
-	* \param loopanim loop
-	* \param n number of args
+	* @brief constructor with varialbe list
+	* @param id animatin name
+	* @param frametime timing
+	* @param loopanim loop
+	* @param n number of args
 	* */
 	Animation(const std::string &id, float frametime, bool loopanim, int n, ...);
 
 	/**
-	*  \brief constructor with varialbe vector
-	* \param frametime timing
-	* \param loopanim loop?
-	* \param f frames list
+	*  @brief constructor with varialbe vector
+	* @param frametime timing
+	* @param loopanim loop?
+	* @param f frames list
 	* */
 	Animation(const std::string &id, float frametime, bool loopanim, std::vector<int> f);
 
 	/**
-	* \brief start the animation
+	* @brief start the animation
 	*/
 	void Start();
 
 	/**
-	* \brief step the animation (call each frame)
+	* @brief step the animation (call each frame)
 	*/
 	void Step();
 
 	/**
-	* \brief stop animation
+	* @brief stop animation
 	*/
 	void Stop();
 
 	/**
-	 * \brief is the animation currently running
+	 * @brief is the animation currently running
 	 */
 	bool IsRunning() const;
 
 	/**
-	 * \brief get the current anim frame
+	 * @brief get the current anim frame
 	 */
 	unsigned int CurrentFrame() const;
 
 	/**
-	 * \brief manual alter timing
-	 * \param speed new speed
+	 * @brief manual alter timing
+	 * @param speed new speed
 	 */
 	void SetSpeed(int speed);
 

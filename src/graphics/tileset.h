@@ -9,12 +9,12 @@ namespace GameLib {
 class Tileset : public Sprite{
 public:
 	/**
-	 * \brief constructor
+	 * @brief constructor
 	 */
 	explicit Tileset(const std::string& filename, Camera &c);
 
 	/**
-	 * \brief render to window
+	 * @brief render to window
 	 */
 	virtual void Render(GameLib::Window &window) override;
 

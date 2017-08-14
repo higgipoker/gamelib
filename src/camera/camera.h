@@ -22,39 +22,39 @@ public:
 	}
 
 	/**
-     * \brief the main update function for an entity
-     * \param dt time delta
+     * @brief the main update function for an entity
+     * @param dt time delta
      */
     virtual void Update(float dt) override;
 
 	/**
-	 * \brief set up the game world rect
-	 * \param world_rect rectangle
+	 * @brief set up the game world rect
+	 * @param world_rect rectangle
 	 */
 	inline void SetWorldRect(const Rectangle &world_rect){
 		world = world_rect;
 	}
 
 	/**
-	 * \brief follow a game entity
-	 * \param e game entity to follow
+	 * @brief follow a game entity
+	 * @param e game entity to follow
 	 */
 	void Follow( GameEntity *e);
 
 	/**
-	 * \brief get the current viewport
+	 * @brief get the current viewport
 	 */
 	inline Rectangle GetViewport(){
 		return Rectangle(view.getCenter().x - view.getSize().x / 2, view.getCenter().y - view.getSize().y / 2, view.getSize().x, view.getSize().y);
 	}
 
 	/**
-	 * \brief zoom the camera
+	 * @brief zoom the camera
 	 */
 	void ZoomOut();
 
 	/**
-	 * \brief zoom the camera
+	 * @brief zoom the camera
 	 */
 	void ZoomIn();
 
@@ -75,7 +75,7 @@ protected:
 	int zoom_clicks;
 
 	/**
-	 * \brief helper to update position
+	 * @brief helper to update position
 	 */
 	void update_position();
 };

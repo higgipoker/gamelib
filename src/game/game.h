@@ -15,53 +15,53 @@ namespace GameLib {
 class Game {
   public:
 	/**
-	* \brief constructor
-	* \param gamename name of game
-	* \param x window x position
-	* \param y window y position
-	* \param w window width
-	* \param h window height
-	* \param fullscreen full screen or not
+	* @brief constructor
+	* @param gamename name of game
+	* @param x window x position
+	* @param y window y position
+	* @param w window width
+	* @param h window height
+	* @param fullscreen full screen or not
 	*/
 	explicit Game(const std::string &gamename, int x, int y, int w, int h, bool fullscreen);
 
 	/**
-	 * \brief destructor
+	 * @brief destructor
 	 */
 	virtual ~Game(void);
 
 	/**
-	* \brief main game loop
-	* \param dt time delta
+	* @brief main game loop
+	* @param dt time delta
 	*/
 	void Run(float dt);
 
 	/**
-	* \brief add a game entity
-	* \param entity entity to add
+	* @brief add a game entity
+	* @param entity entity to add
 	*/
 	void AddEntity(GameEntity &entity);
 
 	/**
-	 * \brief get list of entity names
+	 * @brief get list of entity names
 	 */
 	std::vector<std::string> GetEntityNames();
 
 	/**
-	\brief get an entity based on id
+	@brief get an entity based on id
 	*/
 	GameEntity *GetEntity(const std::string &name);
 
 	/**
-	 * \brief call a function
-	 * \param params list of params
+	 * @brief call a function
+	 * @param params list of params
 	 */
 	void Call(std::vector<std::string> params);
 
 	/**
-	 * \brief call a function
-	 * \param func function name
-	 * \param n number of params
+	 * @brief call a function
+	 * @param func function name
+	 * @param n number of params
 	 */
 	void Call(std::string func, std::string n, ...);
 
@@ -88,18 +88,18 @@ class Game {
 	sf::View hud_view;
 
 	/**
-	 * \brief do rendering
+	 * @brief do rendering
 	 */
 	void render();
 
 	/**
-	 * \brief do physics
-	 * \param dt physics step
+	 * @brief do physics
+	 * @param dt physics step
 	 */
 	void physics(float dt);
 
 	/**
-	 * \brief keyboard handling
+	 * @brief keyboard handling
 	 */
 	void handle_keyboard();
 

@@ -5,47 +5,47 @@
 
 namespace GameLib {
 
-/** \brief base state */
+/** @brief base state */
 class State {
   public:
     /**
-     * \brief constructor
+     * @brief constructor
      */
     State();
 
     /**
-     * \brief destructor
+     * @brief destructor
      */
     virtual ~State();
 
     /**
-     * \brief onStart
+     * @brief onStart
      */
     virtual void OnStart() = 0;
 
     /**
-     * \brief onStep
-     * \param _dt time delta
+     * @brief onStep
+     * @param _dt time delta
      */
     virtual void OnStep(const float _dt) = 0;
 
     /**
-     * \brief onEnd
+     * @brief onEnd
      */
     virtual void OnEnd() = 0;
 
     /**
-     * \brief stateOver
+     * @brief stateOver
      */
     virtual bool StateOver() = 0;
 
     /**
-     * \brief changeToNextState
+     * @brief changeToNextState
      */
     virtual void ChangeToNextState() = 0;
 
     /**
-     * \brief stateName
+     * @brief stateName
      */
     std::string StateName() const {
         return name;

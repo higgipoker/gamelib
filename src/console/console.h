@@ -10,30 +10,30 @@ class Game;
 class Console : public GameEntity, public Renderable {
   public:
     /**
-     * \brief construct
+     * @brief construct
      */
     Console(Game *g);
 
     /**
-      \brief destruct
+      @brief destruct
      */
     ~Console();
 
     /**
-    * \brief render
-    * \param window render target
+    * @brief render
+    * @param window render target
     */
     virtual void Render(Window &window) override;
 
     /**
-     * \brief key press
-     * \param character the char pressed
+     * @brief key press
+     * @param character the char pressed
      */
     void OnKey(std::string &character);
 
     /**
-     * \brief echo something
-     * \param texts strings to echo
+     * @brief echo something
+     * @param texts strings to echo
      */
     void Echo(const std::vector<std::string> &texts);
 
@@ -66,12 +66,12 @@ class Console : public GameEntity, public Renderable {
     Timer timer;
 
     /**
-     * \brief render the cursor
+     * @brief render the cursor
      */
     bool show_cursor = false;
 
     /**
-     * \brief execute the current command
+     * @brief execute the current command
      */
     void execute();
 };

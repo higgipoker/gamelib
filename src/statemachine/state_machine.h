@@ -4,34 +4,34 @@
 
 namespace GameLib {
 
-/** \brief base state machine */
+/** @brief base state machine */
 class StateMachine {
 public:
     /**
-     * \brief constructor
+     * @brief constructor
      */
     StateMachine();
 
     /**
-     * \brief destructor
+     * @brief destructor
      */
     virtual ~StateMachine();
 
     /**
-     * \brief set initial state
-     * \param _s the initial state
+     * @brief set initial state
+     * @param _s the initial state
      */
     void InitState(State *_s);
 
     /**
-     * \brief on step
-     * \param _dt time delta
+     * @brief on step
+     * @param _dt time delta
      */
     void Step(float _dt);
 
     /**
-     * \brief change state
-     * \param _s state to change to
+     * @brief change state
+     * @param _s state to change to
      */
     void ChangeState(State *_s);
 
@@ -46,7 +46,7 @@ protected:
     bool inited;
 
     /**
-     * \brief derived states can do extra stuff on a state change
+     * @brief derived states can do extra stuff on a state change
      */
     virtual void on_change_state() {};
 };

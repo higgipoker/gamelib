@@ -5,16 +5,16 @@ namespace GameLib{
 class Color{
 public:
 	/**
-	 * \brief constructor
+	 * @brief constructor
 	 */
 	Color();
 
 	/**
-	 * \brief constructor
-	 * \param red red
-	 * \param green green
-	 * \param blue blue
-	 * \param alpha alpha
+	 * @brief constructor
+	 * @param red red
+	 * @param green green
+	 * @param blue blue
+	 * @param alpha alpha
 	 */
 	Color(int red, int green, int blue, int alpha);
 

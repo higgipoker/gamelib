@@ -30,28 +30,28 @@ class Renderable {
 public:
 
     /**
-     * \brief def constructor
+     * @brief def constructor
      */
     Renderable();
 
     /**
-     * \brief constructor
-     * \param filename image file name
+     * @brief constructor
+     * @param filename image file name
      */
     explicit Renderable(const std::string &filename);
 
     /**
-     * \brief copy constructor
+     * @brief copy constructor
      */
     Renderable(const Renderable &other);
 
     /**
-     * \brief destructor
+     * @brief destructor
      */
     virtual ~Renderable();
 
    /**
-     * \brief gets the Drawable aspect
+     * @brief gets the Drawable aspect
      */
     inline virtual const sf::Drawable &get() {
         return sprite;
@@ -59,8 +59,8 @@ public:
 
     /**
      * \breif set the deat rect
-     * \param x dest x
-     * \param y dest y
+     * @param x dest x
+     * @param y dest y
      */
     virtual inline void SetPosition(float x, float y) {
         geometry.x = x;
@@ -77,15 +77,15 @@ public:
     }
 
     /**
-     * \brief render
-	 * \param window render target
+     * @brief render
+	 * @param window render target
      */
     virtual void Render(Window &window);
 
     /**
      * \breif move it
-	 * \param dx delta x
-	 * \param dy delta y
+	 * @param dx delta x
+	 * @param dy delta y
      */
     virtual inline void Move(float dx, float dy) {
         geometry.x += dx;
@@ -93,21 +93,21 @@ public:
     }
 
     /**
-     * \brief get current dimensions
+     * @brief get current dimensions
      */
     virtual inline float GetWidth() {
         return geometry.w;
     }
 
     /**
-     * \brief get current dimensions
+     * @brief get current dimensions
      */
     virtual inline float GetHeight() {
         return geometry.h;
     }
 
     /**
-     * \brief get original texture size
+     * @brief get original texture size
      */
     inline unsigned int GetTextureWidth() {
         if(texture != nullptr) {
@@ -117,7 +117,7 @@ public:
     }
 
     /**
-     * \brief get original texture size
+     * @brief get original texture size
      */
     inline unsigned int GetTextureHeight() {
         if( texture != nullptr) {
@@ -153,7 +153,7 @@ protected:
     std::string texture_filename;
 
     /**
-     * \brief helper to count number of renderables made
+     * @brief helper to count number of renderables made
      */
     static unsigned int count_renderables();
 };

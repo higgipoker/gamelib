@@ -7,7 +7,7 @@
 
 namespace GameLib {
 
-/** \brief possible anchor point types */
+/** @brief possible anchor point types */
 enum anchor_point {
     ANCHOR_NONE,
     ANCHOR_CENTER,  /// entity centeres around center of sprite
@@ -17,57 +17,57 @@ enum anchor_point {
 class GameEntity {
   public:
     /**
-    * \brief construct
+    * @brief construct
     */
     GameEntity(void);
 
     /**
-    * \brief construct with ready made physical aspect
-    * \param p ready made physical aspect
+    * @brief construct with ready made physical aspect
+    * @param p ready made physical aspect
     */
     GameEntity(Physical *p);
 
     /**
-     * \brief destruct
+     * @brief destruct
      */
     virtual ~GameEntity(void);
 
     /**
-     * \brief the main update function for an entity
-     * \param dt time delta
+     * @brief the main update function for an entity
+     * @param dt time delta
      */
     virtual void Update(float dt);
 
     /**
-     * \brief manually move the entity
-     * \param dx x delta
-     * \param dy y delta
+     * @brief manually move the entity
+     * @param dx x delta
+     * @param dy y delta
      */
     void Move(float dx, float dy);
 
     /**
-     * \brief set position
-     * \param x x pos
-     * \param y y pos
-     * \param z z pos
+     * @brief set position
+     * @param x x pos
+     * @param y y pos
+     * @param z z pos
      */
     void SetPosition(float x, float y, float z = 0);
 
     Point GetPosition();
 
     /**
-     * \brief set a uniqueentity id
+     * @brief set a uniqueentity id
      */
     void SetName(const std::string &name);
 
     /**
-     * \brief get a uniqueentity id
+     * @brief get a uniqueentity id
      */
     std::string GetName();
 
     /**
-     * \brief like a rpc call
-     * \param params list of params
+     * @brief like a rpc call
+     * @param params list of params
      */
     virtual void Call(std::vector<std::string> params);
 
@@ -86,7 +86,7 @@ class GameEntity {
 
   protected:
     /**
-     * \brief align the sprite accordig to physical position, sprite size and anchor type
+     * @brief align the sprite accordig to physical position, sprite size and anchor type
      */
     void anchor();
 

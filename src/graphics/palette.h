@@ -6,7 +6,7 @@
 namespace GameLib{
 
 /**
-	* \brief color swapping palette
+	* @brief color swapping palette
 	*/
 class Palette{
 
