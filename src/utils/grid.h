@@ -36,6 +36,7 @@ class Grid {
     int PointToSector(Point p);
     Point GetSectorCenter(int sector);
     int OffsetSectorY(int sector, int rows);
+    unsigned int NumberSectors();
 
   private:
     int x, y, width, height, cols, rows;

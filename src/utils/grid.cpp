@@ -31,6 +31,13 @@ Grid::Grid(int startx, int starty, int w, int h, int c, int r) {
 }
 
 // --------------------------------------------------
+// NumberSectors
+// --------------------------------------------------
+unsigned int Grid::NumberSectors(){
+    return cols * rows;
+}
+
+// --------------------------------------------------
 // GetSector
 // --------------------------------------------------
 int Grid::ColRowToSector(int col, int row) {
