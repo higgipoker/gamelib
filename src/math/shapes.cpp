@@ -15,6 +15,10 @@ Point::Point(float _x, float _y) {
     x = _x;
     y = _y;
 }
+Point::Point(const Vector3 &v){
+    x = v.x;
+    y = v.y;
+}
 void Point::init(int _x, int _y) {
     x = _x;
     y = _y;

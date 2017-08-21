@@ -47,7 +47,8 @@ void Console::Render(Window &window) {
         //
         // draw background
         //
-        Primitives::fill_color = Primitives::outline_color = Color(0, 0, 0, 255);
+        Primitives::FillColor(Color(0, 0, 0, 255));
+        Primitives::OutlineColor(Color(0, 0, 0, 255));
         Primitives::Rectangle(window, 0, 0, window.GetSize().x, height);
 
         //

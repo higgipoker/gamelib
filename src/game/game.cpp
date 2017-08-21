@@ -131,7 +131,7 @@ void Game::handle_keyboard() {
 
     case WINDOW_EVENT_MOUSE_CLICKED: {
         sf::Vector2i position = sf::Mouse::getPosition();
-        std::cout << position.x - window.GetPosition().x << ", " << position.y - window.GetPosition().y << std::endl;
+        //std::cout << position.x - window.GetPosition().x << ", " << position.y - window.GetPosition().y << std::endl;
         on_mouse_click(position.x - window.GetPosition().x, position.y - window.GetPosition().y);
     } break;
     case WINDOW_EVENT_KEY_DOWN:

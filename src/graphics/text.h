@@ -12,19 +12,19 @@ class Text : public Renderable {
 
 public:
 
-	/**
+    /**
      * @brief construct
      * @param fontfile path to font file on disk
      * @param label text to show
      */
-    Text( const std::string &fontfile);
+    Text(const std::string &fontfile);
 
     /**
      * @brief construct
      * @param fontfile path to font file on disk
      * @param label text to show
      */
-    Text( const std::string &fontfile, const std::string &label);
+    Text(const std::string &fontfile, const std::string &label);
 
     /**
      * @brief render
@@ -37,17 +37,27 @@ public:
      */
     virtual const sf::Drawable &get() override;
 
-	/**
-	 * @brief set text
-	 * @param label string to set
-	 */
-	void SetText(const std::string &label);
+    /**
+     * @brief set text
+     * @param label string to set
+     */
+    void SetText(const std::string &label);
 
-	/**
-	 * @brief set font color
-	 * @param c color to set
-	 */
-	void SetColor(const Color &c);
+    /**
+     * @brief set font color
+     * @param c color to set
+     */
+    void SetColor(const Color &c);
+
+    /**
+     * @brief get text width
+     */
+    float GetWidth();
+
+    /**
+    * @brief get text height
+    */
+    float GetHeight();
 
 
 protected:
@@ -62,22 +72,22 @@ protected:
 class Label : public Text {
 public:
 
-	/**
+    /**
      * @brief construct
      * @param fontname path to font file on disk
-	 * @param fontheight font size
+     * @param fontheight font size
      */
-    Label( const std::string &fontname, int fontheight );
+    Label(const std::string &fontname, int fontheight);
 
     /**
      * @brief construct
      * @param fontname path to font file on disk
-	 * @param fontheight font size
+     * @param fontheight font size
      * @param label text to show
      */
-    Label( const std::string &fontname, int fontheight, const std::string &label );
+    Label(const std::string &fontname, int fontheight, const std::string &label);
 
-	/**
+    /**
      * @brief get current dimensions
      */
     virtual inline float GetHeight() override {

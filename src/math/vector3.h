@@ -496,6 +496,13 @@ public:
         float dot = toPoint.dotProduct(objectVelocity);
         return dot > 0;
     }
+
+    // ----------------------------------------------------
+    //  get a point
+    // ----------------------------------------------------
+    inline Point ToPoint() {
+       return Point(x, y);
+    }
 };
 
 }  // namespace GameLib

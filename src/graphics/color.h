@@ -18,6 +18,16 @@ public:
 	 */
 	Color(int red, int green, int blue, int alpha);
 
+    // ----------------------------------------------------
+    // () operator
+    // ----------------------------------------------------
+    float operator()(int _r, int _g, int _b, int _a) {
+        r = _r;
+        g = _g;
+        b = _b;
+        a = _a;
+    }
+
 	/// components
 	int r, g, b, a;
 };
