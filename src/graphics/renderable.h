@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "../math/shapes.h"
+#include "color.h"
 
 //#define RENDER_DEBUG
 
@@ -126,6 +127,11 @@ public:
         return 0;
     }
 
+    /**
+     * @brief color swap
+     */
+    void SwapColors(std::vector<std::pair<sf::Color, sf::Color> > palette);
+
     /// depth
     int z_order;
 
@@ -146,6 +152,9 @@ protected:
     /// sfml texture
     sf::Texture *texture;
 
+    /// a paletted texture
+    sf::Texture *paletted_texture;
+
 	/// a sfml sprite
     sf::Sprite sprite;
 
@@ -156,6 +165,11 @@ protected:
      * @brief helper to count number of renderables made
      */
     static unsigned int count_renderables();
+
+    /**
+     * @brief helper set the texture
+     */
+    void set_texture(const std::string &filename);
 };
 
 }// GameLib

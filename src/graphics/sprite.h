@@ -5,6 +5,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "animation.h"
+#include "color.h"
 
 namespace GameLib {
 

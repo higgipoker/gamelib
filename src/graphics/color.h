@@ -16,7 +16,7 @@ public:
 	 * @param blue blue
 	 * @param alpha alpha
 	 */
-	Color(int red, int green, int blue, int alpha);
+	Color(int red, int green, int blue, int alpha = 255);
 
     // ----------------------------------------------------
     // () operator

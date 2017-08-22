@@ -119,4 +119,5 @@ void Sprite::SetAnimationSpeed (int time) {
 		current_animation->SetSpeed (time);
 	}
 }
+
 }// GameLib

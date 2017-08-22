@@ -14,7 +14,8 @@ public:
         renderable = new Renderable();
 		following = nullptr;
 		name = "camera";
-		zoom_clicks = 0;
+		zoom_steps = 0;
+        zooming = 0;
 	}
 	~Camera(){
 		delete physical;
@@ -51,12 +52,16 @@ public:
 	/**
 	 * @brief zoom the camera
 	 */
-	void ZoomOut();
+	void ZoomOut(){
+        zooming = 1;
+    }
 
 	/**
 	 * @brief zoom the camera
 	 */
-	void ZoomIn();
+	void ZoomIn(){
+        zooming = -1;
+    }
 
 	// TODO
 	sf::View view;
@@ -72,7 +77,9 @@ protected:
 	GameEntity *following;
 
 	/// track zooming
-	int zoom_clicks;
+	int zoom_steps;
+    int zooming;
+    float abs_zoom = 0;
 
 	/**
 	 * @brief helper to update position
