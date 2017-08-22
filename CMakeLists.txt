@@ -37,6 +37,7 @@ src/graphics/text.cpp
 src/graphics/primitives.cpp
 src/graphics/color.cpp
 src/graphics/palette.cpp
+src/graphics/gfx_tools.cpp
 src/camera/camera.cpp
 src/input/input.cpp
 src/input/keyboard.cpp
@@ -145,7 +146,6 @@ DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../dependencies/include/gamelib)
 # --------------------------------------------------
 # link libs
 # --------------------------------------------------
-target_link_libraries (gamelib gamelib)
 target_link_libraries (gamelib sfml-graphics)
 target_link_libraries (gamelib sfml-window)
 target_link_libraries (gamelib sfml-system)
