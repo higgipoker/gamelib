@@ -9,7 +9,7 @@ namespace GameLib {
 
 class File {
   public:
-    File(const std::string &f);
+    explicit File(const std::string &f);
     ~File();
 
     void WriteLine(const std::string &line);

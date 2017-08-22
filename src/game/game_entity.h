@@ -25,7 +25,7 @@ class GameEntity {
     * @brief construct with ready made physical aspect
     * @param p ready made physical aspect
     */
-    GameEntity(Physical *p);
+    explicit GameEntity(Physical *p);
 
     /**
      * @brief destruct

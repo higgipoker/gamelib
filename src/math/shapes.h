@@ -22,7 +22,7 @@ struct Rectangle {
 struct Point {
     Point();
     Point(float _x, float _y);
-    Point(const Vector3 &v);
+    explicit Point(const Vector3 &v);
     void init(int _x, int _y);
     void Reset(void);
     bool inRect(const Rectangle &_rect) const;

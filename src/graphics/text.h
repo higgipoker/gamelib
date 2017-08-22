@@ -17,7 +17,7 @@ public:
      * @param fontfile path to font file on disk
      * @param label text to show
      */
-    Text(const std::string &fontfile);
+    explicit Text(const std::string &fontfile);
 
     /**
      * @brief construct

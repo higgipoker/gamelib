@@ -12,7 +12,7 @@ class Console : public GameEntity, public Renderable {
     /**
      * @brief construct
      */
-    Console(Game *g);
+    explicit Console(Game *g);
 
     /**
       @brief destruct

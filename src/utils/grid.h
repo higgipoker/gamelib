@@ -7,7 +7,7 @@ namespace GameLib {
 /** @ brief struct to represent one sector */
 struct Sector {
     Sector() {
-        x = y = row = col = 0;
+        x = y = w = h = row = col = 0;
     }
 
     Sector(int _x, int _y, int _w, int _h, int _row, int _col) {
