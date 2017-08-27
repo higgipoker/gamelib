@@ -99,7 +99,7 @@ WindowEvent Window::PollEvent(void) {
 // ------------------------------------------------------------
 // Clear
 // ------------------------------------------------------------
-void Window::Clear(void) { window.clear(sf::Color::Red); }
+void Window::Clear(void) { window.clear(sf::Color(100, 200, 100, 255)); }
 
 // ------------------------------------------------------------
 // Present

@@ -39,7 +39,6 @@ void Camera::Update(float dt) {
         if(abs_zoom < 0.42f) {
             view.zoom(1 + zoom_step);
             abs_zoom += zoom_step;
-            std::cout << abs_zoom << std::endl;
         }
     }
 

@@ -1,5 +1,5 @@
 #include "animation.h"
-
+#include <iostream>
 namespace GameLib {
 
 // ------------------------------------------------------------
@@ -50,11 +50,14 @@ void Animation::Step() {
 	if (running) {
 		if (timer.getElapsedTime().asMilliseconds() > frame_time) {
 			timer.restart();
+
 			if (++current_frame == frames.end()) {
-				current_frame = frames.begin();
-				if (!loop) {
-					running = false;
-				}
+				if (loop) {
+                    current_frame = frames.begin();
+				}else{
+                    running = false;
+                    --current_frame;
+                }
 			}
 		}
 	}

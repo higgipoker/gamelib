@@ -15,6 +15,7 @@ enum input_event {
 	FIRE_LENGTH_CACHED,
 	SINGLE_TAP,
 	DOUBLE_TAP,
+    FIRE_PRESS,
 	TOTAL_EVENTS
 };
 
