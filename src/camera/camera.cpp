@@ -8,7 +8,6 @@ const float zoom_step = 0.01f;
 // ------------------------------------------------------------
 void Camera::Follow(GameEntity *e) {
     following = e;
-    view.zoom(1);
 }
 
 #define SPEED 50
@@ -46,7 +45,7 @@ void Camera::Update(float dt) {
 // ------------------------------------------------------------
 // Zoom in
 // ------------------------------------------------------------
-        if(++zoom_steps > 20) {
+        if(++zoom_steps > 30) {
             zoom_steps = 0;
             zooming = 0;
             return;
@@ -56,14 +55,12 @@ void Camera::Update(float dt) {
             view.zoom(1 - zoom_step);
             abs_zoom -= zoom_step;
         }
-
-        std::cout << abs_zoom << std::endl;
     }
 
 }
 
 // ------------------------------------------------------------
-// update_position
+// update_physical->position
 // ------------------------------------------------------------
 void Camera::update_position() {
 

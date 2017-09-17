@@ -53,11 +53,12 @@ void Primitives::Triangle(Window &target, unsigned int x1, unsigned int y1,
 // Rectangle
 // ------------------------------------------------------------
 void Primitives::Rectangle(Window &target, unsigned int x, unsigned int y, unsigned int w, unsigned int h) {
-    sf::RectangleShape rectangle(sf::Vector2f(w, h));
+    sf::RectangleShape rectangle;
+    rectangle.setSize(sf::Vector2f(w, h));
+    rectangle.setPosition(sf::Vector2f(x, y));
     rectangle.setFillColor(sf::Color(fill_color.r, fill_color.g, fill_color.b, fill_color.a));
     rectangle.setOutlineThickness(1);
     rectangle.setOutlineColor(sf::Color(outline_color.r, outline_color.g, outline_color.b, outline_color.a));
-    rectangle.setPosition(sf::Vector2f(x, y));
     target.Draw(rectangle);
 }
 
