@@ -1,20 +1,26 @@
 #pragma once
-#include <map>
 #include "input.h"
+#include <map>
 
-namespace GameLib{
+namespace GameLib {
 
-class Keyboard : public Input{
+/**
+* @brief The Keyboard class
+*/
+class Keyboard : public Input {
 
-public:
+  public:
+	/**
+	 * @brief Keyboard
+	 */
 	Keyboard();
+
+	/**
+	 * @brief Update
+	 */
 	virtual void Update() override;
 
-	static std::map< int, std::string> keys;
-
-
-protected:
-
+	static std::map<int, std::string> keys;
 };
 
-}// GameLib
+} // GameLib

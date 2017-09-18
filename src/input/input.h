@@ -2,8 +2,11 @@
 
 #include <SFML/System/Clock.hpp>
 
-namespace GameLib{
+namespace GameLib {
 
+/**
+* @brief The input_event enum
+*/
 enum input_event {
 	UP = 0,
 	DOWN,
@@ -15,23 +18,40 @@ enum input_event {
 	FIRE_LENGTH_CACHED,
 	SINGLE_TAP,
 	DOUBLE_TAP,
-    FIRE_PRESS,
+	FIRE_PRESS,
 	TOTAL_EVENTS
 };
 
+/**
+ * @brief The Input class
+ */
 class Input {
-public:
-
+  public:
+	/**
+	 * @brief Input
+	 */
 	Input();
-	virtual ~Input(){};
+
+	/**
+	 * @brief ~Input
+	 */
+	virtual ~Input();
+
+	/**
+	 * @brief Update
+	 */
 	virtual void Update();
 
 	/// event states
 	int event_states[TOTAL_EVENTS];
 
-
-protected:
+  protected:
 	sf::Clock fire_timer;
+
+	/**
+	 * @brief reset
+	 */
+	void Reset();
 };
 
-}// GameLib
+} // GameLib

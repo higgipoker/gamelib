@@ -85,9 +85,7 @@ void Game::render() {
 
 	// render all game graphics
 	for (auto it = game_entities.begin(); it != game_entities.end(); ++it) {
-		if ((*it)->renderable) {
-			(*it)->renderable->Render(window);
-		}
+		(*it)->renderable->Render(window);
 	}
 
 	// non moving view for the hud
