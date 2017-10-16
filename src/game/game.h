@@ -93,6 +93,11 @@ class Game {
 	void render();
 
 	/**
+	 * @brief helper to render the hud
+	 */
+	void render_hud();
+
+	/**
 	 * @brief do physics
 	 * @param dt physics step
 	 */

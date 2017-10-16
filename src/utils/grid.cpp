@@ -23,7 +23,8 @@ Grid::Grid(int startx, int starty, int w, int h, int c, int r) {
     int cnt = 0;
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
-            sectors.push_back(Sector((j * sector_width) + x, (i * sector_height) + y, sector_width, sector_height, i, j));
+            sectors.push_back(
+             Sector((j * sector_width) + x, (i * sector_height) + y, sector_width, sector_height, i, j));
             // sectors_reversed.push_back(cnt);
             cnt++;
         }
@@ -33,7 +34,7 @@ Grid::Grid(int startx, int starty, int w, int h, int c, int r) {
 // --------------------------------------------------
 // NumberSectors
 // --------------------------------------------------
-unsigned int Grid::NumberSectors(){
+unsigned int Grid::NumberSectors() {
     return cols * rows;
 }
 
@@ -73,6 +74,9 @@ int Grid::CoordinatesToSector(int cx, int cy) {
     return sector;
 }
 
+//  --------------------------------------------------
+//  PointToSector
+//  --------------------------------------------------
 int Grid::PointToSector(Point p) {
     return CoordinatesToSector(p.x, p.y);
 }

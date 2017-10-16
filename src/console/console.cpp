@@ -52,6 +52,11 @@ void Console::Render(Window &window) {
 		Primitives::OutlineColor(Color(0, 0, 0, 255));
 		Primitives::Rectangle(window, 0, 0, window.GetSize().x, height);
 
+		Primitives::OutlineColor(Color(255, 255, 255, 255));
+		Primitives::DrawLine(window, Vector3(0, 10), Vector3(window.GetSize().x, 10), 3);
+
+		// std::cout << window.GetSize().x << std::endl;
+
 		//
 		// draw history
 		//
