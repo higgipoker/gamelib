@@ -81,8 +81,8 @@ void Game::render() {
 	// sort the render list in z-order
 	std::sort(game_entities.begin(), game_entities.end(), sort_renderable);
 
-	// set camera
-	window.SetView(camera.view);
+    // set camera view
+    window.SetView(camera.view);
 
 	// render all game graphics
 	for (auto it = game_entities.begin(); it != game_entities.end(); ++it) {
@@ -90,9 +90,9 @@ void Game::render() {
 	}
 
 	// non moving view for the hud
-	render_hud();
+    render_hud();
 
-	// present
+    // flip buffers
 	window.Present();
 }
 
@@ -100,19 +100,19 @@ void Game::render() {
 // render_hud
 // ------------------------------------------------------------
 void Game::render_hud() {
-	// hud view dimensions should match main camera view
-	hud_view.setSize(camera.view.getSize());
-	hud_view.setCenter(sf::Vector2f(hud_view.getSize().x / 2, hud_view.getSize().y / 2));
+    // hud view dimensions should match main camera view
+    hud_view.setSize(camera.view.getSize());
+    hud_view.setCenter(sf::Vector2f(hud_view.getSize().x / 2, hud_view.getSize().y / 2));
 
-	// activate hud view for rendering
-	window.SetView(hud_view);
+    // activate hud view for rendering
+    window.SetView(hud_view);
 
-	// render hud graphics
-	for (auto it = hud_entities.begin(); it != hud_entities.end(); ++it) {
-		if ((*it)->renderable) {
-			(*it)->renderable->Render(window);
-		}
-	}
+    // render hud graphics
+    for (auto it = hud_entities.begin(); it != hud_entities.end(); ++it) {
+        if ((*it)->renderable) {
+            (*it)->renderable->Render(window);
+        }
+    }
 }
 
 // ------------------------------------------------------------
@@ -132,32 +132,32 @@ void Game::handle_keyboard() {
 	WindowEvent event = window.PollEvent();
 
 	switch (event.type) {
-		case WINDOW_EVENT_CLOSE:
-			running = false;
-			break;
+        case WINDOW_EVENT_CLOSE:
+            running = false;
+            break;
 
-		case WINDOW_EVENT_MOUSE_CLICKED: {
-			sf::Vector2i position = sf::Mouse::getPosition();
-			on_mouse_click(position.x - window.GetPosition().x, position.y - window.GetPosition().y);
-		} break;
+        case WINDOW_EVENT_MOUSE_CLICKED: {
+            sf::Vector2i position = sf::Mouse::getPosition();
+            on_mouse_click(position.x - window.GetPosition().x, position.y - window.GetPosition().y);
+        } break;
 
-		case WINDOW_EVENT_KEY_DOWN:
-			console.OnKey(event.param);
-			break;
+        case WINDOW_EVENT_KEY_DOWN:
+            console.OnKey(event.param);
+            break;
 
-		case WINDOW_EVENT_MOUSE_WHEEL_MOVED: {
-			float z = std::stof(event.param);
-			if (z > 0) {
-				camera.ZoomIn();
-			} else {
-				camera.ZoomOut();
-			}
-			break;
+        case WINDOW_EVENT_MOUSE_WHEEL_MOVED: {
+            float z = std::stof(event.param);
+            if (z > 0) {
+                camera.ZoomIn();
+            } else {
+                camera.ZoomOut();
+            }
+            break;
 		}
 
-		case WINDOW_EVENT_NONE:
-		default:
-			break;
+        case WINDOW_EVENT_NONE:
+        default:
+            break;
 	}
 }
 
