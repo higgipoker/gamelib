@@ -1,9 +1,10 @@
 #pragma once
-#include <string>
 #include <sstream>
+#include <string>
 #include <vector>
 
 namespace GameLib {
+namespace Converter {
 
 /**
  * @brief convert an int to a string
@@ -14,6 +15,7 @@ std::string IntToString(int i);
 /**
  * @brief convert string to list (split)
  */
-std::vector<std::string> split(std::string str);
+std::vector<std::string> Split(std::string str);
 
-}// GameLib
+} // Converter
+} // GameLib

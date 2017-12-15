@@ -2,16 +2,15 @@
 
 #include "renderable.h"
 
-#include <SFML/Graphics.hpp>
-#include "window.h"
 #include "color.h"
+#include "window.h"
+#include <SFML/Graphics.hpp>
 
 namespace GameLib {
 
 class Text : public Renderable {
 
-public:
-
+  public:
     /**
      * @brief construct
      * @param fontfile path to font file on disk
@@ -59,8 +58,7 @@ public:
     */
     float GetHeight();
 
-
-protected:
+  protected:
     /// an sfml font
     sf::Font font;
 
@@ -70,8 +68,7 @@ protected:
 
 /** @brief special kind of text with just one line */
 class Label : public Text {
-public:
-
+  public:
     /**
      * @brief construct
      * @param fontname path to font file on disk
@@ -95,4 +92,4 @@ public:
     }
 };
 
-}// GameLib
+} // GameLib

@@ -40,7 +40,7 @@ class Input {
 	/**
 	 * @brief Update
 	 */
-	virtual void Update();
+  virtual void Update() = 0;
 
 	/// event states
 	int event_states[TOTAL_EVENTS];

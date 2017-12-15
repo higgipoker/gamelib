@@ -3,19 +3,19 @@
 
 namespace GameLib {
 
-Text::Text(const std::string &fontfile)  {
+Text::Text(const std::string &fontfile) {
 
-    if(!font.loadFromFile(fontfile)) {
+    if (!font.loadFromFile(fontfile)) {
         std::cout << "could not load font: " << fontfile << std::endl;
     }
 
     text.setFont(font);
 }
 
-Text::Text(const std::string &fontfile, const std::string &label) :
-    text(label, font) {
+Text::Text(const std::string &fontfile, const std::string &label)
+ : text(label, font) {
 
-    if(!font.loadFromFile(fontfile)) {
+    if (!font.loadFromFile(fontfile)) {
         std::cout << "could not load font: " << fontfile << std::endl;
     }
 }
@@ -45,12 +45,14 @@ float Text::GetHeight() {
     return text.getLocalBounds().height;
 }
 
-Label::Label(const std::string &fontname, int fontheight) : Text(fontname) {
+Label::Label(const std::string &fontname, int fontheight)
+ : Text(fontname) {
     text.setCharacterSize(fontheight);
 }
 
-Label::Label(const std::string &fontname, int fontheight, const std::string &label) : Text(fontname, label) {
+Label::Label(const std::string &fontname, int fontheight, const std::string &label)
+ : Text(fontname, label) {
     text.setCharacterSize(fontheight);
 }
 
-}// GameLib
+} // GameLib

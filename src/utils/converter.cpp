@@ -1,6 +1,7 @@
 #include "converter.h"
 
 namespace GameLib {
+namespace Converter{
 
 // ------------------------------------------------------------
 // IntToString
@@ -14,7 +15,7 @@ std::string IntToString(int i) {
 // ------------------------------------------------------------
 // split a string
 // ------------------------------------------------------------
-std::vector<std::string> split(std::string str) {
+std::vector<std::string> Split(std::string str) {
 	std::vector<std::string> internal;
 	std::stringstream ss(str);  // Turn the string into a stream.
 	std::string tok;
@@ -26,4 +27,5 @@ std::vector<std::string> split(std::string str) {
 	return internal;
 }
 
+}// Converter
 }// GameLib

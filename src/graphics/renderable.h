@@ -1,8 +1,8 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
 #include "../math/shapes.h"
 #include "color.h"
+#include <SFML/Graphics.hpp>
 
 //#define RENDER_DEBUG
 
@@ -12,14 +12,14 @@ class Sprite;
 
 struct TextureTracker {
 
-    TextureTracker():
-        tex(nullptr),
-        ref_counter(1) {
+    TextureTracker()
+     : tex(nullptr)
+     , ref_counter(1) {
     }
 
-    explicit TextureTracker(sf::Texture *t):
-        tex(t),
-        ref_counter(1) {
+    explicit TextureTracker(sf::Texture *t)
+     : tex(t)
+     , ref_counter(1) {
     }
 
     sf::Texture *tex;
@@ -28,8 +28,7 @@ struct TextureTracker {
 
 class Window;
 class Renderable {
-public:
-
+  public:
     /**
      * @brief def constructor
      */
@@ -51,12 +50,12 @@ public:
      */
     virtual ~Renderable();
 
-   /**
-     * @brief gets the Drawable aspect
-     */
+    /**
+      * @brief gets the Drawable aspect
+      */
     inline virtual const sf::Drawable &get() {
         return sprite;
-    };
+    }
 
     /**
      * \breif set the deat rect
@@ -66,8 +65,7 @@ public:
     virtual inline void SetPosition(float x, float y) {
         geometry.x = x;
         geometry.y = y;
-
-		sprite.setPosition(sf::Vector2f (x, y));
+        sprite.setPosition(sf::Vector2f(x, y));
     }
 
     /**
@@ -79,14 +77,14 @@ public:
 
     /**
      * @brief render
-	 * @param window render target
+     * @param window render target
      */
     virtual void Render(Window &window);
 
     /**
      * \breif move it
-	 * @param dx delta x
-	 * @param dy delta y
+     * @param dx delta x
+     * @param dy delta y
      */
     virtual inline void Move(float dx, float dy) {
         geometry.x += dx;
@@ -111,7 +109,7 @@ public:
      * @brief get original texture size
      */
     inline unsigned int GetTextureWidth() {
-        if(texture != nullptr) {
+        if (texture != nullptr) {
             return texture->getSize().x;
         }
         return 0;
@@ -121,7 +119,7 @@ public:
      * @brief get original texture size
      */
     inline unsigned int GetTextureHeight() {
-        if( texture != nullptr) {
+        if (texture != nullptr) {
             return texture->getSize().y;
         }
         return 0;
@@ -130,7 +128,7 @@ public:
     /**
      * @brief color swap
      */
-    void SwapColors(std::vector<std::pair<sf::Color, sf::Color> > palette);
+    void SwapColors(std::vector<std::pair<sf::Color, sf::Color>> palette);
 
     /// depth
     int z_order;
@@ -141,11 +139,10 @@ public:
     /// the floor z for shdows
     static int shadow_z;
 
-	/// visible
-	bool visible = true;
+    /// visible
+    bool visible = true;
 
-protected:
-
+  protected:
     /// geometry
     Rectangle geometry;
 
@@ -155,7 +152,7 @@ protected:
     /// a paletted texture
     sf::Texture *paletted_texture;
 
-	/// a sfml sprite
+    /// a sfml sprite
     sf::Sprite sprite;
 
     /// save as reference to texture being used
@@ -172,4 +169,4 @@ protected:
     void set_texture(const std::string &filename);
 };
 
-}// GameLib
+} // GameLib

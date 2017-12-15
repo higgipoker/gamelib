@@ -8,8 +8,8 @@
 namespace GameLib {
 
 /** @brief possible anchor point types */
-enum anchor_point {
-	ANCHOR_NONE,
+enum AnchorType {
+    ANCHOR_NONE,
 	ANCHOR_CENTER,  /// entity centeres around center of sprite
 	ANCHOR_BASELINE /// entity centers around center-bottom of sprite
 };
@@ -23,15 +23,15 @@ class GameEntity {
 
 	/**
 	* @brief construct with ready made physical aspect
-	* @param p ready made physical aspect - subclass responsible for memory!
-	* @param r ready made renderable aspect- subclass responsible for memory!
+    * @param p ready made physical aspect - subclass responsible for memory!
+    * @param r ready made renderable aspect- subclass responsible for memory!
 	*/
-	explicit GameEntity(Physical *p, Renderable *r);
+    explicit GameEntity(Physical *p, Renderable *r);
 
 	/**
 	 * @brief destruct
 	 */
-	virtual ~GameEntity(void);
+    virtual ~GameEntity(void);
 
 	/**
 	 * @brief the main update function for an entity
@@ -54,36 +54,36 @@ class GameEntity {
 	 */
 	void SetPosition(float x, float y, float z = 0);
 
-	Point GetPosition();
+    Point GetPosition();
 
-	/**
-	 * @brief set a uniqueentity id
-	 */
-	void SetName(const std::string &name);
+    /**
+     * @brief set a uniqueentity id
+     */
+    void SetName(const std::string &name);
 
-	/**
-	 * @brief get a uniqueentity id
-	 */
-	std::string GetName();
+    /**
+     * @brief get a uniqueentity id
+     */
+    std::string GetName();
 
-	/**
+    /**
 	 * @brief like a rpc call
 	 * @param params list of params
 	 */
 	virtual void Call(std::vector<std::string> params);
 
 	/// a game entity has a physical and graphical aspect
-	Physical *physical;
-	Renderable *renderable;
+    Physical *physical;
+    Renderable *renderable;
 
 	/// easy access without dereferencing each time
 	Vector3 &velocity;
 
 	/// center point
-	anchor_point anchor_type;
+    AnchorType anchor_type;
 
 	/// overlay (hud)
-	bool hud = false;
+    bool hud = false;
 
 	/// keep the list unique
 	static std::set<std::string> entity_names;
@@ -95,7 +95,7 @@ class GameEntity {
 	 */
 	void anchor();
 
-	/// unique name
-	std::string name;
+    /// unique name
+    std::string name;
 };
 } // GameLib

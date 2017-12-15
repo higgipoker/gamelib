@@ -14,18 +14,14 @@ Sprite::Sprite(const std::string &filename, unsigned int num_rows, unsigned int 
 
     // set up the coordinates of each frame
     for(int row = 0; row < num_rows; row++) {
-        for(int col = 0; col < num_cols; col++) {
-
-            // a rect struct
-            sf::IntRect rect;
+        for(int col = 0; col < num_cols; col++) {                       
 
             // sprite rectangle
+            sf::IntRect rect;
             rect.left 		= col * sprite_width;
             rect.top 		= row * sprite_height;
             rect.width 		= sprite_width;
-            rect.height 	= sprite_height;
-
-            // add rect to list
+            rect.height 	= sprite_height;           
             rects.push_back(rect);
         }
     }
@@ -88,7 +84,7 @@ void Sprite::Move(float dx, float dy) {
 void Sprite::SetAnimation(const std::string &name) {
     if(current_animation && current_animation->name == name) return;
 
-    for(std::vector<Animation>::iterator it = animations.begin(); it != animations.end(); ++it) {
+    for(auto it = animations.begin(); it != animations.end(); ++it) {
         if((*it).name == name) {
             current_animation = & (*it);
             current_animation->Start();
