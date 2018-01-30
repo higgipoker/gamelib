@@ -6,7 +6,7 @@ namespace GameLib {
 // Constructor
 // ------------------------------------------------------------------
 Sprite::Sprite(const std::string &filename, unsigned int num_rows, unsigned int num_cols) : Renderable(filename),
-    current_animation(nullptr) {
+    current_animation(nullptr),shadow (nullptr) {
 
     // set the size of each sprite in the sheet
     sprite_width  = texture->getSize().x / num_cols;
@@ -25,6 +25,20 @@ Sprite::Sprite(const std::string &filename, unsigned int num_rows, unsigned int 
             rects.push_back(rect);
         }
     }
+}
+
+Sprite::~Sprite(){
+  if(shadow){
+      delete shadow;
+    }
+}
+
+void Sprite::Render(Window &window){
+  // shadow gets drawn first
+  if (shadow) {
+      shadow->Render (window);
+  }
+  Renderable::Render(window);
 }
 
 // ------------------------------------------------------------------

@@ -46,6 +46,7 @@ void File::open_for_write() {
 
     if (read) {
         in_file.close();
+        read = false;
     }
 
     out_file.open(file_name.c_str(), std::ios::out);
@@ -59,6 +60,7 @@ void File::open_for_read() {
 
     if (write) {
         out_file.close();
+        write = false;
     }
 
     in_file.open(file_name.c_str(), std::ios::in);

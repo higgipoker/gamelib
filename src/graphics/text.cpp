@@ -34,7 +34,7 @@ void Text::SetText(const std::string &label) {
 }
 
 void Text::SetColor(const Color &c) {
-    text.setOutlineColor(sf::Color(c.r, c.g, c.b, c.a));
+    //text.setOutlineColor(sf::Color(c.r, c.g, c.b, c.a));
 }
 
 float Text::GetWidth() {
