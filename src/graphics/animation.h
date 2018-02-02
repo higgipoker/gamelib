@@ -16,7 +16,7 @@ public:
 	* @param loopanim loop
 	* @param n number of args
 	* */
-	Animation(const std::string &id, float frametime, bool loopanim, int n, ...);
+	Animation(const std::string &id, double frametime, bool loopanim, int n, ...);
 
 	/**
 	*  @brief constructor with varialbe vector
@@ -24,7 +24,7 @@ public:
 	* @param loopanim loop?
 	* @param f frames list
 	* */
-	Animation(const std::string &id, float frametime, bool loopanim, std::vector<int> f);
+	Animation(const std::string &id, double frametime, bool loopanim, std::vector<int> f);
 
 	/**
 	* @brief start the animation
@@ -75,7 +75,7 @@ private:
 	bool running;
 
 	/// time of a frame
-	float frame_time;
+	double frame_time;
 
 	/// frame timer
 	sf::Clock timer;

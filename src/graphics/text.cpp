@@ -37,11 +37,11 @@ void Text::SetColor(const Color &c) {
     //text.setOutlineColor(sf::Color(c.r, c.g, c.b, c.a));
 }
 
-float Text::GetWidth() {
+double Text::GetWidth() {
     return text.getLocalBounds().width;
 }
 
-float Text::GetHeight() {
+double Text::GetHeight() {
     return text.getLocalBounds().height;
 }
 

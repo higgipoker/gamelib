@@ -27,7 +27,7 @@ public:
      * @brief on step
      * @param _dt time delta
      */
-    void Step(float _dt);
+    void Step(double _dt);
 
     /**
      * @brief change state

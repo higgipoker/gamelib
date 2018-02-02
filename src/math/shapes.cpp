@@ -11,7 +11,7 @@ Point::Point() {
     x = 0;
     y = 0;
 }
-Point::Point(float _x, float _y) {
+Point::Point(double _x, double _y) {
     x = _x;
     y = _y;
 }
@@ -54,13 +54,13 @@ bool Point::operator!=(const Point &_p) const {
 Line::Line(void) {
     x1 = y1 = x2 = y2 = 0;
 }
-Line::Line(float _x1, float _y1, float _x2, float _y2) {
+Line::Line(double _x1, double _y1, double _x2, double _y2) {
     x1 = _x1;
     y1 = _y1;
     x2 = _x2;
     y2 = _y2;
 }
-void Line::init(float _x1, float _y1, float _x2, float _y2) {
+void Line::init(double _x1, double _y1, double _x2, double _y2) {
     x1 = _x1;
     y1 = _y1;
     x2 = _x2;
@@ -79,7 +79,7 @@ Triangle::Triangle() {
 // ----------------------------------------------------------------------------------------------------
 // Circle
 // ----------------------------------------------------------------------------------------------------
-Circle::Circle(float _x, float _y, float _radius) {
+Circle::Circle(double _x, double _y, double _radius) {
     x = _x;
     y = _y;
     radius = _radius;
@@ -109,13 +109,13 @@ Rectangle::Rectangle(const Rectangle &r) {
     w = r.w;
     h = r.h;
 }
-Rectangle::Rectangle(float _x, float _y, float _w, float _h) {
+Rectangle::Rectangle(double _x, double _y, double _w, double _h) {
     x = _x;
     y = _y;
     w = _w;
     h = _h;
 }
-void Rectangle::init(float _x, float _y, float _w, float _h) {
+void Rectangle::init(double _x, double _y, double _w, double _h) {
     x = _x;
     y = _y;
     w = _w;
@@ -124,10 +124,10 @@ void Rectangle::init(float _x, float _y, float _w, float _h) {
 Point Rectangle::GetCenter() const {
     return Point(x + w / 2, y + h / 2);
 }
-float Rectangle::area() const {
+double Rectangle::area() const {
     return w * h;
 }
-void Rectangle::contract(float amount) {
+void Rectangle::contract(double amount) {
     x += amount;
     y += amount;
     w -= amount * 2;
@@ -158,7 +158,7 @@ bool Rectangle::contains(const Point &p) const {
 // ----------------------------------------------------------------------------------------------------
 // Post
 // ----------------------------------------------------------------------------------------------------
-Post::Post(float _x, float _y, float _height, float _radius) {
+Post::Post(double _x, double _y, double _height, double _radius) {
     x = _x;
     y = _y;
     height = _height;
@@ -168,7 +168,7 @@ Post::Post(float _x, float _y, float _height, float _radius) {
 // ----------------------------------------------------------------------------------------------------
 // Bar
 // ----------------------------------------------------------------------------------------------------
-Bar::Bar(float _x, float _y, float _w, float _h) {
+Bar::Bar(double _x, double _y, double _w, double _h) {
     x = _x;
     y = _y;
     w = _w;
@@ -178,7 +178,7 @@ Bar::Bar(float _x, float _y, float _w, float _h) {
 // ----------------------------------------------------------------------------------------------------
 // Ball
 // ----------------------------------------------------------------------------------------------------
-Ball::Ball(float _x, float _y, float _z, float _radius) {
+Ball::Ball(double _x, double _y, double _z, double _radius) {
     x = _x;
     y = _y;
     z = _z;
@@ -188,7 +188,7 @@ Ball::Ball(float _x, float _y, float _z, float _radius) {
 // ----------------------------------------------------------------------------------------------------
 // UprightVerticalPlane
 // ----------------------------------------------------------------------------------------------------
-UprightVerticalPlane::UprightVerticalPlane(float _x, float _y, float _depth, float _height) {
+UprightVerticalPlane::UprightVerticalPlane(double _x, double _y, double _depth, double _height) {
     x = _x;
     y = _y;
     depth = _depth;
@@ -198,7 +198,7 @@ UprightVerticalPlane::UprightVerticalPlane(float _x, float _y, float _depth, flo
 // ----------------------------------------------------------------------------------------------------
 // UprightHorizontalPlane
 // ----------------------------------------------------------------------------------------------------
-UprightHorizontalPlane::UprightHorizontalPlane(float _x, float _y, float _width, float _height) {
+UprightHorizontalPlane::UprightHorizontalPlane(double _x, double _y, double _width, double _height) {
     x = _x;
     y = _y;
     width = _width;
@@ -208,7 +208,7 @@ UprightHorizontalPlane::UprightHorizontalPlane(float _x, float _y, float _width,
 // ----------------------------------------------------------------------------------------------------
 // FlatPlane
 // ----------------------------------------------------------------------------------------------------
-FlatPlane::FlatPlane(float _x, float _y, float _w, float _h, float _z) {
+FlatPlane::FlatPlane(double _x, double _y, double _w, double _h, double _z) {
     x = _x;
     y = _y;
     width = _w;

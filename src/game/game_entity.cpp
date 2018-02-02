@@ -35,7 +35,7 @@ GameEntity::~GameEntity(void) {
 // ------------------------------------------------------------
 // Update
 // ------------------------------------------------------------
-void GameEntity::Update(float dt) {
+void GameEntity::Update(double dt) {
 
     // centers the entity based on anchor type
     if (renderable && physical) {
@@ -46,7 +46,7 @@ void GameEntity::Update(float dt) {
 // ------------------------------------------------------------
 // Move
 // ------------------------------------------------------------
-void GameEntity::Move(float dx, float dy) {
+void GameEntity::Move(double dx, double dy) {
     physical->position.x += dx;
     physical->position.y += dy;
 }
@@ -54,7 +54,7 @@ void GameEntity::Move(float dx, float dy) {
 // ------------------------------------------------------------
 // SetPosition
 // ------------------------------------------------------------
-void GameEntity::SetPosition(float x, float y, float z) {
+void GameEntity::SetPosition(double x, double y, double z) {
 
     assert(physical != nullptr);
 

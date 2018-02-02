@@ -51,12 +51,12 @@ class Text : public Renderable {
     /**
      * @brief get text width
      */
-    float GetWidth();
+    double GetWidth();
 
     /**
     * @brief get text height
     */
-    float GetHeight();
+    double GetHeight();
 
   protected:
     /// an sfml font
@@ -87,7 +87,7 @@ class Label : public Text {
     /**
      * @brief get current dimensions
      */
-    virtual inline float GetHeight() override {
+    virtual inline double GetHeight() override {
         return text.getCharacterSize();
     }
 };

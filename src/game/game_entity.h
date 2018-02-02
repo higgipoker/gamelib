@@ -37,14 +37,14 @@ public:
    * @brief the main update function for an entity
    * @param dt time delta
    */
-  virtual void Update(float dt);
+  virtual void Update(double dt);
 
   /**
    * @brief manually move the entity
    * @param dx x delta
    * @param dy y delta
    */
-  void Move(float dx, float dy);
+  void Move(double dx, double dy);
 
   /**
    * @brief set position
@@ -52,7 +52,7 @@ public:
    * @param y y pos
    * @param z z pos
    */
-  void SetPosition(float x, float y, float z = 0);
+  void SetPosition(double x, double y, double z = 0);
 
   Point GetPosition();
 

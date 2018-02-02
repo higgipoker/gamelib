@@ -5,38 +5,34 @@ namespace GameLib {
 // ------------------------------------------------------------------
 // Constructor
 // ------------------------------------------------------------------
-Sprite::Sprite(const std::string &filename, unsigned int num_rows, unsigned int num_cols) : Renderable(filename),
-    current_animation(nullptr),shadow (nullptr) {
+Sprite::Sprite(const std::string &filename, unsigned int num_rows, unsigned int num_cols) : Renderable(filename), current_animation(nullptr), shadow(nullptr) {
 
-    // set the size of each sprite in the sheet
-    sprite_width  = texture->getSize().x / num_cols;
-    sprite_height = texture->getSize().y / num_rows;
+  // set the size of each sprite in the sheet
+  sprite_width = texture->getSize().x / num_cols;
+  sprite_height = texture->getSize().y / num_rows;
 
-    // set up the coordinates of each frame
-    for(int row = 0; row < num_rows; row++) {
-        for(int col = 0; col < num_cols; col++) {                       
+  // set up the coordinates of each frame
+  for (int row = 0; row < num_rows; row++) {
+    for (int col = 0; col < num_cols; col++) {
 
-            // sprite rectangle
-            sf::IntRect rect;
-            rect.left 		= col * sprite_width;
-            rect.top 		= row * sprite_height;
-            rect.width 		= sprite_width;
-            rect.height 	= sprite_height;           
-            rects.push_back(rect);
-        }
+      // sprite rectangle
+      sf::IntRect rect;
+      rect.left = col * sprite_width;
+      rect.top = row * sprite_height;
+      rect.width = sprite_width;
+      rect.height = sprite_height;
+      rects.push_back(rect);
     }
+  }
 }
 
-Sprite::~Sprite(){
-  if(shadow){
-      delete shadow;
-    }
+Sprite::~Sprite() {
 }
 
-void Sprite::Render(Window &window){
+void Sprite::Render(Window &window) {
   // shadow gets drawn first
   if (shadow) {
-      shadow->Render (window);
+    shadow->Render(window);
   }
   Renderable::Render(window);
 }
@@ -45,14 +41,14 @@ void Sprite::Render(Window &window){
 // SetFrame
 // ------------------------------------------------------------------
 void Sprite::SetFrame(unsigned int frame) {
-    sprite.setTextureRect(rects.at(frame));
+  sprite.setTextureRect(rects.at(frame));
 }
 
 // ------------------------------------------------------------------
 // AddAnimation
 // ------------------------------------------------------------------
-void Sprite::AddAnimation(const std::string &animname, float frametime, bool loopanim, std::vector<int> framelist) {
-    AddAnimation(Animation(animname, frametime, loopanim, framelist));
+void Sprite::AddAnimation(const std::string &animname, double frametime, bool loopanim, std::vector<int> framelist) {
+  AddAnimation(Animation(animname, frametime, loopanim, framelist));
 }
 
 // ------------------------------------------------------------------
@@ -60,78 +56,79 @@ void Sprite::AddAnimation(const std::string &animname, float frametime, bool loo
 // ------------------------------------------------------------------
 void Sprite::AddAnimation(Animation anim) {
 
-    // add new animation to the list
-    animations.push_back(anim);
+  // add new animation to the list
+  animations.push_back(anim);
 
-    // set the current animation to the newly added one
-    current_animation = &animations.back();
+  // set the current animation to the newly added one
+  current_animation = &animations.back();
 
-    // auto start
-    current_animation->Start();
+  // auto start
+  current_animation->Start();
 }
 
 // ------------------------------------------------------------------
 // Animate
 // ------------------------------------------------------------------
 void Sprite::Animate() {
-    if(current_animation) {
-        current_animation->Step();
-        SetFrame(current_animation->CurrentFrame());
-    }
+  if (current_animation) {
+    current_animation->Step();
+    SetFrame(current_animation->CurrentFrame());
+  }
 
-    if(shadow) {
-        shadow->Animate();
-    }
+  if (shadow) {
+    shadow->Animate();
+  }
 }
 
 // ------------------------------------------------------------------
 // Move
 // ------------------------------------------------------------------
-void Sprite::Move(float dx, float dy) {
-    Renderable::Move(dx, dy);
-    sprite.setPosition(geometry.x, geometry.y);
+void Sprite::Move(double dx, double dy) {
+  Renderable::Move(dx, dy);
+  sprite.setPosition(geometry.x, geometry.y);
 }
 
 // ------------------------------------------------------------------
 // SetAnimation
 // ------------------------------------------------------------------
 void Sprite::SetAnimation(const std::string &name) {
-    if(current_animation && current_animation->name == name) return;
+  if (current_animation && current_animation->name == name)
+    return;
 
-    for(auto it = animations.begin(); it != animations.end(); ++it) {
-        if((*it).name == name) {
-            current_animation = & (*it);
-            current_animation->Start();
-            break;
-        }
+  for (auto it = animations.begin(); it != animations.end(); ++it) {
+    if ((*it).name == name) {
+      current_animation = &(*it);
+      current_animation->Start();
+      break;
     }
+  }
 
-    if(shadow){
-        shadow->SetAnimation(name);
-    }
+  if (shadow) {
+    shadow->SetAnimation(name);
+  }
 }
 
 // ------------------------------------------------------------------
 // Scale
 // ------------------------------------------------------------------
-void Sprite::Scale(float x_factor, float y_factor) {
-    sprite.setScale(x_factor, y_factor);
+void Sprite::Scale(double x_factor, double y_factor) {
+  sprite.setScale(x_factor, y_factor);
 }
 
 // ------------------------------------------------------------------
 // Scale
 // ------------------------------------------------------------------
-void Sprite::Scale(float factor) {
-    sprite.setScale(factor, factor);
+void Sprite::Scale(double factor) {
+  sprite.setScale(factor, factor);
 }
 
 // ------------------------------------------------------------------
 // SetAnimationSpeed
 // ------------------------------------------------------------------
 void Sprite::SetAnimationSpeed(int time) {
-    if(current_animation) {
-        current_animation->SetSpeed(time);
-    }
+  if (current_animation) {
+    current_animation->SetSpeed(time);
+  }
 }
 
-}// GameLib
+} // GameLib

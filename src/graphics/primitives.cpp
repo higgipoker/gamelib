@@ -114,25 +114,25 @@ void Primitives::DrawLine(Window &target, const Vector3 &point1, const Vector3 &
 // ------------------------------------------------------------
 // Arc
 // ------------------------------------------------------------
-void Primitives::Arc(Window &target, float x, float y, float radius, float start, float end, int segments, int thickness) {
+void Primitives::Arc(Window &target, double x, double y, double radius, double start, double end, int segments, int thickness) {
 
     // construct the vertex list
     std::vector<sf::Vertex> vertices;
 
     // trackers
-    float act_start = start;
-    float act_end = end;
+    double act_start = start;
+    double act_end = end;
 
-    float lastx = 0;
-    float lasty = 0;
+    double lastx = 0;
+    double lasty = 0;
 
     for (unsigned int i = 0; i < thickness; ++i) {
-        float current = act_start;
+        double current = act_start;
         int segments_drawn = 0;
 
         while (current <= act_end) {
-            float ax = x + radius * cos(RADIANS(current));
-            float ay = y + radius * sin(RADIANS(current));
+            double ax = x + radius * cos(RADIANS(current));
+            double ay = y + radius * sin(RADIANS(current));
             current += ((act_end - act_start) / segments);
 
             vertices.push_back(sf::Vertex(sf::Vector2f(ax, ay), sf::Color(outline_color.r, outline_color.g, outline_color.b, outline_color.a)));

@@ -15,7 +15,7 @@ class Primitives {
     static void Rectangle(Window &target, unsigned int x, unsigned int y, unsigned int w, unsigned int h);
     static void Lines(Window &target, const std::vector<Line> &lines, int thickness = 1);
     static void DrawLine(Window &target, const Vector3 &point1, const Vector3 &point2, int thickness = 1);
-    static void Arc(Window &target, float x, float y, float radius, float start, float end, int segments,
+    static void Arc(Window &target, double x, double y, double radius, double start, double end, int segments,
                     int thickness);
 
     static void OutlineColor(const Color &c);

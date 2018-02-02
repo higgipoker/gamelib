@@ -21,7 +21,7 @@ class Color {
     // ----------------------------------------------------
     // () operator
     // ----------------------------------------------------
-    float operator()(int _r, int _g, int _b, int _a) {
+    double operator()(int _r, int _g, int _b, int _a) {
         r = _r;
         g = _g;
         b = _b;

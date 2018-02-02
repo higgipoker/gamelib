@@ -8,8 +8,7 @@ namespace GameLib {
 
 class Camera : public GameEntity {
 public:
-  Camera()
-   : GameEntity(new Physical(), new Renderable()) {
+  Camera() : GameEntity(new Physical(), new Renderable()) {
     following = nullptr;
     name = "camera";
     zoom_steps = 0;
@@ -24,7 +23,7 @@ public:
    * @brief the main update function for an entity
    * @param dt time delta
    */
-  virtual void Update(float dt) override;
+  virtual void Update(double dt) override;
 
   /**
    * @brief set up the game world rect
@@ -64,7 +63,7 @@ public:
   // TODO
   sf::View view;
 
-  float abs_zoom = 0;
+  double abs_zoom = 0;
 
 protected:
   /// whole game world

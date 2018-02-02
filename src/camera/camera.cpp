@@ -2,7 +2,7 @@
 #include <iostream>
 namespace GameLib {
 
-const float zoom_step = 0.01f;
+const double zoom_step = 0.01f;
 // ------------------------------------------------------------
 // Follow
 // ------------------------------------------------------------
@@ -14,7 +14,7 @@ void Camera::Follow(GameEntity *e) {
 // ------------------------------------------------------------
 // Update
 // ------------------------------------------------------------
-void Camera::Update(float dt) {
+void Camera::Update(double dt) {
 
   if (following) {
     Vector3 distance = following->physical->position - Vector3(view.getCenter().x, view.getCenter().y);

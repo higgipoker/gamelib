@@ -3,21 +3,21 @@ namespace GameLib {
 // ----------------------------------------------------
 //  tolerance value for normalizing and comparisons
 // ----------------------------------------------------
-static const float TOL = 0.001f;
+static const double TOL = 0.1;
 
 // ----------------------------------------------------
 //  define pi
 // ----------------------------------------------------
-static const float PI = 3.14159265359f;
+static const double PI = 3.14159265359;
 
 // ----------------------------------------------------
 //  convert degrees to radians
 // ----------------------------------------------------
-#define RADIANS(a) a*(PI / 180)
+#define RADIANS(a) a *(PI / 180)
 
 // ----------------------------------------------------
 //  convert radians to degrees
 // ----------------------------------------------------
-#define DEGREES(a) a*(180.0f / PI)
+#define DEGREES(a) a *(180.0 / PI)
 
-}// GameLib
+} // GameLib

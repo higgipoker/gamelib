@@ -35,8 +35,8 @@ public:
   bool LeftTriggerPressed();
   bool RightTriggerPressed();
 
-  float LeftTriggerValue();
-  float RightTriggerValue();
+  double LeftTriggerValue();
+  double RightTriggerValue();
 
   bool LeftTrigger();
   bool RightTrigger();
@@ -51,8 +51,8 @@ public:
 
 private:
   int sf_joystick_index = 0;
-  float trigger_threshold = 0;
-  float thumbstick_threshold = 50.0f;
+  double trigger_threshold = 0;
+  double thumbstick_threshold = 50.0f;
 };
 
 } // namespace GameLib

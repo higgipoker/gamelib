@@ -165,11 +165,11 @@ bool XboxController::DpadDown() {
   return sf::Joystick::isButtonPressed(sf_joystick_index, 16);
 }
 
-float XboxController::LeftTriggerValue() {
+double XboxController::LeftTriggerValue() {
   return sf::Joystick::getAxisPosition(sf_joystick_index, sf::Joystick::Z);
 }
 
-float XboxController::RightTriggerValue() {
+double XboxController::RightTriggerValue() {
   return sf::Joystick::getAxisPosition(sf_joystick_index, sf::Joystick::R);
 }
 

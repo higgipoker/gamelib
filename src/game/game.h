@@ -29,7 +29,7 @@ class Game {
     * @brief main game loop
     * @param dt time delta
     */
-    void MainLoop(float dt);
+    void MainLoop(double dt);
 
     /**
     * @brief add a game entity
@@ -96,7 +96,7 @@ class Game {
      * @brief do physics
      * @param dt physics step
      */
-    void physics(float dt);
+    void physics(double dt);
 
     /**
      * @brief keyboard handling
@@ -118,9 +118,9 @@ class Game {
 
     /// fps tracking
     void calc_fps();
-    float fps;
+    double fps;
     sf::Clock fps_clock;
-    float lastTime = 0.0f;
+    double lastTime = 0.0f;
 };
 
 } // GameLib

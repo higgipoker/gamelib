@@ -65,7 +65,7 @@ public:
    * @param x dest x
    * @param y dest y
    */
-  virtual inline void SetPosition(float x, float y) {
+  virtual inline void SetPosition(double x, double y) {
     geometry.x = x;
     geometry.y = y;
     sprite.setPosition(sf::Vector2f(x, y));
@@ -87,7 +87,7 @@ public:
    * @param dx delta x
    * @param dy delta y
    */
-  virtual inline void Move(float dx, float dy) {
+  virtual inline void Move(double dx, double dy) {
     geometry.x += dx;
     geometry.y += dy;
   }
@@ -95,12 +95,12 @@ public:
   /**
    * @brief get current dimensions
    */
-  virtual inline float GetWidth() { return geometry.w; }
+  virtual inline double GetWidth() { return geometry.w; }
 
   /**
    * @brief get current dimensions
    */
-  virtual inline float GetHeight() { return geometry.h; }
+  virtual inline double GetHeight() { return geometry.h; }
 
   /**
    * @brief get original texture size

@@ -26,7 +26,7 @@ struct {
 // calc_fps
 // ------------------------------------------------------------
 void Game::calc_fps() {
-    float currentTime = fps_clock.getElapsedTime().asSeconds();
+    double currentTime = fps_clock.getElapsedTime().asSeconds();
     fps = 1.f / (currentTime - lastTime);
     lastTime = currentTime;
 }
@@ -45,7 +45,7 @@ Game::Game(const std::string &gamename, int x, int y, int w, int h, bool fullscr
 // ------------------------------------------------------------
 // Loop
 // ------------------------------------------------------------
-void Game::MainLoop(float dt) {
+void Game::MainLoop(double dt) {
 
     // input
     handle_keyboard();
@@ -120,7 +120,7 @@ void Game::render_hud() {
 // ------------------------------------------------------------
 // physics
 // ------------------------------------------------------------
-void Game::physics(float dt) {
+void Game::physics(double dt) {
     for (auto it = game_entities.begin(); it != game_entities.end(); ++it) {
         (*it)->Update(dt);
     }
@@ -148,7 +148,7 @@ void Game::handle_keyboard() {
         break;
 
     case WINDOW_EVENT_MOUSE_WHEEL_MOVED: {
-        float z = std::stof(event.param);
+        double z = std::stof(event.param);
         if (z > 0) {
             camera.ZoomIn();
         } else {

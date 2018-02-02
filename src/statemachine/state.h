@@ -27,7 +27,7 @@ class State {
      * @brief onStep
      * @param _dt time delta
      */
-    virtual void OnStep(const float _dt) = 0;
+    virtual void OnStep(const double _dt) = 0;
 
     /**
      * @brief onEnd

@@ -5,7 +5,7 @@ namespace GameLib {
 // ------------------------------------------------------------
 // Constructor
 // ------------------------------------------------------------
-Animation::Animation (const std::string &id, float frametime, bool loopanim, int n, ...) :
+Animation::Animation (const std::string &id, double frametime, bool loopanim, int n, ...) :
 	name (id),
 	loop (loopanim),
 	running (false),
@@ -25,7 +25,7 @@ Animation::Animation (const std::string &id, float frametime, bool loopanim, int
 // ------------------------------------------------------------
 // Constructor
 // ------------------------------------------------------------
-Animation::Animation (const std::string &id, float frametime, bool loopanim, std::vector<int> f) :
+Animation::Animation (const std::string &id, double frametime, bool loopanim, std::vector<int> f) :
 	name (id),
 	frames (f),
 	current_frame (frames.begin()),

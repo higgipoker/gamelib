@@ -30,7 +30,7 @@ void StateMachine::InitState(State *_s) {
 //  --------------------------------------------------
 //  change state
 //  --------------------------------------------------
-void StateMachine::Step(float dt) {
+void StateMachine::Step(double dt) {
     // step the current state
     current_state->OnStep(dt);
 

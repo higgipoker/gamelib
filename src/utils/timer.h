@@ -8,7 +8,7 @@ public:
 		clock.restart();
 	}
 
-	float GetTicks(){
+	double GetTicks(){
 		return clock.getElapsedTime().asMilliseconds();
 	}
 
