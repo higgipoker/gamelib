@@ -49,8 +49,8 @@ Game::~Game() {
 void Game::Simulate() {
     sf::Time newTime = gameclock.getElapsedTime();
     float frameTime = newTime.asSeconds() - currentTime.asSeconds();
-    if (frameTime > 0.0083f)
-        frameTime = 0.0083f;
+    if (frameTime > Window::FPS)
+        frameTime = Window::FPS;
     currentTime = newTime;
     accumulator += frameTime;
 

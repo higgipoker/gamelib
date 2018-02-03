@@ -16,11 +16,11 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 # ----------------------------------------------------------------------------------------------------
 # include dirs
 include_directories(${PROJECT_SOURCE_DIR}/src)
-include_directories(${PROJECT_SOURCE_DIR}/../dependencies/include)
+include_directories(/usr/local/include)
 
 # ----------------------------------------------------------------------------------------------------
 # library dirs
-link_directories(${PROJECT_SOURCE_DIR}/../dependencies/libs)
+link_directories(/usr/local/lib)
 
 # ----------------------------------------------------------------------------------------------------
 # project build
@@ -63,12 +63,12 @@ src/files/file.cpp
 
 # ----------------------------------------------------------------------------------------------------
 # install
-install (TARGETS gamelib DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../dependencies/libs)
+install (TARGETS gamelib DESTINATION /usr/local/lib)
 
 #gamelib header
 install(FILES
 src/gamelib.h
-DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../dependencies/include/gamelib)
+DESTINATION /usr/local/include/gamelib)
 
 #install graphics header files
 install(FILES
@@ -82,48 +82,48 @@ src/graphics/text.h
 src/graphics/primitives.h
 src/graphics/color.h
 src/graphics/palette.h
-DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../dependencies/include/gamelib/graphics)
+DESTINATION /usr/local/include/gamelib/graphics)
 
 #install camera header files
 install(FILES
 src/camera/camera.h
-DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../dependencies/include/gamelib/camera)
+DESTINATION /usr/local/include/gamelib/camera)
 
 #install input header files
 install(FILES
 src/input/input.h
 src/input/keyboard.h
-DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../dependencies/include/gamelib/input)
+DESTINATION /usr/local/include/gamelib/input)
 
 #install state machine header files
 install(FILES
 src/statemachine/state_machine.h
 src/statemachine/state.h
-DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../dependencies/include/gamelib/statemachine)
+DESTINATION /usr/local/include/gamelib/statemachine)
 
 #install math header files
 install(FILES
 src/math/constants.h
 src/math/vector3.h
 src/math/shapes.h
-DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../dependencies/include/gamelib/math)
+DESTINATION /usr/local/include/gamelib/math)
 
 #install physical header files
 install(FILES
 src/physics/physical.h
 src/physics/collision_detector.h
-DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../dependencies/include/gamelib/physics)
+DESTINATION /usr/local/include/gamelib/physics)
 
 #install game header files
 install(FILES
 src/game/game.h
 src/game/game_entity.h
-DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../dependencies/include/gamelib/game)
+DESTINATION /usr/local/include/gamelib/game)
 
 #install console header files
 install(FILES
 src/console/console.h
-DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../dependencies/include/gamelib/console)
+DESTINATION /usr/local/include/gamelib/console)
 
 #install utils header files
 install(FILES
@@ -131,21 +131,19 @@ src/utils/timer.h
 src/utils/converter.h
 src/utils/log.h
 src/utils/grid.h
-DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../dependencies/include/gamelib/utils)
+DESTINATION /usr/local/include/gamelib/utils)
 
 #install files header files
 install(FILES
 src/files/file.h
-DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../dependencies/include/gamelib/files)
+DESTINATION /usr/local/include/gamelib/files)
 
 #install gamelib header files
 install(FILES
 src/gamelib.h
-DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../dependencies/include/gamelib)
+DESTINATION /usr/local/include/gamelib)
 
 # --------------------------------------------------
 # link libs
 # --------------------------------------------------
-target_link_libraries (gamelib sfml-graphics)
-target_link_libraries (gamelib sfml-window)
-target_link_libraries (gamelib sfml-system)
+

@@ -17,7 +17,7 @@ namespace GameLib {
 //  -----------------------------------------------------------
 
 class Vector3 {
-public:
+  public:
     // ----------------------------------------------------
     // components
     // ----------------------------------------------------
@@ -28,7 +28,7 @@ public:
     // ----------------------------------------------------
     //  constructor
     // ----------------------------------------------------
-    inline Vector3 (void) {
+    inline Vector3(void) {
         x = 0;
         y = 0;
         z = 0;
@@ -37,7 +37,7 @@ public:
     // ----------------------------------------------------
     //  constructor (with initialisers)
     // ----------------------------------------------------
-    inline Vector3 (float xi, float yi, float zi) {
+    inline Vector3(float xi, float yi, float zi) {
         x = xi;
         y = yi;
         z = zi;
@@ -46,7 +46,7 @@ public:
     // ----------------------------------------------------
     //  constructor (with initialisers)
     // ----------------------------------------------------
-    inline Vector3 (float xi, float yi) {
+    inline Vector3(float xi, float yi) {
         x = xi;
         y = yi;
         z = 0;
@@ -55,7 +55,7 @@ public:
     // ----------------------------------------------------
     //  constructor (with initialisers)
     // ----------------------------------------------------
-    explicit inline Vector3 (const Point &_p) {
+    explicit inline Vector3(const Point &_p) {
         x = _p.x;
         y = _p.y;
         z = 0;
@@ -64,21 +64,21 @@ public:
     // ----------------------------------------------------
     // [] operator
     // ----------------------------------------------------
-    float operator[] (int idx) const {
+    float operator[](int idx) const {
         float ret = 0;
         switch (idx) {
-            case 0:
-                ret = x;
-                break;
-            case 1:
-                ret = y;
-                break;
-            case 2:
-                ret = z;
-                break;
-            default:
-                ret = 0;
-                break;
+        case 0:
+            ret = x;
+            break;
+        case 1:
+            ret = y;
+            break;
+        case 2:
+            ret = z;
+            break;
+        default:
+            ret = 0;
+            break;
         }
         return ret;
     }
@@ -86,10 +86,10 @@ public:
     // ----------------------------------------------------
     //   += operator
     // ----------------------------------------------------
-    inline Vector3 &operator+= (const Vector3 &rhs) {
-        this->x += rhs.x;
-        this->y += rhs.y;
-        this->z += rhs.z;
+    inline Vector3 &operator+=(const Vector3 &rhs) {
+        x += rhs.x;
+        y += rhs.y;
+        z += rhs.z;
 
         return *this;
     }
@@ -97,10 +97,10 @@ public:
     // ----------------------------------------------------
     //   -= operator
     // ----------------------------------------------------
-    inline Vector3 &operator-= (const Vector3 &rhs) {
-        this->x -= rhs.x;
-        this->y -= rhs.y;
-        this->z -= rhs.z;
+    inline Vector3 &operator-=(const Vector3 &rhs) {
+        x -= rhs.x;
+        y -= rhs.y;
+        z -= rhs.z;
 
         return *this;
     }
@@ -108,10 +108,10 @@ public:
     // ----------------------------------------------------
     //   *= operator
     // ----------------------------------------------------
-    inline Vector3 &operator*= (const Vector3 &rhs) {
-        this->x *= rhs.x;
-        this->y *= rhs.y;
-        this->z *= rhs.z;
+    inline Vector3 &operator*=(const Vector3 &rhs) {
+        x *= rhs.x;
+        y *= rhs.y;
+        z *= rhs.z;
 
         return *this;
     }
@@ -119,10 +119,10 @@ public:
     // ----------------------------------------------------
     //   *= operator (sccalar)
     // ----------------------------------------------------
-    inline Vector3 &operator*= (const float rhs) {
-        this->x *= rhs;
-        this->y *= rhs;
-        this->z *= rhs;
+    inline Vector3 &operator*=(const float rhs) {
+        x *= rhs;
+        y *= rhs;
+        z *= rhs;
 
         return *this;
     }
@@ -130,10 +130,10 @@ public:
     // ----------------------------------------------------
     //   /= operator (scalar)
     // ----------------------------------------------------
-    inline Vector3 &operator/= (const float rhs) {
-        this->x /= rhs;
-        this->y /= rhs;
-        this->z /= rhs;
+    inline Vector3 &operator/=(const float rhs) {
+        x /= rhs;
+        y /= rhs;
+        z /= rhs;
 
         return *this;
     }
@@ -141,61 +141,61 @@ public:
     // ----------------------------------------------------
     //   + operator
     // ----------------------------------------------------
-    inline const Vector3 operator+ (const Vector3 &rhs) const {
-        return Vector3 (*this) += rhs;
+    inline const Vector3 operator+(const Vector3 &rhs) const {
+        return Vector3(*this) += rhs;
     }
 
     // ----------------------------------------------------
     //   - operator
     // ----------------------------------------------------
-    inline const Vector3 operator- (const Vector3 &rhs) const {
-        return Vector3 (*this) -= rhs;
+    inline const Vector3 operator-(const Vector3 &rhs) const {
+        return Vector3(*this) -= rhs;
     }
 
     // ----------------------------------------------------
     //   * operator (scalar)
     // ----------------------------------------------------
-    inline const Vector3 operator* (const float rhs) const {
-        return Vector3 (*this) *= rhs;
+    inline const Vector3 operator*(const float rhs) const {
+        return Vector3(*this) *= rhs;
     }
 
     // ----------------------------------------------------
     //   / operator (scalar)
     // ----------------------------------------------------
-    inline const Vector3 operator/ (const float rhs) const {
-        return Vector3 (*this) /= rhs;
+    inline const Vector3 operator/(const float rhs) const {
+        return Vector3(*this) /= rhs;
     }
 
     // ----------------------------------------------------
     //   cross product operator
     // ----------------------------------------------------
-    inline const Vector3 operator^ (Vector3 &v) {
-        return Vector3 (this->y * v.z - this->z * v.y, -this->x * v.z + this->z * v.x, this->x * v.y - this->y * v.x);
+    inline const Vector3 operator^(Vector3 &v) {
+        return Vector3(y * v.z - z * v.y, -x * v.z + z * v.x, x * v.y - y * v.x);
     }
 
     // ----------------------------------------------------
     //   dot product operator
     // ----------------------------------------------------
-    inline float operator* (Vector3 &rhs) {
-        return (this->x * rhs.x + this->y * rhs.y + this->z * rhs.z);
+    inline float operator*(Vector3 &rhs) {
+        return (x * rhs.x + y * rhs.y + z * rhs.z);
     }
 
     // ----------------------------------------------------
     // multiply by method call
     // ----------------------------------------------------
-    inline void multiply (float _scalar) {
-        this->x *= _scalar;
-        this->y *= _scalar;
-        this->z *= _scalar;
+    inline void multiply(float _scalar) {
+        x *= _scalar;
+        y *= _scalar;
+        z *= _scalar;
     }
 
     // ----------------------------------------------------
     //  normalised
     // ----------------------------------------------------
-    inline Vector3 normalised (void) {
-        Vector3 normalized (this->x, this->y, this->z);
+    inline Vector3 normalised(void) {
+        Vector3 normalized(x, y, z);
 
-        float m = sqrtf (x * x + y * y + z * z);
+        float m = sqrtf(x * x + y * y + z * z);
 
         if (m <= TOL) {
             m = 1;
@@ -205,13 +205,13 @@ public:
         normalized.y /= m;
         normalized.z /= m;
 
-        if (fabsf (normalized.x) < TOL) {
+        if (fabsf(normalized.x) < TOL) {
             normalized.x = 0;
         }
-        if (fabsf (normalized.y) < TOL) {
+        if (fabsf(normalized.y) < TOL) {
             normalized.y = 0;
         }
-        if (fabsf (normalized.z) < TOL) {
+        if (fabsf(normalized.z) < TOL) {
             normalized.z = 0;
         }
 
@@ -223,7 +223,7 @@ public:
     // ----------------------------------------------------
     inline void normalise() {
         // use the already existing get normalised function
-        Vector3 tmp = this->normalised();
+        Vector3 tmp = normalised();
         x = tmp.x;
         y = tmp.y;
         z = tmp.z;
@@ -232,8 +232,8 @@ public:
     // ----------------------------------------------------
     //  reflect
     // ----------------------------------------------------
-    inline Vector3 Reflect (Vector3 &normal) const {
-        float dot = (this->x * normal.x) + this->y * normal.y;
+    inline Vector3 Reflect(Vector3 &normal) const {
+        float dot = (x * normal.x) + y * normal.y;
         dot *= 2;
         Vector3 reflected = normal * dot - *this;
         return reflected.Reverse();
@@ -242,32 +242,32 @@ public:
     // ----------------------------------------------------
     //  project
     // ----------------------------------------------------
-    inline float projectionOn (Vector3 line) {
+    inline float projectionOn(Vector3 line) {
         line = line.normalised();
-        return this->dotProduct (line);
+        return dotProduct(line);
     }
 
     // ----------------------------------------------------
     //  get perpendicular (normal vector)
     // ----------------------------------------------------
     inline Vector3 getPerpendicular() {
-        Vector3 perp (this->y, -this->x);
+        Vector3 perp(y, -x);
         return perp;
     }
 
     // ----------------------------------------------------
     //  rotated
     // ----------------------------------------------------
-    inline Vector3 rotated (float a, float x_origin = 0, float y_origin = 0) const {
-        a = RADIANS (a);
+    inline Vector3 rotated(float a, float x_origin = 0, float y_origin = 0) const {
+        a = RADIANS(a);
 
         Vector3 rotated = *this;
 
         rotated.x -= x_origin;
         rotated.y -= y_origin;
 
-        float nx = cosf (a) * rotated.x - sinf (a) * rotated.y;
-        float ny = sinf (a) * rotated.x + cosf (a) * rotated.y;
+        float nx = cosf(a) * rotated.x - sinf(a) * rotated.y;
+        float ny = sinf(a) * rotated.x + cosf(a) * rotated.y;
 
         rotated.x = nx;
         rotated.y = ny;
@@ -281,8 +281,8 @@ public:
     // ----------------------------------------------------
     //   test for equality
     // ----------------------------------------------------
-    inline bool equals (const Vector3 &v) {
-        if (fabsf (this->x - v.x) < TOL && fabsf (this->y - v.y) < TOL && fabsf (this->z - v.z) < TOL) {
+    inline bool equals(const Vector3 &v) {
+        if (fabsf(x - v.x) < TOL && fabsf(y - v.y) < TOL && fabsf(z - v.z) < TOL) {
             return true;
         }
         return false;
@@ -291,8 +291,8 @@ public:
     // ----------------------------------------------------
     //   test for equality
     // ----------------------------------------------------
-    inline bool equals (const Vector3 &v, float tolerancce) {
-        if (fabsf (this->x - v.x) < tolerancce && fabsf (this->y - v.y) < tolerancce && fabsf (this->z - v.z) < tolerancce) {
+    inline bool equals(const Vector3 &v, float tolerancce) {
+        if (fabsf(x - v.x) < tolerancce && fabsf(y - v.y) < tolerancce && fabsf(z - v.z) < tolerancce) {
             return true;
         }
         return false;
@@ -301,38 +301,38 @@ public:
     // ----------------------------------------------------
     //   round the angle to nearest x degrees
     // ----------------------------------------------------
-    inline Vector3 roundAngle (int nearest_angle) {
+    inline Vector3 roundAngle(int nearest_angle) {
         // vector to return
         Vector3 rounded;
 
         // convert to radians
-        float nearest_radians = RADIANS (nearest_angle);
+        float nearest_radians = RADIANS(nearest_angle);
 
         // get the angle of this vector
-        float angle = atan2f (this->y, this->x);
+        float angle = atan2f(y, x);
 
         // remainder between 2 angles
-        float remainder = std::fmod (angle, nearest_radians);
+        float remainder = std::fmod(angle, nearest_radians);
 
         // if there is a remainder, do the rounding
         if (remainder > TOL) {
-            float new_angle = roundf (angle / nearest_radians) * nearest_radians;
+            float new_angle = roundf(angle / nearest_radians) * nearest_radians;
 
-            rounded.x = cosf (new_angle);
-            rounded.y = sinf (new_angle);
+            rounded.x = cosf(new_angle);
+            rounded.y = sinf(new_angle);
         } else {
-            rounded.x = this->x;
-            rounded.y = this->y;
-            rounded.z = this->z;
+            rounded.x = x;
+            rounded.y = y;
+            rounded.z = z;
         }
 
-        if (fabsf (rounded.x) < TOL) {
+        if (fabsf(rounded.x) < TOL) {
             rounded.x = 0;
         }
-        if (fabsf (rounded.y) < TOL) {
+        if (fabsf(rounded.y) < TOL) {
             rounded.y = 0;
         }
-        if (fabsf (rounded.z) < TOL) {
+        if (fabsf(rounded.z) < TOL) {
             rounded.z = 0;
         }
 
@@ -342,15 +342,15 @@ public:
     // ----------------------------------------------------
     //   perpProduct
     // ----------------------------------------------------
-    inline float perpProduct (const Vector3 &v, bool right_normal = true) {
+    inline float perpProduct(const Vector3 &v, bool right_normal = true) {
         float componentY, componentX;
 
         if (right_normal) {
-            componentX = this->y * v.x;
-            componentY = -1 * this->x * v.y;
+            componentX = y * v.x;
+            componentY = -1 * x * v.y;
         } else {
-            componentX = -1 * this->y * v.x;
-            componentY = this->x * v.y;
+            componentX = -1 * y * v.x;
+            componentY = x * v.y;
         }
         return componentX + componentY;
     }
@@ -358,91 +358,91 @@ public:
     // ----------------------------------------------------
     //   polar
     // ----------------------------------------------------
-    inline void polar (float mag, float radians) {
-        this->x = mag * cosf (radians);
-        this->y = mag * sinf (radians);
+    inline void polar(float mag, float radians) {
+        x = mag * cosf(radians);
+        y = mag * sinf(radians);
     }
 
     // ----------------------------------------------------
     //   setMagnitude
     // ----------------------------------------------------
-    inline void setMagnitude (float mag) {
-        float ang_current = this->angle();
-        this->polar (mag, ang_current);
+    inline void setMagnitude(float mag) {
+        float ang_current = angle();
+        polar(mag, ang_current);
     }
 
     // ----------------------------------------------------
     // get magnitude of this vector
     // ----------------------------------------------------
-    inline float magnitude (void) const {
-        return sqrtf (x * x + y * y + z * z);
+    inline float magnitude(void) const {
+        return sqrtf(x * x + y * y + z * z);
     }
 
     // ----------------------------------------------------
     // get unit vector
     // ----------------------------------------------------
-    static inline Vector3 getUnitVector (Vector3 v) {
+    static inline Vector3 getUnitVector(Vector3 v) {
         return v / v.magnitude();
     }
 
     // ----------------------------------------------------
     // get mag squared
     // ----------------------------------------------------
-    inline float magSquared (void) {
-        return this->magnitude() * this->magnitude();
+    inline float magSquared(void) {
+        return magnitude() * magnitude();
     }
 
     // ----------------------------------------------------
     // get reversed
     // ----------------------------------------------------
-    inline Vector3 Reverse (void) {
-        Vector3 reversed (-x, -y, -z);
+    inline Vector3 Reverse(void) {
+        Vector3 reversed(-x, -y, -z);
         return reversed;
     }
 
     // ----------------------------------------------------
     //   dot product
     // ----------------------------------------------------
-    inline float dotProduct (const Vector3 &v) const {
-        return (this->x * v.x + this->y * v.y + this->z * v.z);
+    inline float dotProduct(const Vector3 &v) const {
+        return (x * v.x + y * v.y + z * v.z);
     }
 
     // ----------------------------------------------------
     //   get angle in degrees
     // ----------------------------------------------------
-    inline float angle (void) {
-        return DEGREES (atan2f (y, x));
+    inline float angle(void) {
+        return DEGREES(atan2f(y, x));
     }
 
     // ----------------------------------------------------
     //   reset components to zero
     // ----------------------------------------------------
     inline void reset() {
-        this->x = this->y = this->z = 0;
+        x = y = z = 0;
     }
 
     // ----------------------------------------------------
     //   normalizes all components to 1's or 0's
     // ----------------------------------------------------
     inline void normalizeToUnits() {
-        if (this->x > 0) {
-            this->x = 1;
-        } else if (this->x < 0) {
-            this->x = -1;
+        if (x > 0) {
+            x = 1;
+        } else if (x < 0) {
+            x = -1;
         }
 
-        if (this->y > 0) {
-            this->y = 1;
-        } else if (this->y < 0) {
-            this->y = -1;
+        if (y > 0) {
+            y = 1;
+        } else if (y < 0) {
+            y = -1;
         }
     }
 
     // ----------------------------------------------------
     // get normalised to units
     // ----------------------------------------------------
-    inline Vector3 getNormalizedToUnits (void) {
-        Vector3 to_return (this->x, this->y, this->z);
+    inline Vector3 getNormalizedToUnits(void) {
+        Vector3 to_return(x, y, z);
         to_return.normalizeToUnits();
         return to_return;
     }
@@ -450,9 +450,9 @@ public:
     // ----------------------------------------------------
     // find if a vector is moving towards a point
     // ----------------------------------------------------
-    inline static bool isMovingTowards (Vector3 testPoint, Vector3 objectPosition, Vector3 objectVelocity) {
+    inline static bool isMovingTowards(Vector3 testPoint, Vector3 objectPosition, Vector3 objectVelocity) {
         Vector3 toPoint = testPoint - objectPosition; // a vector going from your obect to the point
-        float dot = toPoint.dotProduct (objectVelocity);
+        float dot = toPoint.dotProduct(objectVelocity);
         return dot > 0;
     }
 
@@ -460,7 +460,7 @@ public:
     //  get a point
     // ----------------------------------------------------
     inline Point ToPoint() {
-        return Point (x, y);
+        return Point(x, y);
     }
 };
 

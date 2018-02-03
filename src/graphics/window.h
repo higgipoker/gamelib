@@ -18,7 +18,7 @@
 namespace GameLib {
 
 class Window {
-public:
+  public:
     /**
      * @brief constructor
      * @param title window name to display
@@ -28,7 +28,7 @@ public:
      * @param h sizw
      * @param fullsscreen full screen toggle
      */
-    Window (const std::string &title, int x, int y, unsigned int w, unsigned int h, bool fullsscreen = false);
+    Window(const std::string &title, int x, int y, unsigned int w, unsigned int h, bool fullsscreen = false);
 
     /**
      * @brief destructor
@@ -69,13 +69,13 @@ public:
      * @brief constructorset icon image
      * @param filename image file name
      */
-    void SetIcon (const std::string &filename);
+    void SetIcon(const std::string &filename);
 
     /**
      * @brief draw a renderable object
      * @param r renderable object to draw
      */
-    void Draw (Renderable &r);
+    void Draw(Renderable &r);
 
     /**
      * @brief close the window
@@ -86,29 +86,32 @@ public:
      * @brief set the viewport
      * @param  v view to set
      */
-    void SetView (sf::View v);
+    void SetView(sf::View v);
 
     // tmp for testing
-    void Draw (sf::Drawable &d);
+    void Draw(sf::Drawable &d);
 
     /**
      * @brief get position of window
      */
     inline Vector3 GetPosition() {
-        return Vector3 (window.getPosition().x, window.getPosition().y);
+        return Vector3(window.getPosition().x, window.getPosition().y);
     }
 
     /**
      * @brief get size of window
      */
     inline Vector3 GetSize() {
-        return Vector3 (window.getSize().x, window.getSize().y);
+        return Vector3(window.getSize().x, window.getSize().y);
     }
 
     /// sfml window
     sf::RenderWindow window;
 
-protected:
+    // lock framerate
+    static const int FPS = 120;
+
+  protected:
     /// an image for the window icon
     sf::Image img_icon;
 };

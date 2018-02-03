@@ -88,8 +88,8 @@ class Game {
     sf::View hud_view;
 
     /**
-     * @brief step
-     * @param dt
+     * @brief step the simulation
+     * @param dt time delta
      */
     void step(float dt);
 
