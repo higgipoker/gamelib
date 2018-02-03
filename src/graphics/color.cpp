@@ -12,7 +12,7 @@ Color::Color() {
 // ------------------------------------------------------------
 // construcotr
 // ------------------------------------------------------------
-Color::Color(int red, int green, int blue, int alpha) {
+Color::Color (unsigned char red, unsigned char green, unsigned char blue, unsigned char alpha) {
     r = red;
     g = green;
     b = blue;

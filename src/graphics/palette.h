@@ -3,16 +3,16 @@
 #include <vector>
 #include "color.h"
 
-namespace GameLib{
+namespace GameLib {
 
 /**
-	* @brief color swapping palette
-	*/
-class Palette{
+    * @brief color swapping palette
+    */
+class Palette {
 
 public:
-	/// color map
-	std::vector< std::pair< Color, Color > > colors;
+    /// color map
+    std::vector< std::pair< Color, Color > > colors;
 
 };
 

@@ -1,6 +1,6 @@
 #include "palette.h"
 
-namespace GameLib{
+namespace GameLib {
 
 
 

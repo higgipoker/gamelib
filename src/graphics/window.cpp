@@ -11,7 +11,7 @@ namespace GameLib {
 // ------------------------------------------------------------
 // plain old function
 // ------------------------------------------------------------
-bool valid_videomode(int width, int height) {
+bool valid_videomode(unsigned int width, unsigned int height) {
   // get list of supported video modes
   std::vector<sf::VideoMode> modes = sf::VideoMode::getFullscreenModes();
 
@@ -28,35 +28,34 @@ bool valid_videomode(int width, int height) {
 // ------------------------------------------------------------
 // constructor
 // ------------------------------------------------------------
-GameLib::Window::Window(const std::string &title, unsigned int x, unsigned int y, unsigned int w, unsigned int h, bool fullscreen) {
+GameLib::Window::Window(const std::string &title, int x, int y, unsigned int w, unsigned int h, bool fullscreen) {
   // default style
   unsigned int window_style = sf::Style::Default;
 
-   //if fullscreen, look for a compatible video mode
-    if (fullscreen) {
-      sf::VideoMode desktop_mode = sf::VideoMode::getDesktopMode();
-      window_style = sf::Style::None;
-      w = desktop_mode.width;
-      h = desktop_mode.height;
-      if (valid_videomode(w, h)) {
-        window_style = sf::Style::Fullscreen;
-      } else {
-        std::cout << "No valid fullscreen mode for " << w << "x" << h << std::endl;
-      }
+  // if fullscreen, look for a compatible video mode
+  if (fullscreen) {
+    sf::VideoMode desktop_mode = sf::VideoMode::getDesktopMode();
+    window_style = sf::Style::None;
+    w = desktop_mode.width;
+    h = desktop_mode.height;
+    if (valid_videomode(w, h)) {
+      window_style = sf::Style::Fullscreen;
+    } else {
+      std::cout << "No valid fullscreen mode for " << w << "x" << h << std::endl;
     }
+  }
 
   // create new window with requested styles
   window.create(sf::VideoMode(w, h), title, window_style);
 
   // move to requested position
-  // window.setPosition(sf::Vector2i(x, y));
-  window.setPosition(sf::Vector2i(1080, 0));
+  window.setPosition(sf::Vector2i(x, y));
 
   // testing force framerate
-  window.setFramerateLimit(60);
+  window.setFramerateLimit(120);
 
   // vsync
-  window.setVerticalSyncEnabled(true);
+  // window.setVerticalSyncEnabled (true);
 }
 
 // ------------------------------------------------------------

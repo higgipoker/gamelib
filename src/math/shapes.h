@@ -5,54 +5,66 @@ namespace GameLib {
 class Vector3;
 struct Point;
 
+/**
+ * @brief The Rectangle struct
+ */
 struct Rectangle {
     Rectangle();
-    Rectangle(const Rectangle &r);
-    Rectangle(double _x, double _y, double _w, double _h);
-    void init(double _x, double _y, double _w, double _h);
-    double area() const;
-    void contract(double amount);
-    Point GetCenter(void) const;
-    Point getRandomPoint(void) const;
-    bool overlaps(const Rectangle &_rect) const;
-    bool contains(const Point &_p) const;
-    double x, y, w, h;
+    Rectangle (const Rectangle &r);
+    Rectangle (float _x, float _y, float _w, float _h);
+    void init (float _x, float _y, float _w, float _h);
+    float area() const;
+    void contract (float amount);
+    Point GetCenter (void) const;
+    Point getRandomPoint (void) const;
+    bool overlaps (const Rectangle &_rect) const;
+    bool contains (const Point &_p) const;
+    float x, y, w, h;
 };
 
+/**
+ * @brief The Point struct
+ */
 struct Point {
     Point();
-    Point(double _x, double _y);
-    explicit Point(const Vector3 &v);
-    void init(int _x, int _y);
-    void Reset(void);
-    bool inRect(const Rectangle &_rect) const;
+    Point (float _x, float _y);
+    explicit Point (const Vector3 &v);
+    void init (int _x, int _y);
+    void Reset (void);
+    bool inRect (const Rectangle &_rect) const;
     Vector3 vector();
-    bool operator==(const Point &_p);
-    bool operator!=(const Point &_p) const;
+    bool operator== (const Point &_p);
+    bool operator!= (const Point &_p) const;
 
-    double x;
-    double y;
+    float x;
+    float y;
 };
 
+/**
+ * @brief The Line struct
+ */
 struct Line {
-    Line(void);
-    Line(double _x1, double _y1, double _x2, double _y2);
-    void init(double _x1, double _y1, double _x2, double _y2);
-    double length(){
-        return sqrt( (x2 - x1)*(x2 - x1) +  (y2 - y1)*(y2 - y1 ) );
+    Line (void);
+    Line (float _x1, float _y1, float _x2, float _y2);
+    void init (float _x1, float _y1, float _x2, float _y2);
+    float length() {
+        return sqrtf ( (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
     }
-    double x1, y1, x2, y2;
+    float x1, y1, x2, y2;
 };
 
+/**
+ * @brief The Triangle struct
+ */
 struct Triangle {
-    Triangle(Point &_p1, Point &_p2, Point &_p3);
+    Triangle (Point &_p1, Point &_p2, Point &_p3);
     Triangle();
-    double area() {
-        double side1 = sqrt( (p2.x - p1.x)*(p2.x - p1.x) +  (p2.y - p1.y)*(p2.y - p1.y ) );
-        double side2 = sqrt( (p3.x - p2.x)*(p3.x - p2.x) +  (p3.y - p2.y)*(p3.y - p2.y ) );
-        double side3 = sqrt( (p1.x - p3.x)*(p1.x - p3.x) +  (p1.y - p3.y)*(p1.y - p3.y ) );
-        double s = (side1 + side2 + side3) / 2;
-        double area = sqrt(s * (s - side1) * (s - side2) * (s - side3));
+    float area() {
+        float side1 = sqrtf ( (p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y));
+        float side2 = sqrtf ( (p3.x - p2.x) * (p3.x - p2.x) + (p3.y - p2.y) * (p3.y - p2.y));
+        float side3 = sqrtf ( (p1.x - p3.x) * (p1.x - p3.x) + (p1.y - p3.y) * (p1.y - p3.y));
+        float s = (side1 + side2 + side3) / 2;
+        float area = sqrtf (s * (s - side1) * (s - side2) * (s - side3));
         return area;
     }
 
@@ -61,44 +73,62 @@ struct Triangle {
     Point p3;
 };
 
+/**
+ * @brief The Circle struct
+ */
 struct Circle {
-    Circle(double _x, double _y, double _radius);
+    Circle (float _x, float _y, float _radius);
     Circle();
 
-    bool in_rect(const Rectangle &r);
-    double x, y, radius;
+    bool in_rect (const Rectangle &r);
+    float x, y, radius;
 };
 
+/**
+ * @brief The Post struct
+ */
 struct Post {
-    Post(double _x, double _y, double _height, double _radius);
-    double x, y, height, radius;
+    Post (float _x, float _y, float _height, float _radius);
+    float x, y, height, radius;
 };
 
+/**
+ * @brief The Bar struct
+ */
 struct Bar {
-    Bar(double _x, double _y, double _w, double _h);
-    double x, y, w, h;
+    Bar (float _x, float _y, float _w, float _h);
+    float x, y, w, h;
 };
 
+/**
+ * @brief The Ball struct
+ */
 struct Ball {
-    Ball(double _x, double _y, double _z, double _radius);
-    double x, y, z, radius;
+    Ball (float _x, float _y, float _z, float _radius);
+    float x, y, z, radius;
 };
 
-// like side netting
+/**
+ * @brief The UprightVerticalPlane struct // like side netting
+ */
 struct UprightVerticalPlane {
-    UprightVerticalPlane(double _x, double _y, double _depth, double _height);
-    double x, y, depth, height;
+    UprightVerticalPlane (float _x, float _y, float _depth, float _height);
+    float x, y, depth, height;
 };
 
-// like back netting
+/**
+ * @brief The UprightHorizontalPlane struct// like back netting
+ */
 struct UprightHorizontalPlane {
-    UprightHorizontalPlane(double _x, double _y, double _width, double _height);
-    double x, y, width, height;
+    UprightHorizontalPlane (float _x, float _y, float _width, float _height);
+    float x, y, width, height;
 };
 
-// like top of net
+/**
+ * @brief The FlatPlane struct// like top of net
+ */
 struct FlatPlane {
-    FlatPlane(double _x, double _y, double _w, double _h, double _z);
-    double x, y, width, height, z;
+    FlatPlane (float _x, float _y, float _w, float _h, float _z);
+    float x, y, width, height, z;
 };
 } // namespace GameLib

@@ -3,7 +3,7 @@
 namespace GameLib {
 
 class Color {
-  public:
+public:
     /**
      * @brief constructor
      */
@@ -16,12 +16,12 @@ class Color {
      * @param blue blue
      * @param alpha alpha
      */
-    Color(int red, int green, int blue, int alpha = 255);
+    Color (unsigned char red, unsigned char green, unsigned char blue, unsigned char alpha = 255);
 
     // ----------------------------------------------------
     // () operator
     // ----------------------------------------------------
-    double operator()(int _r, int _g, int _b, int _a) {
+    void operator() (unsigned char _r, unsigned char _g, unsigned char _b, unsigned char _a) {
         r = _r;
         g = _g;
         b = _b;
@@ -29,7 +29,7 @@ class Color {
     }
 
     /// components
-    int r, g, b, a;
+    unsigned char r, g, b, a;
 };
 
 } // GameLib

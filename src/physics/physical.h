@@ -13,12 +13,12 @@ public:
     /**
      * @brief construct
      */
-    Physical(void);
+    Physical (void);
 
     /**
      * @brief destruct
      */
-    virtual ~Physical(void);
+    virtual ~Physical (void);
 
     /// position
     Vector3 position;
@@ -36,7 +36,7 @@ public:
      * @brief convenience (have public access to position too)
      * @param _new_position new pos to set
      */
-    inline void SetPosition(const Vector3 &_new_position) {
+    inline void SetPosition (const Vector3 &_new_position) {
         position.x = _new_position.x;
         position.y = _new_position.y;
         position.z = _new_position.z;
@@ -45,7 +45,7 @@ public:
     /**
      * @brief convenience
      */
-    inline void ResetPosition(void) {
+    inline void ResetPosition (void) {
         position.x = position.y = position.z = 0;
     }
 
@@ -53,7 +53,7 @@ public:
      * @brief convenience (have public access to velocity too)
      * @param _new_velocity new pos to set
      */
-    inline void SetVelocity(const Vector3 &_new_velocity) {
+    inline void SetVelocity (const Vector3 &_new_velocity) {
         velocity.x = _new_velocity.x;
         velocity.y = _new_velocity.y;
         velocity.z = _new_velocity.z;
@@ -62,7 +62,7 @@ public:
     /**
      * @brief convenience
      */
-    inline void ResetVelocity(void) {
+    inline void ResetVelocity (void) {
         velocity.x = velocity.y = velocity.z = 0;
     }
 
@@ -70,7 +70,7 @@ public:
      * @brief convenience (have public access to acceleration too)
      * @param _new_acceleration new pos to set
      */
-    inline void SetAcceleration(const Vector3 &_new_acceleration) {
+    inline void SetAcceleration (const Vector3 &_new_acceleration) {
         acceleration.x = _new_acceleration.x;
         acceleration.y = _new_acceleration.y;
         acceleration.z = _new_acceleration.z;
@@ -79,7 +79,7 @@ public:
     /**
      * @brief convenience
      */
-    inline void ResetAcceleration(void) {
+    inline void ResetAcceleration (void) {
         acceleration.x = acceleration.y = acceleration.z = 0;
     }
 
@@ -87,7 +87,7 @@ public:
      * @brief convenience
      * @param _new_dimensions new dimensions to set
      */
-    inline void SetDimensions(const Rectangle &_new_dimensions) {
+    inline void SetDimensions (const Rectangle &_new_dimensions) {
         dimensions.x = _new_dimensions.x;
         dimensions.y = _new_dimensions.y;
         dimensions.w = _new_dimensions.w;
@@ -99,7 +99,7 @@ public:
      * @param _width w
      * @param _height h
      */
-    inline void SetDimensions(int _width, int _height) {
+    inline void SetDimensions (int _width, int _height) {
         dimensions.w = _width;
         dimensions.h = _height;
     }
@@ -112,29 +112,26 @@ public:
         if (velocity.x < 0 && velocity.y < 0)
             return 45;
 
-        else if (velocity.x == 0 && velocity.y < 0)
+        else if (is_zero (velocity.x) && velocity.y < 0)
             return 90;
 
-        else if (velocity.x > 0 && velocity.y < 0)
+        else if (velocity.x > TOL && velocity.y < 0)
             return 135;
 
-        else if (velocity.x > 0 && velocity.y == 0)
+        else if (velocity.x > TOL && is_zero (velocity.y))
             return 180;
 
-        else if (velocity.x > 0 && velocity.y > 0)
+        else if (velocity.x > TOL && velocity.y > 0)
             return 225;
 
-        else if (velocity.x == 0 && velocity.y > 0)
+        else if (is_zero (velocity.x) && velocity.y > 0)
             return 270;
 
-        else if (velocity.x < 0 && velocity.y > 0)
+        else if (velocity.x < TOL && velocity.y > 0)
             return 315;
-
-        else
-            return 0;
 
         return 0;
     }
 };
 
-}  // GameLib
+} // GameLib

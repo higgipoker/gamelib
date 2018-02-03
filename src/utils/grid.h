@@ -10,7 +10,7 @@ struct Sector {
         x = y = w = h = row = col = 0;
     }
 
-    Sector(int _x, int _y, int _w, int _h, int _row, int _col) {
+    Sector (unsigned int _x, unsigned int _y, unsigned int _w, unsigned int _h, unsigned int _row, unsigned int _col) {
         x = _x;
         y = _y;
         w = _w;
@@ -19,34 +19,34 @@ struct Sector {
         col = _col;
     }
 
-    int x;
-    int y;
-    int w;
-    int h;
-    int row;
-    int col;
+    unsigned int x;
+    unsigned int y;
+    unsigned int w;
+    unsigned int h;
+    unsigned int row;
+    unsigned int col;
 };
 
 class Grid {
-  public:
-    Grid(int startx, int starty, int w, int h, int c, int r);
+public:
+    Grid (unsigned int startx, unsigned int starty, unsigned int w, unsigned int h, unsigned int c, unsigned int r);
 
-    int ColRowToSector(int col, int row);
-    int CoordinatesToSector(int x, int y);
-    int PointToSector(Point p);
-    Point GetSectorCenter(int sector);
-    int OffsetSectorY(int sector, int rows);
+    unsigned int ColRowToSector (unsigned int col, unsigned int row);
+    unsigned int CoordinatesToSector (unsigned int x, unsigned int y);
+    unsigned int PointToSector (Point p);
+    Point GetSectorCenter (unsigned int sector);
+    unsigned int OffsetSectorY (unsigned int sector, unsigned int rows);
     unsigned int NumberSectors();
 
-  private:
-    int x, y, width, height, cols, rows;
-    int sector_width, sector_height;
+private:
+    unsigned int x, y, width, height, cols, rows;
+    unsigned int sector_width, sector_height;
     std::vector<Sector> sectors;
-    int center_column, center_row;
+    unsigned int center_column, center_row;
 
-    int get_first_in_row(int sector);
-    int get_last_in_row(int sector);
-    int get_first_in_col(int sector);
-    int get_last_in_col(int sector);
+    unsigned int get_first_in_row (unsigned int sector);
+    unsigned int get_last_in_row (unsigned int sector);
+    unsigned int get_first_in_col (unsigned int sector);
+    unsigned int get_last_in_col (unsigned int sector);
 };
 } // namespace GameLib

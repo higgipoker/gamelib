@@ -10,6 +10,11 @@
 
 namespace GameLib {
 
+static sf::Clock gameclock;
+static sf::Time currentTime;
+static float dt = 0.001f;
+static float accumulator = 0.0f;
+
 // ------------------------------------------------------------
 // sort predicate for renderable objects (for height)
 // ------------------------------------------------------------
@@ -23,43 +28,48 @@ struct {
 } sort_renderable;
 
 // ------------------------------------------------------------
-// calc_fps
-// ------------------------------------------------------------
-void Game::calc_fps() {
-    double currentTime = fps_clock.getElapsedTime().asSeconds();
-    fps = 1.f / (currentTime - lastTime);
-    lastTime = currentTime;
-}
-
-// ------------------------------------------------------------
 // constructor
 // ------------------------------------------------------------
-Game::Game(const std::string &gamename, int x, int y, int w, int h, bool fullscreen)
- : window(gamename, x, y, w, h, fullscreen)
- , console(this) {
+Game::Game(const std::string &gamename, unsigned int x, unsigned int y, unsigned int w, unsigned int h, bool fullscreen)
+    : window(gamename, x, y, w, h, fullscreen), console(this) {
     AddEntity(camera);
     AddEntity(console);
     fps = 0;
 }
 
 // ------------------------------------------------------------
-// Loop
+// destructor
 // ------------------------------------------------------------
-void Game::MainLoop(double dt) {
+Game::~Game() {
+}
 
-    // input
-    handle_keyboard();
+// ------------------------------------------------------------
+// with thanks to Glenn Fielder (https://gafferongames.com/post/fix_your_timestep/)
+// ------------------------------------------------------------
+void Game::Simulate() {
+    sf::Time newTime = gameclock.getElapsedTime();
+    float frameTime = newTime.asSeconds() - currentTime.asSeconds();
+    if (frameTime > 0.0083f)
+        frameTime = 0.0083f;
+    currentTime = newTime;
+    accumulator += frameTime;
 
-    // physics
-    physics(dt);
+    int times = 0;
+    while (accumulator >= dt) {
+        step(dt);
+        accumulator -= dt;
+        ++times;
+    }
+    std::cout << times << std::endl;
+}
 
-    // ai
-
-    // render
-    render();
-
-    // misc
-    calc_fps();
+// ------------------------------------------------------------
+// step
+// ------------------------------------------------------------
+void Game::step(float dt) {
+    for (auto it = game_entities.begin(); it != game_entities.end(); ++it) {
+        (*it)->Update(dt);
+    }
 }
 
 // ------------------------------------------------------------
@@ -72,94 +82,6 @@ void Game::AddEntity(GameEntity &entity) {
         hud_entities.push_back(&entity);
     } else {
         game_entities.push_back(&entity);
-    }
-}
-
-// ------------------------------------------------------------
-// render
-// ------------------------------------------------------------
-void Game::render() {
-    // clear
-    window.Clear();
-
-    // sort the render list in z-order
-    std::sort(game_entities.begin(), game_entities.end(), sort_renderable);
-
-    // set camera view
-    window.SetView(camera.view);
-
-    // render all game graphics
-    for (auto it = game_entities.begin(); it != game_entities.end(); ++it) {
-        (*it)->renderable->Render(window);
-    }
-
-    // non moving view for the hud
-    render_hud();
-
-    // flip buffers
-    window.Present();
-}
-
-// ------------------------------------------------------------
-// render_hud
-// ------------------------------------------------------------
-void Game::render_hud() {
-    // hud view dimensions should match main camera view
-    hud_view.setSize(camera.view.getSize());
-    hud_view.setCenter(sf::Vector2f(hud_view.getSize().x / 2, hud_view.getSize().y / 2));
-
-    // activate hud view for rendering
-    window.SetView(hud_view);
-
-    // render hud graphics
-    for (auto it = hud_entities.begin(); it != hud_entities.end(); ++it) {
-        (*it)->renderable->Render(window);
-    }
-}
-
-// ------------------------------------------------------------
-// physics
-// ------------------------------------------------------------
-void Game::physics(double dt) {
-    for (auto it = game_entities.begin(); it != game_entities.end(); ++it) {
-        (*it)->Update(dt);
-    }
-}
-
-// ------------------------------------------------------------
-// handle_keyboard
-// ------------------------------------------------------------
-void Game::handle_keyboard() {
-    // check inputs
-    WindowEvent event = window.PollEvent();
-
-    switch (event.type) {
-    case WINDOW_EVENT_CLOSE:
-        running = false;
-        break;
-
-    case WINDOW_EVENT_MOUSE_CLICKED: {
-        sf::Vector2i position = sf::Mouse::getPosition();
-        on_mouse_click(position.x - window.GetPosition().x, position.y - window.GetPosition().y);
-    } break;
-
-    case WINDOW_EVENT_KEY_DOWN:
-        console.OnKey(event.param);
-        break;
-
-    case WINDOW_EVENT_MOUSE_WHEEL_MOVED: {
-        double z = std::stof(event.param);
-        if (z > 0) {
-            camera.ZoomIn();
-        } else {
-            camera.ZoomOut();
-        }
-        break;
-    }
-
-    case WINDOW_EVENT_NONE:
-    default:
-        break;
     }
 }
 

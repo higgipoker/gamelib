@@ -16,12 +16,14 @@ struct TrackableTexture {
   /**
    * @brief constructor
    */
-  TrackableTexture() : tex(nullptr), ref_counter(1) {}
+  TrackableTexture() : tex (nullptr), ref_counter (1) {
+  }
 
   /**
    * @brief constructor with initialiser
    */
-  explicit TrackableTexture(sf::Texture *t) : tex(t), ref_counter(1) {}
+  explicit TrackableTexture (sf::Texture *t) : tex (t), ref_counter (1) {
+  }
 
   /// the actual texture
   sf::Texture *tex;
@@ -43,12 +45,12 @@ public:
    * @brief constructor
    * @param filename image file name
    */
-  explicit Renderable(const std::string &filename);
+  explicit Renderable (const std::string &filename);
 
   /**
    * @brief copy constructor
    */
-  Renderable(const Renderable &other);
+  Renderable (const Renderable &other);
 
   /**
    * @brief destructor
@@ -58,36 +60,40 @@ public:
   /**
     * @brief gets the Drawable aspect
     */
-  inline virtual const sf::Drawable &get() { return sprite; }
+  inline virtual const sf::Drawable &get() {
+    return sprite;
+  }
 
   /**
    * @brief set the deat rect
    * @param x dest x
    * @param y dest y
    */
-  virtual inline void SetPosition(double x, double y) {
+  virtual inline void SetPosition (float x, float y) {
     geometry.x = x;
     geometry.y = y;
-    sprite.setPosition(sf::Vector2f(x, y));
+    sprite.setPosition (sf::Vector2f (x, y));
   }
 
   /**
    * @brief get the dest rect
    */
-  inline Point GetPosition() { return Point(geometry.x, geometry.y); }
+  inline Point GetPosition() {
+    return Point (geometry.x, geometry.y);
+  }
 
   /**
    * @brief render
    * @param window render target
    */
-  virtual void Render(Window &window);
+  virtual void Render (Window &window);
 
   /**
    * @brief move it
    * @param dx delta x
    * @param dy delta y
    */
-  virtual inline void Move(double dx, double dy) {
+  virtual inline void Move (float dx, float dy) {
     geometry.x += dx;
     geometry.y += dy;
   }
@@ -95,12 +101,16 @@ public:
   /**
    * @brief get current dimensions
    */
-  virtual inline double GetWidth() { return geometry.w; }
+  virtual inline float GetWidth() {
+    return geometry.w;
+  }
 
   /**
    * @brief get current dimensions
    */
-  virtual inline double GetHeight() { return geometry.h; }
+  virtual inline float GetHeight() {
+    return geometry.h;
+  }
 
   /**
    * @brief get original texture size
@@ -125,7 +135,7 @@ public:
   /**
    * @brief color swap
    */
-  void SwapColors(std::vector<std::pair<sf::Color, sf::Color>> palette);
+  void SwapColors (std::vector<std::pair<sf::Color, sf::Color>> palette);
 
   /// depth
   int z_order;
@@ -143,7 +153,8 @@ protected:
   /// sfml texture
   sf::Texture *texture;
 
-  /// a paletted texture
+  /// since textures can be shared, when we swap colors (paletted texture), we have to save it in a new texture and not
+  /// overwrite the original
   sf::Texture *paletted_texture;
 
   /// a sfml sprite
@@ -160,7 +171,7 @@ protected:
   /**
    * @brief helper set the texture
    */
-  void set_texture(const std::string &filename);
+  void set_texture (const std::string &filename);
 };
 
 } // GameLib

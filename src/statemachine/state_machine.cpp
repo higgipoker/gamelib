@@ -5,7 +5,7 @@ namespace GameLib {
 //  --------------------------------------------------
 //  constructor
 //  --------------------------------------------------
-StateMachine::StateMachine() : current_state(NULL) {
+StateMachine::StateMachine() : current_state (NULL) {
     inited = false;
     state_changed = false;
 }
@@ -20,7 +20,7 @@ StateMachine::~StateMachine() {
 //  --------------------------------------------------
 //  first time initialization
 //  --------------------------------------------------
-void StateMachine::InitState(State *_s) {
+void StateMachine::InitState (State *_s) {
     if (!inited) {
         current_state = _s;
         inited = true;
@@ -30,9 +30,9 @@ void StateMachine::InitState(State *_s) {
 //  --------------------------------------------------
 //  change state
 //  --------------------------------------------------
-void StateMachine::Step(double dt) {
+void StateMachine::Step (float dt) {
     // step the current state
-    current_state->OnStep(dt);
+    current_state->OnStep (dt);
 
     //  check for state change
     if (current_state->StateOver()) {
@@ -43,7 +43,7 @@ void StateMachine::Step(double dt) {
 //  --------------------------------------------------
 //  change state
 //  --------------------------------------------------
-void StateMachine::ChangeState(State *_s) {
+void StateMachine::ChangeState (State *_s) {
     current_state->OnEnd();
 
     delete current_state;
@@ -53,4 +53,4 @@ void StateMachine::ChangeState(State *_s) {
     on_change_state();
 }
 
-}  // GameLib
+} // GameLib

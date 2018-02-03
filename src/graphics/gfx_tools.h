@@ -4,8 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include "color.h"
 
-namespace GameLib{
+namespace GameLib {
 
-    void replace_color(sf::Image &img, std::pair<sf::Color, sf::Color> colors);
+void replace_color (sf::Image &img, std::pair<sf::Color, sf::Color> colors);
 
 }// namespace GameLib

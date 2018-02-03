@@ -23,13 +23,18 @@ class Game {
     * @param h window height
     * @param fullscreen full screen or not
     */
-    explicit Game(const std::string &gamename, int x, int y, int w, int h, bool fullscreen);
+    explicit Game(const std::string &gamename, unsigned int x, unsigned int y, unsigned int w, unsigned int h, bool fullscreen);
 
     /**
-    * @brief main game loop
-    * @param dt time delta
+     * @brief ~Game
+     */
+    virtual ~Game();
+
+    /**
+    * @brief Simulate
+    * @param dt
     */
-    void MainLoop(double dt);
+    void Simulate();
 
     /**
     * @brief add a game entity
@@ -83,32 +88,17 @@ class Game {
     sf::View hud_view;
 
     /**
-     * @brief do rendering
+     * @brief step
+     * @param dt
      */
-    void render();
-
-    /**
-     * @brief helper to render the hud
-     */
-    void render_hud();
-
-    /**
-     * @brief do physics
-     * @param dt physics step
-     */
-    void physics(double dt);
-
-    /**
-     * @brief keyboard handling
-     */
-    void handle_keyboard();
+    void step(float dt);
 
     /**
      * @brief on_mouse_click
      * @param x
      * @param y
      */
-    virtual void on_mouse_click(int x, int y) = 0;
+    virtual void on_mouse_click(float x, float y) = 0;
 
     /// console
     Console console;
@@ -116,11 +106,10 @@ class Game {
     /// a timer
     Timer timer;
 
-    /// fps tracking
-    void calc_fps();
-    double fps;
+    /// fps stuff
+    float fps;
     sf::Clock fps_clock;
-    double lastTime = 0.0f;
+    float lastTime = 0.0f;
 };
 
 } // GameLib

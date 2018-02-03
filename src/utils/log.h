@@ -3,6 +3,6 @@
 
 namespace GameLib {
 
-void Log(const std::string &text);
+void Log (std::string args, ...);
 
 } // namespace GameLib

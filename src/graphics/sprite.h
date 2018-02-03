@@ -43,7 +43,7 @@ public:
    * @param loopanim loopanim
    * @param framelist frames
    */
-  void AddAnimation(const std::string &animname, double frametime, bool loopanim, std::vector<int> framelist);
+  void AddAnimation(const std::string &animname, float frametime, bool loopanim, std::vector<unsigned int> framelist);
 
   /**
    * @brief add an already constructed animation
@@ -61,7 +61,7 @@ public:
    * @param dx x delta
    * @param dy y delta
    */
-  void Move(double dx, double dy) override;
+  void Move(float dx, float dy) override;
 
   /**
    * @brief set the active animation
@@ -74,36 +74,42 @@ public:
    * @param x_factor x scale factor
    * @param y_factor y scale factor
    */
-  void Scale(double x_factor, double y_factor);
+  void Scale(float x_factor, float y_factor);
 
   /**
    * @brief scaling (with equal factors in x and y)
    * @param factor scale factor
    */
-  void Scale(double factor);
+  void Scale(float factor);
 
   /**
    * @brief get current width
    */
-  virtual inline double GetWidth() override { return sprite_width; }
+  virtual inline float GetWidth() override {
+    return sprite_width;
+  }
 
   /**
    * @brief get current height
    */
-  virtual inline double GetHeight() override { return sprite_height; }
+  virtual inline float GetHeight() override {
+    return sprite_height;
+  }
 
   /**
    * @brief dynamically alter the speed of the current animation
    * @param speed new speed
    */
-  void SetAnimationSpeed(int speed);
+  void SetAnimationSpeed(unsigned int speed);
 
   /**
    * @brief set origin for transformations
    * @param x x origin
    * @param y y origin
    */
-  inline void SetOrigin(double x, double y) { sprite.setOrigin(x, y); }
+  inline void SetOrigin(float x, float y) {
+    sprite.setOrigin(x, y);
+  }
 
   /// a renderable entity may or may not have a shadow
   Sprite *shadow;

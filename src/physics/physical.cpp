@@ -5,12 +5,12 @@ namespace GameLib {
 // --------------------------------------------------
 // constructor
 // --------------------------------------------------
-Physical::Physical(void) {}
+Physical::Physical (void) {}
 
 // --------------------------------------------------
 // destructor
 // --------------------------------------------------
-Physical::~Physical(void) {}
+Physical::~Physical (void) {}
 
 }  // namespace GameLib
 

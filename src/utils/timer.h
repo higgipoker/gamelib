@@ -1,19 +1,19 @@
 #pragma once
 #include <SFML/System.hpp>
-namespace GameLib{
+namespace GameLib {
 
-class Timer{
+class Timer {
 public:
-	void Start(){
-		clock.restart();
-	}
+    void Start() {
+        clock.restart();
+    }
 
-	double GetTicks(){
-		return clock.getElapsedTime().asMilliseconds();
-	}
+    float GetTicks() {
+        return clock.getElapsedTime().asMilliseconds();
+    }
 
 protected:
-	sf::Clock clock;
+    sf::Clock clock;
 };
 
 }// GameLib

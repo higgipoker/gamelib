@@ -21,19 +21,19 @@ public:
      * @brief set initial state
      * @param _s the initial state
      */
-    void InitState(State *_s);
+    void InitState (State *_s);
 
     /**
      * @brief on step
      * @param _dt time delta
      */
-    void Step(double _dt);
+    void Step (float _dt);
 
     /**
      * @brief change state
      * @param _s state to change to
      */
-    void ChangeState(State *_s);
+    void ChangeState (State *_s);
 
 protected:
     /// current state
@@ -48,7 +48,8 @@ protected:
     /**
      * @brief derived states can do extra stuff on a state change
      */
-    virtual void on_change_state() {};
+    virtual void on_change_state() {
+    }
 };
 
-}// GameLib
+} // GameLib

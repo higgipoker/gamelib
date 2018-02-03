@@ -9,18 +9,18 @@ namespace GameLib {
 */
 class Keyboard : public Input {
 
-  public:
-	/**
-	 * @brief Keyboard
-	 */
-	Keyboard();
+public:
+    /**
+     * @brief Keyboard
+     */
+    Keyboard();
 
-	/**
-	 * @brief Update
-	 */
-	virtual void Update() override;
+    /**
+     * @brief Update
+     */
+    virtual void Update() override;
 
-	static std::map<int, std::string> keys;
+    static std::map<int, std::string> keys;
 };
 
 } // GameLib

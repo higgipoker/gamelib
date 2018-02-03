@@ -8,16 +8,16 @@
 namespace GameLib {
 
 class File {
-  public:
-    explicit File(const std::string &f);
+public:
+    explicit File (const std::string &f);
     ~File();
 
-    void WriteLine(const std::string &line);
-    void WriteLine(int line);
+    void WriteLine (const std::string &line);
+    void WriteLine (int line);
     void Close();
-    std::vector<std::string> GetLines(const std::string &_ignore = "");
+    std::vector<std::string> GetLines (const std::string &_ignore = "");
 
-  protected:
+protected:
     std::string file_name;
     std::ofstream out_file;
     std::ifstream in_file;
