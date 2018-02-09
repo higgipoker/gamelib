@@ -5,7 +5,7 @@ namespace GameLib {
 // ------------------------------------------------------------------
 // Constructor
 // ------------------------------------------------------------------
-Sprite::Sprite (const std::string &filename, unsigned int num_rows, unsigned int num_cols) : Renderable (filename), current_animation (nullptr), shadow (nullptr) {
+Sprite::Sprite(const std::string &filename, unsigned int num_rows, unsigned int num_cols) : Renderable(filename), shadow(nullptr), current_animation(nullptr) {
 
     // set the size of each sprite in the sheet
     sprite_width = texture->getSize().x / num_cols;
@@ -17,11 +17,11 @@ Sprite::Sprite (const std::string &filename, unsigned int num_rows, unsigned int
 
             // sprite rectangle
             sf::IntRect rect;
-            rect.left = int (col * sprite_width);
-            rect.top = int (row * sprite_height);
-            rect.width = int (sprite_width);
-            rect.height = int (sprite_height);
-            rects.push_back (rect);
+            rect.left = int(col * sprite_width);
+            rect.top = int(row * sprite_height);
+            rect.width = int(sprite_width);
+            rect.height = int(sprite_height);
+            rects.push_back(rect);
         }
     }
 }
@@ -29,35 +29,35 @@ Sprite::Sprite (const std::string &filename, unsigned int num_rows, unsigned int
 Sprite::~Sprite() {
 }
 
-void Sprite::Render (Window &window) {
+void Sprite::Render(Window &window) {
     // shadow gets drawn first
     if (shadow) {
-        shadow->Render (window);
+        shadow->Render(window);
     }
-    Renderable::Render (window);
+    Renderable::Render(window);
 }
 
 // ------------------------------------------------------------------
 // SetFrame
 // ------------------------------------------------------------------
-void Sprite::SetFrame (unsigned int frame) {
-    sprite.setTextureRect (rects.at (frame));
+void Sprite::SetFrame(unsigned int frame) {
+    sprite.setTextureRect(rects.at(frame));
 }
 
 // ------------------------------------------------------------------
 // AddAnimation
 // ------------------------------------------------------------------
-void Sprite::AddAnimation (const std::string &animname, float frametime, bool loopanim, std::vector<unsigned int> framelist) {
-    AddAnimation (Animation (animname, frametime, loopanim, framelist));
+void Sprite::AddAnimation(const std::string &animname, float frametime, bool loopanim, std::vector<unsigned int> framelist) {
+    AddAnimation(Animation(animname, frametime, loopanim, framelist));
 }
 
 // ------------------------------------------------------------------
 // AddAnimation
 // ------------------------------------------------------------------
-void Sprite::AddAnimation (Animation anim) {
+void Sprite::AddAnimation(Animation anim) {
 
     // add new animation to the list
-    animations.push_back (anim);
+    animations.push_back(anim);
 
     // set the current animation to the newly added one
     current_animation = &animations.back();
@@ -72,7 +72,7 @@ void Sprite::AddAnimation (Animation anim) {
 void Sprite::Animate() {
     if (current_animation) {
         current_animation->Step();
-        SetFrame (current_animation->CurrentFrame());
+        SetFrame(current_animation->CurrentFrame());
     }
 
     if (shadow) {
@@ -83,51 +83,51 @@ void Sprite::Animate() {
 // ------------------------------------------------------------------
 // Move
 // ------------------------------------------------------------------
-void Sprite::Move (float dx, float dy) {
-    Renderable::Move (dx, dy);
-    sprite.setPosition (geometry.x, geometry.y);
+void Sprite::Move(float dx, float dy) {
+    Renderable::Move(dx, dy);
+    sprite.setPosition(geometry.x, geometry.y);
 }
 
 // ------------------------------------------------------------------
 // SetAnimation
 // ------------------------------------------------------------------
-void Sprite::SetAnimation (const std::string &name) {
+void Sprite::SetAnimation(const std::string &name) {
     if (current_animation && current_animation->name == name)
         return;
 
     for (auto it = animations.begin(); it != animations.end(); ++it) {
-        if ( (*it).name == name) {
-            current_animation = & (*it);
+        if ((*it).name == name) {
+            current_animation = &(*it);
             current_animation->Start();
             break;
         }
     }
 
     if (shadow) {
-        shadow->SetAnimation (name);
+        shadow->SetAnimation(name);
     }
 }
 
 // ------------------------------------------------------------------
 // Scale
 // ------------------------------------------------------------------
-void Sprite::Scale (float x_factor, float y_factor) {
-    sprite.setScale (x_factor, y_factor);
+void Sprite::Scale(float x_factor, float y_factor) {
+    sprite.setScale(x_factor, y_factor);
 }
 
 // ------------------------------------------------------------------
 // Scale
 // ------------------------------------------------------------------
-void Sprite::Scale (float factor) {
-    sprite.setScale (factor, factor);
+void Sprite::Scale(float factor) {
+    sprite.setScale(factor, factor);
 }
 
 // ------------------------------------------------------------------
 // SetAnimationSpeed
 // ------------------------------------------------------------------
-void Sprite::SetAnimationSpeed (unsigned int time) {
+void Sprite::SetAnimationSpeed(unsigned int time) {
     if (current_animation) {
-        current_animation->SetSpeed (time);
+        current_animation->SetSpeed(time);
     }
 }
 

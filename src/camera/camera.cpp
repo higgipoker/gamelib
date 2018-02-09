@@ -1,3 +1,27 @@
+/****************************************************************************
+ * Copyright (C) 2018 by Paul Higgins
+ *
+ * This file is part of GameLib.
+ *
+ *   Box is free software: you can redistribute it and/or modify it
+ *   under the terms of the GNU Lesser General Public License as published
+ *   by the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   Box is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *   GNU Lesser General Public License for more details.
+ *
+ *   You should have received a copy of the GNU Lesser General Public
+ *   License along with GameLib. If not, see <http://www.gnu.org/licenses/>
+ ****************************************************************************/
+/**
+ * @file camera.cpp
+ * @author Paul Higgins
+ * @date 2018
+ * @brief camera implementation
+ */
 #include "camera.h"
 #include <iostream>
 namespace GameLib {
@@ -6,7 +30,7 @@ const float zoom_step = 0.01f;
 // ------------------------------------------------------------
 // Follow
 // ------------------------------------------------------------
-void Camera::Follow (GameEntity *e) {
+void Camera::Follow(GameEntity *e) {
     following = e;
 }
 
@@ -14,10 +38,10 @@ void Camera::Follow (GameEntity *e) {
 // ------------------------------------------------------------
 // Update
 // ------------------------------------------------------------
-void Camera::Update (float dt) {
+void Camera::Update(float dt) {
 
     if (following) {
-        Vector3 distance = following->physical->position - Vector3 (view.getCenter().x, view.getCenter().y);
+        Vector3 distance = following->physical->position - Vector3(view.getCenter().x, view.getCenter().y);
         float mag = distance.magnitude();
         physical->velocity = distance.normalised() * SPEED * dt * mag;
         physical->position += physical->velocity;
@@ -53,7 +77,7 @@ void Camera::update_position() {
     }
 
     // set viewport with "physical->position" at center point
-    view.setCenter (physical->position.x, physical->position.y);
+    view.setCenter(physical->position.x, physical->position.y);
 }
 
 // ------------------------------------------------------------

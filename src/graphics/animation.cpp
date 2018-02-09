@@ -5,15 +5,15 @@ namespace GameLib {
 // ------------------------------------------------------------
 // Constructor
 // ------------------------------------------------------------
-Animation::Animation (const std::string &id, float frametime, bool loopanim, int n, ...) : name (id), loop (loopanim), running (false), frame_time (frametime) {
+Animation::Animation(const std::string &id, float frametime, bool loopanim, int n, ...) : name(id), loop(loopanim), running(false), frame_time(frametime) {
 
     va_list vl;
-    va_start (vl, n);
+    va_start(vl, n);
     for (int i = 0; i < n; i++) {
-        int val = va_arg (vl, int);
-        frames.push_back (val);
+        int val = va_arg(vl, int);
+        frames.push_back(static_cast<unsigned int>(val));
     }
-    va_end (vl);
+    va_end(vl);
 
     current_frame = frames.begin();
 }
@@ -21,8 +21,8 @@ Animation::Animation (const std::string &id, float frametime, bool loopanim, int
 // ------------------------------------------------------------
 // Constructor
 // ------------------------------------------------------------
-Animation::Animation (const std::string &id, float frametime, bool loopanim, std::vector<unsigned int> f)
-    : name (id), frames (f), current_frame (frames.begin()), loop (loopanim), running (false), frame_time (frametime) {
+Animation::Animation(const std::string &id, float frametime, bool loopanim, std::vector<unsigned int> f)
+    : name(id), frames(f), current_frame(frames.begin()), loop(loopanim), running(false), frame_time(frametime) {
 }
 
 // ------------------------------------------------------------
@@ -78,7 +78,7 @@ unsigned int Animation::CurrentFrame() const {
 // ------------------------------------------------------------
 // SetSpeed
 // ------------------------------------------------------------
-void Animation::SetSpeed (int speed) {
+void Animation::SetSpeed(int speed) {
     frame_time = speed;
 }
 

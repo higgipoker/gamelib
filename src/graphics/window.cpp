@@ -28,7 +28,7 @@ bool valid_videomode(unsigned int width, unsigned int height) {
 // ------------------------------------------------------------
 // constructor
 // ------------------------------------------------------------
-GameLib::Window::Window(const std::string &title, int x, int y, unsigned int w, unsigned int h, bool fullscreen) {
+GameLib::Window::Window(const std::string &title, unsigned int x, unsigned int y, unsigned int w, unsigned int h, bool fullscreen) {
     // default style
     unsigned int window_style = sf::Style::Default;
 
@@ -49,13 +49,10 @@ GameLib::Window::Window(const std::string &title, int x, int y, unsigned int w, 
     window.create(sf::VideoMode(w, h), title, window_style);
 
     // move to requested position
-    window.setPosition(sf::Vector2i(x, y));
+    window.setPosition(sf::Vector2i(static_cast<int>(x), static_cast<int>(y)));
 
     // testing force framerate
     window.setFramerateLimit(FPS);
-
-    // vsync
-    // window.setVerticalSyncEnabled (true);
 }
 
 // ------------------------------------------------------------
@@ -68,12 +65,9 @@ Window::~Window(void) {
 // ------------------------------------------------------------
 // PollEvent
 // ------------------------------------------------------------
-WindowEvent Window::PollEvent(void) {
+WindowEvent Window::PollEvent(WindowEvent &wnd_event) {
     // sfml event
     sf::Event sfml_event;
-
-    // GameLib event
-    WindowEvent wnd_event;
 
     // sfml polling
     while (window.pollEvent(sfml_event)) {

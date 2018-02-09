@@ -13,165 +13,165 @@ namespace GameLib {
  */
 struct TrackableTexture {
 
-  /**
-   * @brief constructor
-   */
-  TrackableTexture() : tex (nullptr), ref_counter (1) {
-  }
+    /**
+     * @brief constructor
+     */
+    TrackableTexture() : tex (nullptr), ref_counter (1) {
+    }
 
-  /**
-   * @brief constructor with initialiser
-   */
-  explicit TrackableTexture (sf::Texture *t) : tex (t), ref_counter (1) {
-  }
+    /**
+     * @brief constructor with initialiser
+     */
+    explicit TrackableTexture (sf::Texture *t) : tex (t), ref_counter (1) {
+    }
 
-  /// the actual texture
-  sf::Texture *tex;
+    /// the actual texture
+    sf::Texture *tex;
 
-  /// reference counter
-  unsigned int ref_counter;
+    /// reference counter
+    unsigned int ref_counter;
 };
 
 // class Sprite;
 class Window;
 class Renderable {
 public:
-  /**
-   * @brief def constructor
-   */
-  Renderable();
+    /**
+     * @brief def constructor
+     */
+    Renderable();
 
-  /**
-   * @brief constructor
-   * @param filename image file name
-   */
-  explicit Renderable (const std::string &filename);
+    /**
+     * @brief constructor
+     * @param filename image file name
+     */
+    explicit Renderable (const std::string &filename);
 
-  /**
-   * @brief copy constructor
-   */
-  Renderable (const Renderable &other);
+    /**
+     * @brief copy constructor
+     */
+    Renderable (const Renderable &other);
 
-  /**
-   * @brief destructor
-   */
-  virtual ~Renderable();
+    /**
+     * @brief destructor
+     */
+    virtual ~Renderable();
 
-  /**
-    * @brief gets the Drawable aspect
-    */
-  inline virtual const sf::Drawable &get() {
-    return sprite;
-  }
-
-  /**
-   * @brief set the deat rect
-   * @param x dest x
-   * @param y dest y
-   */
-  virtual inline void SetPosition (float x, float y) {
-    geometry.x = x;
-    geometry.y = y;
-    sprite.setPosition (sf::Vector2f (x, y));
-  }
-
-  /**
-   * @brief get the dest rect
-   */
-  inline Point GetPosition() {
-    return Point (geometry.x, geometry.y);
-  }
-
-  /**
-   * @brief render
-   * @param window render target
-   */
-  virtual void Render (Window &window);
-
-  /**
-   * @brief move it
-   * @param dx delta x
-   * @param dy delta y
-   */
-  virtual inline void Move (float dx, float dy) {
-    geometry.x += dx;
-    geometry.y += dy;
-  }
-
-  /**
-   * @brief get current dimensions
-   */
-  virtual inline float GetWidth() {
-    return geometry.w;
-  }
-
-  /**
-   * @brief get current dimensions
-   */
-  virtual inline float GetHeight() {
-    return geometry.h;
-  }
-
-  /**
-   * @brief get original texture size
-   */
-  inline unsigned int GetTextureWidth() {
-    if (texture != nullptr) {
-      return texture->getSize().x;
+    /**
+      * @brief gets the Drawable aspect
+      */
+    inline virtual const sf::Drawable &get() {
+        return sprite;
     }
-    return 0;
-  }
 
-  /**
-   * @brief get original texture size
-   */
-  inline unsigned int GetTextureHeight() {
-    if (texture != nullptr) {
-      return texture->getSize().y;
+    /**
+     * @brief set the deat rect
+     * @param x dest x
+     * @param y dest y
+     */
+    virtual inline void SetPosition (float x, float y) {
+        geometry.x = x;
+        geometry.y = y;
+        sprite.setPosition (sf::Vector2f (x, y));
     }
-    return 0;
-  }
 
-  /**
-   * @brief color swap
-   */
-  void SwapColors (std::vector<std::pair<sf::Color, sf::Color>> palette);
+    /**
+     * @brief get the dest rect
+     */
+    inline Point GetPosition() {
+        return Point (geometry.x, geometry.y);
+    }
 
-  /// depth
-  int z_order;
+    /**
+     * @brief render
+     * @param window render target
+     */
+    virtual void Render (Window &window);
 
-  /// the floor z for shdows
-  static int shadow_z;
+    /**
+     * @brief move it
+     * @param dx delta x
+     * @param dy delta y
+     */
+    virtual inline void Move (float dx, float dy) {
+        geometry.x += dx;
+        geometry.y += dy;
+    }
 
-  /// visible
-  bool visible = true;
+    /**
+     * @brief get current dimensions
+     */
+    virtual inline float GetWidth() {
+        return geometry.w;
+    }
+
+    /**
+     * @brief get current dimensions
+     */
+    virtual inline float GetHeight() {
+        return geometry.h;
+    }
+
+    /**
+     * @brief get original texture size
+     */
+    inline unsigned int GetTextureWidth() {
+        if (texture != nullptr) {
+            return texture->getSize().x;
+        }
+        return 0;
+    }
+
+    /**
+     * @brief get original texture size
+     */
+    inline unsigned int GetTextureHeight() {
+        if (texture != nullptr) {
+            return texture->getSize().y;
+        }
+        return 0;
+    }
+
+    /**
+     * @brief color swap
+     */
+    void SwapColors (std::vector<std::pair<sf::Color, sf::Color>> palette);
+
+    /// depth
+    int z_order;
+
+    /// the floor z for shdows
+    static int shadow_z;
+
+    /// visible
+    bool visible = true;
 
 protected:
-  /// geometry
-  Rectangle geometry;
+    /// geometry
+    Rectangle geometry;
 
-  /// sfml texture
-  sf::Texture *texture;
+    /// sfml texture
+    sf::Texture *texture;
 
-  /// since textures can be shared, when we swap colors (paletted texture), we have to save it in a new texture and not
-  /// overwrite the original
-  sf::Texture *paletted_texture;
+    /// since textures can be shared, when we swap colors (paletted texture), we have to save it in a new texture and not
+    /// overwrite the original
+    sf::Texture *paletted_texture;
 
-  /// a sfml sprite
-  sf::Sprite sprite;
+    /// a sfml sprite
+    sf::Sprite sprite;
 
-  /// save as reference to texture being used
-  std::string texture_filename;
+    /// save as reference to texture being used
+    std::string texture_filename;
 
-  /**
-   * @brief helper to count number of renderables made
-   */
-  static unsigned int count_renderables();
+    /**
+     * @brief helper to count number of renderables made
+     */
+    static unsigned int count_renderables();
 
-  /**
-   * @brief helper set the texture
-   */
-  void set_texture (const std::string &filename);
+    /**
+     * @brief helper set the texture
+     */
+    void set_texture (const std::string &filename);
 };
 
 } // GameLib

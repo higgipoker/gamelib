@@ -15,36 +15,31 @@ enum AnchorType {
 };
 
 class GameEntity {
-public:
-    /**
-    * @brief construct
-    */
-    // GameEntity(void);
-
+  public:
     /**
     * @brief construct with ready made physical aspect
     * @param p ready made physical aspect - subclass responsible for memory!
     * @param r ready made renderable aspect- subclass responsible for memory!
     */
-    explicit GameEntity (Physical *p, Renderable *r);
+    explicit GameEntity(Physical *p, Renderable *r);
 
     /**
      * @brief destruct
      */
-    virtual ~GameEntity (void);
+    virtual ~GameEntity(void);
 
     /**
      * @brief the main update function for an entity
      * @param dt time delta
      */
-    virtual void Update (float dt);
+    virtual void Update(float dt);
 
     /**
      * @brief manually move the entity
      * @param dx x delta
      * @param dy y delta
      */
-    void Move (float dx, float dy);
+    void Move(float dx, float dy);
 
     /**
      * @brief set position
@@ -52,14 +47,14 @@ public:
      * @param y y pos
      * @param z z pos
      */
-    void SetPosition (float x, float y, float z = 0);
+    void SetPosition(float x, float y, float z = 0);
 
     Point GetPosition();
 
     /**
      * @brief set a uniqueentity id
      */
-    void SetName (const std::string &name);
+    void SetName(const std::string &name);
 
     /**
      * @brief get a uniqueentity id
@@ -70,10 +65,12 @@ public:
      * @brief like a rpc call
      * @param params list of params
      */
-    virtual void Call (std::vector<std::string> params);
+    virtual void Call(std::vector<std::string> params);
 
-    /// a game entity has a physical and graphical aspect
+    /// physical aspect associated with this entity
     Physical *physical;
+
+    /// renderable aspect associated with this entity
     Renderable *renderable;
 
     /// easy access without dereferencing each time
@@ -85,10 +82,7 @@ public:
     /// overlay (hud)
     bool hud = false;
 
-    /// keep the list unique
-    static std::set<std::string> entity_names;
-
-protected:
+  protected:
     /**
      * @brief align the sprite accordig to physical position, sprite size and
      * anchor type
@@ -97,5 +91,11 @@ protected:
 
     /// unique name
     std::string name;
+
+    /// keep the list unique
+    static std::set<std::string> entity_names;
+
+  public:
+    friend class Game;
 };
 } // GameLib

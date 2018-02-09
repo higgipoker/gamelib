@@ -19,19 +19,19 @@ std::set<std::string> GameEntity::entity_names;
 // ------------------------------------------------------------
 // Constructor
 // ------------------------------------------------------------
-GameEntity::GameEntity (Physical *p, Renderable *r) : physical (p), renderable (r), velocity (physical->velocity), anchor_type (ANCHOR_CENTER) {
+GameEntity::GameEntity(Physical *p, Renderable *r) : physical(p), renderable(r), velocity(physical->velocity), anchor_type(ANCHOR_CENTER) {
 }
 
 // ------------------------------------------------------------
 //
 // ------------------------------------------------------------
-GameEntity::~GameEntity (void) {
+GameEntity::~GameEntity(void) {
 }
 
 // ------------------------------------------------------------
 // Update
 // ------------------------------------------------------------
-void GameEntity::Update (float dt) {
+void GameEntity::Update(float dt) {
 
     // centers the entity based on anchor type
     if (renderable && physical) {
@@ -42,7 +42,7 @@ void GameEntity::Update (float dt) {
 // ------------------------------------------------------------
 // Move
 // ------------------------------------------------------------
-void GameEntity::Move (float dx, float dy) {
+void GameEntity::Move(float dx, float dy) {
     physical->position.x += dx;
     physical->position.y += dy;
 }
@@ -50,9 +50,9 @@ void GameEntity::Move (float dx, float dy) {
 // ------------------------------------------------------------
 // SetPosition
 // ------------------------------------------------------------
-void GameEntity::SetPosition (float x, float y, float z) {
+void GameEntity::SetPosition(float x, float y, float z) {
 
-    assert (physical != nullptr);
+    assert(physical != nullptr);
 
     physical->position.x = x;
     physical->position.y = y;
@@ -63,7 +63,7 @@ void GameEntity::SetPosition (float x, float y, float z) {
 }
 
 Point GameEntity::GetPosition() {
-    return Point (physical->position.x, physical->position.y);
+    return Point(physical->position.x, physical->position.y);
 }
 
 // ------------------------------------------------------------
@@ -74,13 +74,13 @@ void GameEntity::anchor() {
     switch (anchor_type) {
 
         case ANCHOR_NONE:
-            renderable->SetPosition (physical->position.x, physical->position.y);
+            renderable->SetPosition(physical->position.x, physical->position.y);
             break;
         case ANCHOR_CENTER:
-            renderable->SetPosition (physical->position.x - renderable->GetWidth() / 2, physical->position.y - renderable->GetHeight() / 2);
+            renderable->SetPosition(physical->position.x - renderable->GetWidth() / 2, physical->position.y - renderable->GetHeight() / 2);
             break;
         case ANCHOR_BASELINE:
-            renderable->SetPosition (physical->position.x - renderable->GetWidth() / 2, physical->position.y - renderable->GetHeight());
+            renderable->SetPosition(physical->position.x - renderable->GetWidth() / 2, physical->position.y - renderable->GetHeight());
             break;
     }
 }
@@ -88,10 +88,10 @@ void GameEntity::anchor() {
 // ------------------------------------------------------------
 // SetName
 // ------------------------------------------------------------
-void GameEntity::SetName (const std::string &n) {
+void GameEntity::SetName(const std::string &n) {
     name = n;
-    if (entity_names.find (name) == entity_names.end()) {
-        entity_names.insert (name);
+    if (entity_names.find(name) == entity_names.end()) {
+        entity_names.insert(name);
     } else {
         std::cout << "Could not set name: " << name << std::endl;
     }
@@ -107,10 +107,10 @@ std::string GameEntity::GetName() {
 // ------------------------------------------------------------
 // Call
 // ------------------------------------------------------------
-void GameEntity::Call (std::vector<std::string> params) {
+void GameEntity::Call(std::vector<std::string> params) {
     if (params[0] == "move") {
-        std::vector<std::string> new_params (params.begin() + 1, params.end());
-        SetPosition (atoi (new_params[0].c_str()), atoi (new_params[1].c_str()), atoi (new_params[2].c_str()));
+        std::vector<std::string> new_params(params.begin() + 1, params.end());
+        SetPosition(atoi(new_params[0].c_str()), atoi(new_params[1].c_str()), atoi(new_params[2].c_str()));
     }
 }
 

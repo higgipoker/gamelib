@@ -1,3 +1,27 @@
+/****************************************************************************
+ * Copyright (C) 2018 by Paul higgins
+ *
+ * This file is part of GameLib.
+ *
+ *   Box is free software: you can redistribute it and/or modify it
+ *   under the terms of the GNU Lesser General Public License as published
+ *   by the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   Box is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU Lesser General Public License for more details.
+ *
+ *   You should have received a copy of the GNU Lesser General Public
+ *   License along with GameLib. If not, see <http://www.gnu.org/licenses/>
+ ****************************************************************************/
+/**
+ * @file game.h
+ * @author Paul higgins
+ * @date 2018
+ * @brief game declaration
+ */
 #pragma once
 
 #include <vector>
@@ -12,6 +36,9 @@
 
 namespace GameLib {
 
+/**
+ * @brief The Game class
+ */
 class Game {
   public:
     /**
@@ -28,13 +55,24 @@ class Game {
     /**
      * @brief ~Game
      */
-    virtual ~Game();
+    virtual ~Game() {
+    }
+
+    /**
+    * @brief HandleInput
+    */
+    virtual void HandleInput(WindowEvent &event);
 
     /**
     * @brief Simulate
     * @param dt
     */
     void Simulate();
+
+    /**
+     * @brief Render
+     */
+    void Render();
 
     /**
     * @brief add a game entity
@@ -92,6 +130,11 @@ class Game {
      * @param dt time delta
      */
     void step(float dt);
+
+    /**
+     * @brief helper to render the hud
+     */
+    void render_hud();
 
     /**
      * @brief on_mouse_click

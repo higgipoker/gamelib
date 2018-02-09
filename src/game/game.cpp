@@ -1,3 +1,28 @@
+/****************************************************************************
+ * Copyright (C) 2018 by Paul Higgins
+ *
+ * This file is part of GameLib.
+ *
+ *   Box is free software: you can redistribute it and/or modify it
+ *   under the terms of the GNU Lesser General Public License as published
+ *   by the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   Box is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU Lesser General Public License for more details.
+ *
+ *   You should have received a copy of the GNU Lesser General Public
+ *   License along with GameLib. If not, see <http://www.gnu.org/licenses/>
+ ****************************************************************************/
+/**
+ * @file game.cpp
+ * @author Paul Higgins
+ * @date 2018
+ * @brief game implementation file
+ */
+
 #include "game.h"
 
 #include <assert.h>
@@ -38,9 +63,40 @@ Game::Game(const std::string &gamename, unsigned int x, unsigned int y, unsigned
 }
 
 // ------------------------------------------------------------
-// destructor
+// HandleInput
 // ------------------------------------------------------------
-Game::~Game() {
+void Game::HandleInput(WindowEvent &event) {
+
+    window.PollEvent(event);
+
+    switch (event.type) {
+
+        case WINDOW_EVENT_CLOSE:
+            running = false;
+            break;
+
+        case WINDOW_EVENT_MOUSE_CLICKED:
+            on_mouse_click(sf::Mouse::getPosition().x - window.GetPosition().x, sf::Mouse::getPosition().y - window.GetPosition().y);
+            break;
+
+        case WINDOW_EVENT_KEY_DOWN:
+            console.OnKey(event.param);
+            break;
+
+        case WINDOW_EVENT_MOUSE_WHEEL_MOVED:
+            if (std::stof(event.param) > 0) {
+                camera.ZoomIn();
+            } else {
+                camera.ZoomOut();
+            }
+            break;
+
+        case WINDOW_EVENT_MOUSE_MOVED:
+            break;
+
+        case WINDOW_EVENT_NONE:
+            break;
+    }
 }
 
 // ------------------------------------------------------------
@@ -49,8 +105,11 @@ Game::~Game() {
 void Game::Simulate() {
     sf::Time newTime = gameclock.getElapsedTime();
     float frameTime = newTime.asSeconds() - currentTime.asSeconds();
-    if (frameTime > Window::FPS)
+
+    if (frameTime > Window::FPS) {
         frameTime = Window::FPS;
+    }
+
     currentTime = newTime;
     accumulator += frameTime;
 
@@ -60,7 +119,52 @@ void Game::Simulate() {
         accumulator -= dt;
         ++times;
     }
-    std::cout << times << std::endl;
+
+    // std::cout << times << " sim steps per frame" << std::endl;
+}
+
+// ------------------------------------------------------------
+// Render
+// ------------------------------------------------------------
+void Game::Render() {
+
+    // clear
+    window.Clear();
+
+    // sort the render list in z-order
+    std::sort(game_entities.begin(), game_entities.end(), sort_renderable);
+    std::sort(hud_entities.begin(), hud_entities.end(), sort_renderable);
+
+    // set camera view
+    window.SetView(camera.GetView());
+
+    // render all game graphics
+    for (auto it = game_entities.begin(); it != game_entities.end(); ++it) {
+        (*it)->renderable->Render(window);
+    }
+
+    // non moving view for the hud
+    render_hud();
+
+    // flip buffers
+    window.Present();
+}
+
+// ------------------------------------------------------------
+// render_hud
+// ------------------------------------------------------------
+void Game::render_hud() {
+    // hud view dimensions should match main camera view
+    hud_view.setSize(camera.GetView().getSize());
+    hud_view.setCenter(sf::Vector2f(hud_view.getSize().x / 2, hud_view.getSize().y / 2));
+
+    // activate hud view for rendering
+    window.SetView(hud_view);
+
+    // render hud graphics
+    for (auto it = hud_entities.begin(); it != hud_entities.end(); ++it) {
+        (*it)->renderable->Render(window);
+    }
 }
 
 // ------------------------------------------------------------
@@ -91,7 +195,7 @@ void Game::AddEntity(GameEntity &entity) {
 std::vector<std::string> Game::GetEntityNames() {
     std::vector<std::string> names;
     for (auto it = game_entities.begin(); it != game_entities.end(); ++it) {
-        names.push_back((*it)->GetName() + " [" + typeid(*it).name() + "]");
+        names.push_back("\"" + (*it)->GetName() + "\"");
     }
     std::sort(names.begin(), names.end());
 
@@ -128,11 +232,11 @@ void Game::Call(std::vector<std::string> params) {
 
     else if (params[0] == "fps") {
         std::vector<std::string> texts;
-        texts.push_back(Converter::IntToString((int)fps));
+        texts.push_back(Converter::IntToString(static_cast<int>(fps)));
         console.Echo(texts);
     }
 
-    else if (params[0] == "quit") {
+    else if (params[0] == "quit" || params[0] == "q" || params[0] == "exit") {
         running = false;
     }
 
@@ -165,6 +269,7 @@ void Game::Call(std::vector<std::string> params) {
 // Call
 // ------------------------------------------------------------
 void Game::Call(std::string func, std::string n, ...) {
+    std::cout << "Game::Call: " << func << ", " << n << std::endl;
 }
 
 } // GameLib

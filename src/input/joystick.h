@@ -44,7 +44,7 @@ enum JoystickAnalogs { X_AXIS_VALUE = 0, Y_AXIS_VALUE, LTRIGGER_VALUE, RTRIGGER_
 struct JoyData {
     JoyData() {
         memset (buttons, 0, sizeof (buttons));
-        memset (buttons, 0, sizeof (analogs));
+        memset (analogs, 0, sizeof (analogs));
     }
     bool buttons[MAX_BUTTONS];
     int analogs[MAX_ANALOGS];

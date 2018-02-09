@@ -67,18 +67,18 @@ class Vector3 {
     float operator[](int idx) const {
         float ret = 0;
         switch (idx) {
-        case 0:
-            ret = x;
-            break;
-        case 1:
-            ret = y;
-            break;
-        case 2:
-            ret = z;
-            break;
-        default:
-            ret = 0;
-            break;
+            case 0:
+                ret = x;
+                break;
+            case 1:
+                ret = y;
+                break;
+            case 2:
+                ret = z;
+                break;
+            default:
+                ret = 0;
+                break;
         }
         return ret;
     }
@@ -379,6 +379,13 @@ class Vector3 {
     }
 
     // ----------------------------------------------------
+    // get magnitude of this vector in 2d
+    // ----------------------------------------------------
+    inline float magnidude2d(void) {
+        return sqrtf(x * x + y * y);
+    }
+
+    // ----------------------------------------------------
     // get unit vector
     // ----------------------------------------------------
     static inline Vector3 getUnitVector(Vector3 v) {
@@ -451,7 +458,7 @@ class Vector3 {
     // find if a vector is moving towards a point
     // ----------------------------------------------------
     inline static bool isMovingTowards(Vector3 testPoint, Vector3 objectPosition, Vector3 objectVelocity) {
-        Vector3 toPoint = testPoint - objectPosition; // a vector going from your obect to the point
+        Vector3 toPoint = testPoint - objectPosition;
         float dot = toPoint.dotProduct(objectVelocity);
         return dot > 0;
     }

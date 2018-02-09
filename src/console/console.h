@@ -8,11 +8,11 @@
 namespace GameLib {
 class Game;
 class Console : public GameEntity, public Renderable {
-public:
+  public:
     /**
      * @brief construct
      */
-    explicit Console (Game *g);
+    explicit Console(Game *g);
 
     /**
       @brief destruct
@@ -23,23 +23,23 @@ public:
     * @brief render
     * @param window render target
     */
-    virtual void Render (Window &window) override;
+    virtual void Render(Window &window) override;
 
     /**
      * @brief key press
      * @param character the char pressed
      */
-    void OnKey (std::string &character);
+    void OnKey(std::string &character);
 
     /**
      * @brief echo something
      * @param texts strings to echo
      */
-    void Echo (const std::vector<std::string> &texts);
+    void Echo(const std::vector<std::string> &texts);
 
-private:
+  private:
     // console height
-    int height;
+    unsigned int height;
 
     /// text renderable
     Label text;
@@ -54,7 +54,7 @@ private:
     std::vector<std::string> history;
 
     /// track current history pointer
-    int history_iterator;
+    unsigned int history_iterator;
 
     /// an echo list
     std::vector<std::string> echo_list;

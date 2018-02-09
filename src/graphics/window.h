@@ -28,7 +28,7 @@ class Window {
      * @param h sizw
      * @param fullsscreen full screen toggle
      */
-    Window(const std::string &title, int x, int y, unsigned int w, unsigned int h, bool fullsscreen = false);
+    Window(const std::string &title, unsigned int x, unsigned int y, unsigned int w, unsigned int h, bool fullsscreen = false);
 
     /**
      * @brief destructor
@@ -38,7 +38,7 @@ class Window {
     /**
      * @brief poll for window events
      */
-    WindowEvent PollEvent();
+    WindowEvent PollEvent(WindowEvent &wnd_event);
 
     /**
      * @brief clear window
@@ -103,6 +103,14 @@ class Window {
      */
     inline Vector3 GetSize() {
         return Vector3(window.getSize().x, window.getSize().y);
+    }
+
+    /**
+     * @brief VSync
+     * @param on
+     */
+    inline void VSync(bool on) {
+        window.setVerticalSyncEnabled(on);
     }
 
     /// sfml window
