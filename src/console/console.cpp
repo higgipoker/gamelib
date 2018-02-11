@@ -72,14 +72,10 @@ void Console::Render(Window &window) {
     Primitives::FillColor(Color(0, 0, 0, 255));
     Primitives::OutlineColor(Color(0, 0, 0, 255));
     Primitives::Rectangle(window, 0, 0, static_cast<unsigned int>(window.GetSize().x), height);
-
     Primitives::OutlineColor(Color(255, 255, 255, 255));
-    // Primitives::DrawLine(window, Vector3(0, 10), Vector3(window.GetSize().x, 10), 3);
 
     unsigned int line_height = 22;
     unsigned int y = height - line_height;
-    unsigned int lines = height / line_height;
-    unsigned int count_lines = 0;
 
     // combine lists
     std::vector<std::string> full;
@@ -95,6 +91,9 @@ void Console::Render(Window &window) {
     //
     int cnt = 0;
     for (auto it = full.rbegin(); it != full.rend(); ++it) {
+        //        if (++count_lines >= lines) {
+        //            break;
+        //        }
         if (++cnt < echo_offset)
             continue;
 
@@ -102,10 +101,6 @@ void Console::Render(Window &window) {
         y -= line_height;
         text.SetPosition(0, y);
         text.Render(window);
-
-        if (++count_lines > lines) {
-            break;
-        }
     }
 
     //
@@ -178,30 +173,26 @@ void Console::OnKey(keycode key) {
 
     if (key == KEY_UPARROW) {
         if (idx_history > 0) {
-            current_line = history[--idx_history];
-            std::cout << idx_history << std::endl;
+            current_line = history[static_cast<unsigned long>(--idx_history)];
         }
         return;
     }
 
     if (key == KEY_DOWNARROW) {
-        if (idx_history < history.size() - 1) {
-            current_line = history[++idx_history];
-            std::cout << idx_history << std::endl;
+        if (static_cast<unsigned long>(idx_history) < history.size() - 1) {
+            current_line = history[static_cast<unsigned long>(++idx_history)];
         }
         return;
     }
 
     if (key == KEY_PAGEUP) {
-        std::cout << "PAGEUP" << std::endl;
-        if (++echo_offset > echo_list.size()) {
+        if (++echo_offset > static_cast<int>(echo_list.size())) {
             --echo_offset;
         }
         return;
     }
 
     if (key == KEY_PAGEDOWN) {
-        std::cout << "PAGEDOWN" << std::endl;
         if (--echo_offset <= 0) {
             ++echo_offset;
         }
@@ -234,7 +225,7 @@ void Console::execute() {
     game->Call(spl);
 
     history.push_back(current_line);
-    idx_history = history.size();
+    idx_history = static_cast<int>(history.size());
     current_line.clear();
 }
 
@@ -244,7 +235,6 @@ void Console::execute() {
 void Console::Echo(const std::vector<std::string> &texts) {
     for (auto it = texts.begin(); it != texts.end(); ++it) {
         echo_list.push_back(*it);
-        std::cout << "Console:Echo:: " << *it << std::endl;
     }
 
     if (echo_list.size() > MAX_ECHO_SIZE) {

@@ -55,7 +55,8 @@ struct {
 // ------------------------------------------------------------
 // constructor
 // ------------------------------------------------------------
-Game::Game(const std::string &gamename, unsigned int x, unsigned int y, unsigned int w, unsigned int h, bool fullscreen)
+Game::Game(const std::string &gamename, unsigned int x, unsigned int y,
+           unsigned int w, unsigned int h, bool fullscreen)
     : window(gamename, x, y, w, h, fullscreen), console(this) {
 
     AddEntity(console);
@@ -77,31 +78,33 @@ void Game::HandleInput(WindowEvent &event) {
 
     switch (event.type) {
 
-        case WINDOW_EVENT_CLOSE:
-            running = false;
-            break;
+    case WINDOW_EVENT_CLOSE:
+        running = false;
+        break;
 
-        case WINDOW_EVENT_MOUSE_CLICKED:
-            on_mouse_click(mouse.GetPosition().x - window.GetPosition().x, mouse.GetPosition().y - window.GetPosition().y);
-            break;
+    case WINDOW_EVENT_MOUSE_CLICKED:
+        on_mouse_click(mouse.GetPosition().x - window.GetPosition().x,
+                       mouse.GetPosition().y - window.GetPosition().y);
+        break;
 
-        case WINDOW_EVENT_KEY_DOWN:
-            console.OnKey(static_cast<keycode>(event.param));
-            break;
+    case WINDOW_EVENT_KEY_DOWN:
+        console.OnKey(static_cast<keycode>(event.param));
+        break;
 
-        case WINDOW_EVENT_MOUSE_WHEEL_MOVED:
-            break;
+    case WINDOW_EVENT_MOUSE_WHEEL_MOVED:
+        break;
 
-        case WINDOW_EVENT_MOUSE_MOVED:
-            break;
+    case WINDOW_EVENT_MOUSE_MOVED:
+        break;
 
-        case WINDOW_EVENT_NONE:
-            break;
+    case WINDOW_EVENT_NONE:
+        break;
     }
 }
 
 // ------------------------------------------------------------
-// with thanks to Glenn Fielder (https://gafferongames.com/post/fix_your_timestep/)
+// with thanks to Glenn Fielder
+// (https://gafferongames.com/post/fix_your_timestep/)
 // ------------------------------------------------------------
 void Game::Simulate() {
     do {
@@ -117,52 +120,35 @@ void Game::Render() {
     // clear
     window.Clear();
 
-    // sort the render list in z-order
-    std::sort(game_entities.begin(), game_entities.end(), sort_renderable);
-    std::sort(hud_entities.begin(), hud_entities.end(), sort_renderable);
-
-    // set camera view
+    // render game
     prepare_scene();
-
-    // render all game graphics
     for (auto it = game_entities.begin(); it != game_entities.end(); ++it) {
         (*it)->renderable->Render(window);
     }
 
-    // non moving view for the hud
-    render_hud();
+    // render hud
+    prepare_hud();
+    for (auto it = hud_entities.begin(); it != hud_entities.end(); ++it) {
+        (*it)->renderable->Render(window);
+    }
 
     // flip buffers
     window.Present();
 
+    // safe to assume render is done once per frame!
+    gamestep_timer.Update();
+    ++game_frame;
+
     // limit framerate
-    float newnewtime = gamestep_timer.GetLiveTime(); // milliseconds
+    float newnewtime = gamestep_timer.GetLiveTime();
     float gametime = gamestep_timer.GetFrameTime();
-    float render_time = newnewtime - gametime; // current time in ms minus time since frame started
+    float render_time = newnewtime - gametime;
     float target = (target_frame_time * 1000);
     int waits = 0;
     while (render_time < target) {
         newnewtime = gamestep_timer.GetLiveTime();
         render_time = newnewtime - gamestep_timer.GetFrameTime();
         ++waits;
-    }
-    // std::cout << render_time << std::endl;
-    // std::cout << waits << std::endl;
-    // std::cout << render_time << " : " << target << std::endl;
-
-    // safe to assume render is done once per frame!
-    gamestep_timer.Update();
-}
-
-// ------------------------------------------------------------
-// render_hud
-// ------------------------------------------------------------
-void Game::render_hud() {
-
-    prepare_hud();
-    // render hud graphics
-    for (auto it = hud_entities.begin(); it != hud_entities.end(); ++it) {
-        (*it)->renderable->Render(window);
     }
 }
 
@@ -235,6 +221,12 @@ void Game::Call(std::vector<std::string> params) {
         console.Echo(texts);
     }
 
+    else if (params[0] == "frame") {
+        std::vector<std::string> texts;
+        texts.push_back(Converter::IntToString(static_cast<int>(game_frame)));
+        console.Echo(texts);
+    }
+
     else if (params[0] == "quit" || params[0] == "q" || params[0] == "exit") {
         running = false;
     }
@@ -245,15 +237,18 @@ void Game::Call(std::vector<std::string> params) {
 
             auto name_set = GameEntity::entity_names;
 
-            std::vector<std::string> new_params(params.begin() + 2, params.end());
+            std::vector<std::string> new_params(params.begin() + 2,
+                                                params.end());
 
-            for (auto it = game_entities.begin(); it != game_entities.end(); ++it) {
+            for (auto it = game_entities.begin(); it != game_entities.end();
+                 ++it) {
                 if ((*it)->GetName() == entity_name) {
                     (*it)->Call(new_params);
                     return;
                 }
             }
-            for (auto it = hud_entities.begin(); it != hud_entities.end(); ++it) {
+            for (auto it = hud_entities.begin(); it != hud_entities.end();
+                 ++it) {
                 if ((*it)->GetName() == entity_name) {
                     (*it)->Call(new_params);
                     return;
@@ -288,6 +283,8 @@ void Game::CalcFPS() {
 // prepare_scene
 // ------------------------------------------------------------
 void Game::prepare_scene() {
+    // sort the render list in z-order
+    std::sort(game_entities.begin(), game_entities.end(), sort_renderable);
     window.SetView(camera.GetSceneView());
 }
 
@@ -295,6 +292,8 @@ void Game::prepare_scene() {
 // prepare_hud
 // ------------------------------------------------------------
 void Game::prepare_hud() {
+    // sort the render list in z-order
+    std::sort(hud_entities.begin(), hud_entities.end(), sort_renderable);
     window.SetView(camera.GetHudView());
 }
 } // GameLib

@@ -17,14 +17,12 @@ struct TrackableTexture {
     /**
      * @brief constructor
      */
-    TrackableTexture() : tex(nullptr), ref_counter(1) {
-    }
+    TrackableTexture() : tex(nullptr), ref_counter(1) {}
 
     /**
      * @brief constructor with initialiser
      */
-    explicit TrackableTexture(sf::Texture *t) : tex(t), ref_counter(1) {
-    }
+    explicit TrackableTexture(sf::Texture *t) : tex(t), ref_counter(1) {}
 
     /// the actual texture
     sf::Texture *tex;
@@ -60,9 +58,7 @@ class Renderable {
     /**
       * @brief gets the Drawable aspect
       */
-    inline virtual const sf::Drawable &get() {
-        return sprite;
-    }
+    inline virtual const sf::Drawable &get() { return sprite; }
 
     /**
      * @brief set the deat rect
@@ -74,9 +70,7 @@ class Renderable {
     /**
      * @brief get the dest rect
      */
-    inline Point GetPosition() {
-        return Point(geometry.x, geometry.y);
-    }
+    inline Point GetPosition() { return Point(geometry.x, geometry.y); }
 
     /**
      * @brief render
@@ -97,21 +91,17 @@ class Renderable {
     /**
      * @brief get current dimensions
      */
-    virtual inline float GetWidth() {
-        return geometry.w;
-    }
+    virtual inline float GetWidth() { return geometry.w; }
 
     /**
      * @brief get current dimensions
      */
-    virtual inline float GetHeight() {
-        return geometry.h;
-    }
+    virtual inline float GetHeight() { return geometry.h; }
 
     /**
      * @brief color swap
      */
-    void SwapColors(std::vector<std::pair<sf::Color, sf::Color>> palette);
+    void SwapColors(std::vector<std::pair<Color, Color>> palette);
 
     /// depth
     int z_order;
@@ -129,7 +119,8 @@ class Renderable {
     /// sfml texture
     sf::Texture *texture;
 
-    /// since textures can be shared, when we swap colors (paletted texture), we have to save it in a new texture and not
+    /// since textures can be shared, when we swap colors (paletted texture), we
+    /// have to save it in a new texture and not
     /// overwrite the original
     sf::Texture *paletted_texture;
 

@@ -1,11 +1,16 @@
 #pragma once
 
-#include <map>
-#include <SFML/Graphics.hpp>
 #include "color.h"
+#include <SFML/Graphics.hpp>
+#include <map>
 
 namespace GameLib {
 
-void replace_color (sf::Image &img, std::pair<sf::Color, sf::Color> colors);
+/**
+ * @brief replace_color
+ * @param img
+ * @param colors
+ */
+void replace_color(sf::Image &img, std::pair<Color, Color> colors);
 
-}// namespace GameLib
+} // namespace GameLib

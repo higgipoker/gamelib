@@ -14,7 +14,8 @@ static std::map<std::string, TrackableTexture> texture_list;
 // ------------------------------------------------------------
 // constructor
 // ------------------------------------------------------------
-Renderable::Renderable() : z_order(0), texture_filename("[non-textured-renderable]") {
+Renderable::Renderable()
+    : z_order(0), texture_filename("[non-textured-renderable]") {
     texture = nullptr;
     paletted_texture = nullptr;
 }
@@ -22,7 +23,8 @@ Renderable::Renderable() : z_order(0), texture_filename("[non-textured-renderabl
 // ------------------------------------------------------------
 // Constructor
 // ------------------------------------------------------------
-Renderable::Renderable(const std::string &filename) : z_order(0), texture(nullptr), texture_filename(filename) {
+Renderable::Renderable(const std::string &filename)
+    : z_order(0), texture(nullptr), texture_filename(filename) {
 
     paletted_texture = nullptr;
 
@@ -40,7 +42,8 @@ Renderable::Renderable(const std::string &filename) : z_order(0), texture(nullpt
             std::cout << "Could not load image file: " << filename << std::endl;
 
         } else {
-            texture_list.insert(std::make_pair(filename, TrackableTexture(texture)));
+            texture_list.insert(
+                std::make_pair(filename, TrackableTexture(texture)));
         }
     }
 
@@ -54,7 +57,8 @@ Renderable::Renderable(const std::string &filename) : z_order(0), texture(nullpt
 // ------------------------------------------------------------
 // Constructor
 // ------------------------------------------------------------
-Renderable::Renderable(const GameLib::Renderable &other) : z_order(0), texture(nullptr), texture_filename(other.texture_filename) {
+Renderable::Renderable(const GameLib::Renderable &other)
+    : z_order(0), texture(nullptr), texture_filename(other.texture_filename) {
     paletted_texture = nullptr;
 }
 
@@ -71,7 +75,8 @@ Renderable::~Renderable() {
         // decrement reference counter
         (*it).second.ref_counter -= 1;
 
-        // if reference counter had become zero, delete the texture and remove from list
+        // if reference counter had become zero, delete the texture and remove
+        // from list
         if ((*it).second.ref_counter == 0) {
 
             // free memory
@@ -97,7 +102,9 @@ void Renderable::Render(GameLib::Window &window) {
 
 #ifdef RENDER_DEBUG
         // outline
-        Primitives::Rectangle(window, this->GetPosition().x, this->GetPosition().y, this->GetWidth(), this->GetHeight());
+        Primitives::Rectangle(window, this->GetPosition().x,
+                              this->GetPosition().y, this->GetWidth(),
+                              this->GetHeight());
 #endif
     }
 }
@@ -127,7 +134,7 @@ unsigned int Renderable::count_renderables() {
 // ------------------------------------------------------------
 // SwapColors
 // ------------------------------------------------------------
-void Renderable::SwapColors(std::vector<std::pair<sf::Color, sf::Color>> palette) {
+void Renderable::SwapColors(std::vector<std::pair<Color, Color>> palette) {
 
     if (paletted_texture) {
         delete paletted_texture;

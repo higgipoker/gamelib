@@ -46,7 +46,8 @@ class Window {
      * @param h
      * @param fullscreen
      */
-    explicit Window(const std::string &title, unsigned int x, unsigned int y, unsigned int w, unsigned int h, bool fullscreen = false);
+    explicit Window(const std::string &title, unsigned int x, unsigned int y,
+                    unsigned int w, unsigned int h, bool fullscreen = false);
 
     /**
   * @brief destructor
@@ -131,9 +132,7 @@ class Window {
      * @brief VSync
      * @param on
      */
-    void VSync(bool on) {
-        window.setVerticalSyncEnabled(on);
-    }
+    void VSync(bool on) { window.setVerticalSyncEnabled(on); }
 
     // lock framerate
     static const int FPS = 60;

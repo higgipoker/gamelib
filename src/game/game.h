@@ -173,6 +173,9 @@ class Game {
     /// a timer
     Timer gamestep_timer;
 
+    /// current frame tracker
+    int game_frame = 0;
+
     /// fps stuff
     float fps = 0;
     float frames_this_second = 0;
