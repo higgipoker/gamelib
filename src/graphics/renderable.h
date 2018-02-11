@@ -104,7 +104,7 @@ class Renderable {
     void SwapColors(std::vector<std::pair<Color, Color>> palette);
 
     /// depth
-    int z_order;
+    float z_order;
 
     /// the floor z for shdows
     static int shadow_z;

@@ -24,6 +24,7 @@
  * @brief description
  */
 #include "game.h"
+#include "../utils/log.h"
 
 #include <assert.h>
 #include <iostream>
@@ -55,8 +56,8 @@ struct {
 // ------------------------------------------------------------
 // constructor
 // ------------------------------------------------------------
-Game::Game(const std::string &gamename, unsigned int x, unsigned int y,
-           unsigned int w, unsigned int h, bool fullscreen)
+Game::Game(const std::string &gamename, unsigned int x, unsigned int y, unsigned int w,
+           unsigned int h, bool fullscreen)
     : window(gamename, x, y, w, h, fullscreen), console(this) {
 
     AddEntity(console);
@@ -70,43 +71,57 @@ Game::Game(const std::string &gamename, unsigned int x, unsigned int y,
 }
 
 // ------------------------------------------------------------
+// Run
+// ------------------------------------------------------------
+void Game::Run() {
+    on_start();
+    while (running) {
+        handle_input(event);
+        simulate();
+        render();
+        CalcFPS();
+    }
+}
+
+// ------------------------------------------------------------
 // HandleInput
 // ------------------------------------------------------------
-void Game::HandleInput(WindowEvent &event) {
+void Game::handle_input(WindowEvent &event) {
 
     window.PollEvent(event);
 
     switch (event.type) {
 
-    case WINDOW_EVENT_CLOSE:
-        running = false;
-        break;
+        case WINDOW_EVENT_CLOSE:
+            running = false;
+            break;
 
-    case WINDOW_EVENT_MOUSE_CLICKED:
-        on_mouse_click(mouse.GetPosition().x - window.GetPosition().x,
-                       mouse.GetPosition().y - window.GetPosition().y);
-        break;
+        case WINDOW_EVENT_MOUSE_CLICKED:
+            on_mouse_click(mouse.GetPosition().x - window.GetPosition().x,
+                           mouse.GetPosition().y - window.GetPosition().y);
+            break;
 
-    case WINDOW_EVENT_KEY_DOWN:
-        console.OnKey(static_cast<keycode>(event.param));
-        break;
+        case WINDOW_EVENT_KEY_DOWN:
+            console.OnKey(static_cast<keycode>(event.param));
+            break;
 
-    case WINDOW_EVENT_MOUSE_WHEEL_MOVED:
-        break;
+        case WINDOW_EVENT_MOUSE_WHEEL_MOVED:
+            break;
 
-    case WINDOW_EVENT_MOUSE_MOVED:
-        break;
+        case WINDOW_EVENT_MOUSE_MOVED:
+            break;
 
-    case WINDOW_EVENT_NONE:
-        break;
+        case WINDOW_EVENT_NONE:
+            break;
     }
+    event.Reset();
 }
 
 // ------------------------------------------------------------
 // with thanks to Glenn Fielder
 // (https://gafferongames.com/post/fix_your_timestep/)
 // ------------------------------------------------------------
-void Game::Simulate() {
+void Game::simulate() {
     do {
         step(dt);
     } while (false);
@@ -115,7 +130,7 @@ void Game::Simulate() {
 // ------------------------------------------------------------
 // Render
 // ------------------------------------------------------------
-void Game::Render() {
+void Game::render() {
 
     // clear
     window.Clear();
@@ -237,18 +252,15 @@ void Game::Call(std::vector<std::string> params) {
 
             auto name_set = GameEntity::entity_names;
 
-            std::vector<std::string> new_params(params.begin() + 2,
-                                                params.end());
+            std::vector<std::string> new_params(params.begin() + 2, params.end());
 
-            for (auto it = game_entities.begin(); it != game_entities.end();
-                 ++it) {
+            for (auto it = game_entities.begin(); it != game_entities.end(); ++it) {
                 if ((*it)->GetName() == entity_name) {
                     (*it)->Call(new_params);
                     return;
                 }
             }
-            for (auto it = hud_entities.begin(); it != hud_entities.end();
-                 ++it) {
+            for (auto it = hud_entities.begin(); it != hud_entities.end(); ++it) {
                 if ((*it)->GetName() == entity_name) {
                     (*it)->Call(new_params);
                     return;
@@ -296,4 +308,16 @@ void Game::prepare_hud() {
     std::sort(hud_entities.begin(), hud_entities.end(), sort_renderable);
     window.SetView(camera.GetHudView());
 }
+
+// ------------------------------------------------------------
+// WorkingDirectory
+// ------------------------------------------------------------
+std::string Game::WorkingDirectory() {
+    char path[128];
+    getcwd(path, sizeof(path));
+    Log("ss", "Working Directory: ", std::string(path).c_str());
+
+    return path;
+}
+
 } // GameLib

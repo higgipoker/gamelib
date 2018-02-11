@@ -41,6 +41,7 @@ src/graphics/gfx_tools.cpp
 src/camera/camera.cpp
 src/input/input.cpp
 src/input/keyboard.cpp
+src/input/mouse.cpp
 src/statemachine/state_machine.cpp
 src/statemachine/state.cpp
 src/math/constants.h
@@ -93,6 +94,8 @@ DESTINATION /usr/local/include/gamelib/camera)
 install(FILES
 src/input/input.h
 src/input/keyboard.h
+src/input/keycodes.h
+src/input/mouse.h
 DESTINATION /usr/local/include/gamelib/input)
 
 #install state machine header files

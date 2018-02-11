@@ -52,36 +52,18 @@ class Game {
     * @param h window height
     * @param fullscreen full screen or not
     */
-    Game(const std::string &gamename, unsigned int x, unsigned int y, unsigned int w, unsigned int h, bool fullscreen);
+    Game(const std::string &gamename, unsigned int x, unsigned int y, unsigned int w,
+         unsigned int h, bool fullscreen);
 
     /**
       * @brief destruct
       */
-    virtual ~Game() {
-    }
+    virtual ~Game() {}
 
     /**
-     * @brief OnStart
+     * @brief Run
      */
-    virtual void OnStart() {
-        gamestep_timer.Start();
-    }
-
-    /**
-    * @brief HandleInput
-    */
-    virtual void HandleInput(WindowEvent &event);
-
-    /**
-    * @brief Simulate
-    * @param dt
-    */
-    void Simulate();
-
-    /**
-     * @brief Render
-     */
-    void Render();
+    void Run();
 
     /**
     * @brief add a game entity
@@ -117,6 +99,12 @@ class Game {
      */
     void CalcFPS();
 
+    /**
+     * @brief workingDirectory
+     * @return
+     */
+    std::string WorkingDirectory();
+
     /// game main window
     Window window;
 
@@ -125,9 +113,6 @@ class Game {
 
     /// mouse interface
     Mouse mouse;
-
-    /// program workig directory
-    std::string working_directory;
 
     /// main loop control
     bool running = true;
@@ -138,6 +123,27 @@ class Game {
 
     /// hud entities
     std::vector<GameEntity *> hud_entities;
+
+    /**
+     * @brief OnStart
+     */
+    virtual void on_start() { gamestep_timer.Start(); }
+
+    /**
+    * @brief HandleInput
+    */
+    virtual void handle_input(WindowEvent &event);
+
+    /**
+    * @brief Simulate
+    * @param dt
+    */
+    void simulate();
+
+    /**
+     * @brief Render
+     */
+    void render();
 
     /**
      * @brief prepare_scene
@@ -172,6 +178,9 @@ class Game {
 
     /// a timer
     Timer gamestep_timer;
+
+    /// event for main loop
+    GameLib::WindowEvent event;
 
     /// current frame tracker
     int game_frame = 0;

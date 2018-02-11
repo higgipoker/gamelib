@@ -19,7 +19,14 @@ struct WindowEvent {
     /**
      * @brief constructor
      */
-    WindowEvent(void) : type(WINDOW_EVENT_NONE) {
+    WindowEvent(void) : type(WINDOW_EVENT_NONE) {}
+
+    /**
+     * @brief Reset
+     */
+    void Reset() {
+        type = WINDOW_EVENT_NONE;
+        param = 0;
     }
     /// type
     event type;
