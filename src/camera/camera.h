@@ -1,20 +1,21 @@
 /****************************************************************************
- * Copyright (C) 2018 by Paul Higgins
+ * Copyright (c) 2018 P. Higgins
  *
- * This file is part of GameLib.
+ * This software is provided 'as-is', without any express or implied
+ * warranty. In no event will the authors be held liable for any damages
+ * arising from the use of this software.
  *
- *   Box is free software: you can redistribute it and/or modify it
- *   under the terms of the GNU Lesser General Public License as published
- *   by the Free Software Foundation, either version 3 of the License, or
- *   (at your option) any later version.
+ * Permission is granted to anyone to use this software for any purpose,
+ * including commercial applications, and to alter it and redistribute it
+ * freely, subject to the following restrictions:
  *
- *   Box is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *   GNU Lesser General Public License for more details.
- *
- *   You should have received a copy of the GNU Lesser General Public
- *   License along with GameLib. If not, see <http://www.gnu.org/licenses/>
+ * 1. The origin of this software must not be misrepresented; you must not
+ *    claim that you wrote the original software. If you use this software
+ *    in a product, an acknowledgment in the product documentation would be
+ *    appreciated but is not required.
+ * 2. Altered source versions must be plainly marked as such, and must not be
+ *    misrepresented as being the original software.
+ * 3. This notice may not be removed or altered from any source distribution.
  ****************************************************************************/
 /**
  * @file camera.h
@@ -24,44 +25,40 @@
  */
 #pragma once
 
+// tmp
+#include "../sfml/graphics/sfml_renderable.h"
+
 #include "../game/game_entity.h"
 #include "../math/shapes.h"
-#include <SFML/Graphics.hpp>
 
 namespace GameLib {
 
+/**
+ * @brief The Camera class
+ */
 class Camera : public GameEntity {
   public:
     /**
     * @brief Camera
     */
-    Camera() : GameEntity(new Physical(), new Renderable()) {
-        following = nullptr;
-        name = "camera";
-        zoom_steps = 0;
-        zooming = 0;
-    }
+    explicit Camera();
 
     /**
+      *@brief destruct
      */
-    ~Camera() {
-        delete physical;
-        delete renderable;
-    }
+    ~Camera();
 
     /**
      * @brief the main update function for an entity
      * @param dt time delta
      */
-    virtual void Update(float dt) override;
+    void Update(float dt) override;
 
     /**
      * @brief set up the game world rect
      * @param world_rect rectangle
      */
-    inline void SetWorldRect(const Rectangle &world_rect) {
-        world = world_rect;
-    }
+    void SetWorldRect(const Rectangle &world_rect);
 
     /**
      * @brief follow a game entity
@@ -72,34 +69,24 @@ class Camera : public GameEntity {
     /**
      * @brief get the current viewport
      */
-    inline Rectangle GetViewport() {
-        return Rectangle(view.getCenter().x - view.getSize().x / 2, view.getCenter().y - view.getSize().y / 2, view.getSize().x, view.getSize().y);
-    }
-
-    /**
-     * @brief zoom the camera
-     */
-    void ZoomOut() {
-        zooming = 1;
-    }
-
-    /**
-     * @brief zoom the camera
-     */
-    void ZoomIn() {
-        zooming = -1;
-    }
-
-    float abs_zoom = 0;
+    Rectangle &GetViewport();
 
     // tmp
-    sf::View &GetView() {
-        return view;
-    }
+    /**
+     * @brief GetSceneView
+     * @return
+     */
+    sf::View &GetSceneView();
+
+    /**
+    * @brief GetHudView
+    * @return
+    */
+    sf::View &GetHudView();
 
   protected:
-    // TODO
-    sf::View view;
+    /// current viewport
+    Rectangle viewport;
 
     /// whole game world
     Rectangle world;
@@ -110,19 +97,14 @@ class Camera : public GameEntity {
     /// track which entity we are following
     GameEntity *following;
 
-    /// track zooming
-    int zoom_steps;
-    int zooming;
-
     /**
      * @brief helper to update position
      */
     void update_position();
 
-    /**
-     * @brief zoom
-     */
-    void zoom();
+    // TODO
+    sf::View scene_view;
+    sf::View hud_view;
 };
 
 } // GameLib

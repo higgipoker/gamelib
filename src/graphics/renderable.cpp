@@ -14,7 +14,7 @@ static std::map<std::string, TrackableTexture> texture_list;
 // ------------------------------------------------------------
 // constructor
 // ------------------------------------------------------------
-Renderable::Renderable() : z_order (0), texture_filename ("[non-textured-renderable]") {
+Renderable::Renderable() : z_order(0), texture_filename("[non-textured-renderable]") {
     texture = nullptr;
     paletted_texture = nullptr;
 }
@@ -22,11 +22,11 @@ Renderable::Renderable() : z_order (0), texture_filename ("[non-textured-rendera
 // ------------------------------------------------------------
 // Constructor
 // ------------------------------------------------------------
-Renderable::Renderable (const std::string &filename) : z_order (0), texture (nullptr), texture_filename (filename) {
+Renderable::Renderable(const std::string &filename) : z_order(0), texture(nullptr), texture_filename(filename) {
 
     paletted_texture = nullptr;
 
-    auto it = texture_list.find (filename);
+    auto it = texture_list.find(filename);
 
     if (it != texture_list.end()) {
         texture = (*it).second.tex;
@@ -36,16 +36,16 @@ Renderable::Renderable (const std::string &filename) : z_order (0), texture (nul
 
         texture = new sf::Texture();
 
-        if (!texture->loadFromFile (filename)) {
+        if (!texture->loadFromFile(filename)) {
             std::cout << "Could not load image file: " << filename << std::endl;
 
         } else {
-            texture_list.insert (std::make_pair (filename, TrackableTexture (texture)));
+            texture_list.insert(std::make_pair(filename, TrackableTexture(texture)));
         }
     }
 
     // set renderable texture for future use
-    sprite.setTexture (*texture);
+    sprite.setTexture(*texture);
 
     geometry.w = texture->getSize().x;
     geometry.h = texture->getSize().y;
@@ -54,7 +54,7 @@ Renderable::Renderable (const std::string &filename) : z_order (0), texture (nul
 // ------------------------------------------------------------
 // Constructor
 // ------------------------------------------------------------
-Renderable::Renderable (const GameLib::Renderable &other) : z_order (0), texture (nullptr), texture_filename (other.texture_filename) {
+Renderable::Renderable(const GameLib::Renderable &other) : z_order(0), texture(nullptr), texture_filename(other.texture_filename) {
     paletted_texture = nullptr;
 }
 
@@ -64,7 +64,7 @@ Renderable::Renderable (const GameLib::Renderable &other) : z_order (0), texture
 Renderable::~Renderable() {
 
     // search for this texture in the list
-    auto it = texture_list.find (texture_filename);
+    auto it = texture_list.find(texture_filename);
 
     if (it != texture_list.end()) {
 
@@ -72,13 +72,13 @@ Renderable::~Renderable() {
         (*it).second.ref_counter -= 1;
 
         // if reference counter had become zero, delete the texture and remove from list
-        if ( (*it).second.ref_counter == 0) {
+        if ((*it).second.ref_counter == 0) {
 
             // free memory
             delete (*it).second.tex;
 
             // remove pointer from list
-            texture_list.erase (it);
+            texture_list.erase(it);
         }
     }
 
@@ -90,16 +90,25 @@ Renderable::~Renderable() {
 // ------------------------------------------------------------
 // Render
 // ------------------------------------------------------------
-void Renderable::Render (GameLib::Window &window) {
+void Renderable::Render(GameLib::Window &window) {
 
     if (visible) {
-        window.Draw (*this);
+        window.Draw(*this);
 
 #ifdef RENDER_DEBUG
         // outline
-        Primitives::Rectangle (window, this->GetPosition().x, this->GetPosition().y, this->GetWidth(), this->GetHeight());
+        Primitives::Rectangle(window, this->GetPosition().x, this->GetPosition().y, this->GetWidth(), this->GetHeight());
 #endif
     }
+}
+
+// ------------------------------------------------------------
+// SetPosition
+// ------------------------------------------------------------
+void Renderable::SetPosition(float x, float y) {
+    geometry.x = x;
+    geometry.y = y;
+    sprite.setPosition(sf::Vector2f(x, y));
 }
 
 // ------------------------------------------------------------
@@ -118,7 +127,7 @@ unsigned int Renderable::count_renderables() {
 // ------------------------------------------------------------
 // SwapColors
 // ------------------------------------------------------------
-void Renderable::SwapColors (std::vector<std::pair<sf::Color, sf::Color>> palette) {
+void Renderable::SwapColors(std::vector<std::pair<sf::Color, sf::Color>> palette) {
 
     if (paletted_texture) {
         delete paletted_texture;
@@ -128,10 +137,10 @@ void Renderable::SwapColors (std::vector<std::pair<sf::Color, sf::Color>> palett
     sf::Image img = texture->copyToImage();
 
     for (auto it = palette.begin(); it != palette.end(); ++it) {
-        replace_color (img, *it);
+        replace_color(img, *it);
     }
 
-    paletted_texture->loadFromImage (img);
-    sprite.setTexture (*paletted_texture);
+    paletted_texture->loadFromImage(img);
+    sprite.setTexture(*paletted_texture);
 }
 } // GameLib

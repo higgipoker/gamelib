@@ -9,3 +9,9 @@ math
 physics
 statemachine
 utils
+sfml/camera
+../
+sfml/utils
+sfml/input
+sfml
+sfml/graphics

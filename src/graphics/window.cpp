@@ -26,9 +26,9 @@ bool valid_videomode(unsigned int width, unsigned int height) {
 }
 
 // ------------------------------------------------------------
-// constructor
+// Window
 // ------------------------------------------------------------
-GameLib::Window::Window(const std::string &title, unsigned int x, unsigned int y, unsigned int w, unsigned int h, bool fullscreen) {
+Window::Window(const std::string &title, unsigned int x, unsigned int y, unsigned int w, unsigned int h, bool fullscreen) {
     // default style
     unsigned int window_style = sf::Style::Default;
 
@@ -51,7 +51,7 @@ GameLib::Window::Window(const std::string &title, unsigned int x, unsigned int y
     // move to requested position
     window.setPosition(sf::Vector2i(static_cast<int>(x), static_cast<int>(y)));
 
-    // testing force framerate
+    // testing force framerate (not needed when using "fixed timestep")
     window.setFramerateLimit(FPS);
 }
 
@@ -60,43 +60,6 @@ GameLib::Window::Window(const std::string &title, unsigned int x, unsigned int y
 // ------------------------------------------------------------
 Window::~Window(void) {
     window.close();
-}
-
-// ------------------------------------------------------------
-// PollEvent
-// ------------------------------------------------------------
-WindowEvent Window::PollEvent(WindowEvent &wnd_event) {
-    // sfml event
-    sf::Event sfml_event;
-
-    // sfml polling
-    while (window.pollEvent(sfml_event)) {
-        // convert to genereic GameLib event
-        if (sfml_event.type == sf::Event::Closed) {
-            window.close();
-            wnd_event.type = WINDOW_EVENT_CLOSE;
-        }
-
-        else if (sfml_event.type == sf::Event::MouseMoved) {
-            wnd_event.type = WINDOW_EVENT_MOUSE_MOVED;
-        }
-
-        else if (sfml_event.type == sf::Event::MouseButtonPressed) {
-            wnd_event.type = WINDOW_EVENT_MOUSE_CLICKED;
-        }
-
-        else if (sfml_event.type == sf::Event::EventType::KeyPressed) {
-            wnd_event.type = WINDOW_EVENT_KEY_DOWN;
-            wnd_event.param = Keyboard::keys[sfml_event.key.code];
-        }
-
-        else if (sfml_event.type == sf::Event::MouseWheelMoved) {
-            wnd_event.type = WINDOW_EVENT_MOUSE_WHEEL_MOVED;
-            wnd_event.param = Converter::IntToString(sfml_event.mouseWheel.delta);
-        }
-    }
-
-    return wnd_event;
 }
 
 // ------------------------------------------------------------
@@ -168,6 +131,43 @@ void Window::Close() {
 // ------------------------------------------------------------
 void Window::SetView(sf::View view) {
     window.setView(view);
+}
+
+// ------------------------------------------------------------
+// PollEvent
+// ------------------------------------------------------------
+WindowEvent Window::PollEvent(WindowEvent &wnd_event) {
+    // sfml event
+    sf::Event sfml_event;
+
+    // sfml polling
+    while (window.pollEvent(sfml_event)) {
+        // convert to genereic GameLib event
+        if (sfml_event.type == sf::Event::Closed) {
+            window.close();
+            wnd_event.type = WINDOW_EVENT_CLOSE;
+        }
+
+        else if (sfml_event.type == sf::Event::MouseMoved) {
+            wnd_event.type = WINDOW_EVENT_MOUSE_MOVED;
+        }
+
+        else if (sfml_event.type == sf::Event::MouseButtonPressed) {
+            wnd_event.type = WINDOW_EVENT_MOUSE_CLICKED;
+        }
+
+        else if (sfml_event.type == sf::Event::EventType::KeyPressed) {
+            wnd_event.type = WINDOW_EVENT_KEY_DOWN;
+            wnd_event.param = Keyboard::keys[sfml_event.key.code];
+        }
+
+        else if (sfml_event.type == sf::Event::MouseWheelMoved) {
+            wnd_event.type = WINDOW_EVENT_MOUSE_WHEEL_MOVED;
+            wnd_event.param = sfml_event.mouseWheel.delta;
+        }
+    }
+
+    return wnd_event;
 }
 
 } // GameLib

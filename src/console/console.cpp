@@ -1,20 +1,21 @@
 /****************************************************************************
- * Copyright (C) 2018 by Paul Higgins
+ * Copyright (c) 2018 P. Higgins
  *
- * This file is part of GameLib.
+ * This software is provided 'as-is', without any express or implied
+ * warranty. In no event will the authors be held liable for any damages
+ * arising from the use of this software.
  *
- *   GameLib is free software: you can redistribute it and/or modify it
- *   under the terms of the GNU Lesser General Public License as published
- *   by the Free Software Foundation, either version 3 of the License, or
- *   (at your option) any later version.
+ * Permission is granted to anyone to use this software for any purpose,
+ * including commercial applications, and to alter it and redistribute it
+ * freely, subject to the following restrictions:
  *
- *   GameLib is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *   GNU Lesser General Public License for more details.
- *
- *   You should have received a copy of the GNU Lesser General Public
- *   License along with GameLib. If not, see <http://www.gnu.org/licenses/>
+ * 1. The origin of this software must not be misrepresented; you must not
+ *    claim that you wrote the original software. If you use this software
+ *    in a product, an acknowledgment in the product documentation would be
+ *    appreciated but is not required.
+ * 2. Altered source versions must be plainly marked as such, and must not be
+ *    misrepresented as being the original software.
+ * 3. This notice may not be removed or altered from any source distribution.
  ****************************************************************************/
 /**
  * @file console.cpp
@@ -48,9 +49,6 @@ Console::Console(Game *g) : GameEntity(new Physical(), this), height(200), text(
 
     name = "console";
     visible = false;
-    history_iterator = 0;
-
-    timer.Start();
 }
 
 // ------------------------------------------------------------
@@ -78,28 +76,50 @@ void Console::Render(Window &window) {
     Primitives::OutlineColor(Color(255, 255, 255, 255));
     // Primitives::DrawLine(window, Vector3(0, 10), Vector3(window.GetSize().x, 10), 3);
 
+    unsigned int line_height = 22;
+    unsigned int y = height - line_height;
+    unsigned int lines = height / line_height;
+    unsigned int count_lines = 0;
+
+    // combine lists
+    std::vector<std::string> full;
+    for (auto it = history.begin(); it != history.end(); ++it) {
+        full.push_back(*it);
+    }
+    for (auto it = echo_list.begin(); it != echo_list.end(); ++it) {
+        full.push_back(*it);
+    }
+
     //
     // draw history
     //
-    unsigned int line_height = 22;
-    unsigned int y = height;
-    y -= line_height;
-    //    for (auto it = history.rbegin(); it != history.rend(); ++it) {
-    //        text.SetText(*it);
-    //        y -= line_height;
-    //        text.SetPosition(0, y);
-    //        text.Render(window);
-    //    }
+    int cnt = 0;
+    for (auto it = full.rbegin(); it != full.rend(); ++it) {
+        if (++cnt < echo_offset)
+            continue;
+
+        text.SetText(*it);
+        y -= line_height;
+        text.SetPosition(0, y);
+        text.Render(window);
+
+        if (++count_lines > lines) {
+            break;
+        }
+    }
 
     //
     // draw echo list
     //
-    for (auto it = echo_list.rbegin(); it != echo_list.rend(); ++it) {
-        text.SetText("* " + *it);
-        y -= line_height;
-        text.SetPosition(0, y);
-        text.Render(window);
-    }
+    //
+    //    for (auto it = echo_list.rbegin(); it != echo_list.rend(); ++it) {
+    //        if (++cnt < echo_offset)
+    //            continue;
+    //        text.SetText("* " + *it);
+    //        y -= line_height;
+    //        text.SetPosition(0, y);
+    //        text.Render(window);
+    //    }
 
     //
     // draw current line
@@ -108,8 +128,8 @@ void Console::Render(Window &window) {
     text.SetPosition(0, height - line_height);
     text.Render(window);
 
-    if (timer.GetTicks() > 500) {
-        timer.Start();
+    if (++cursor_ticks > 30) {
+        cursor_ticks = 0;
         show_cursor = !show_cursor;
     }
 
@@ -131,9 +151,9 @@ void Console::Render(Window &window) {
 // ------------------------------------------------------------
 // OnKey
 // ------------------------------------------------------------
-void Console::OnKey(std::string &character) {
+void Console::OnKey(keycode key) {
 
-    if (character == "tab" || character == "escape") {
+    if (key == KEY_TAB || key == KEY_ESC) {
         visible = !visible;
         return;
     }
@@ -142,50 +162,64 @@ void Console::OnKey(std::string &character) {
         return;
     }
 
-    if (character == "return") {
+    if (key == KEY_RETURN) {
         if (current_line.length()) {
             execute();
         }
         return;
     }
 
-    if (character == "backspace") {
+    if (key == KEY_BACKSPACE) {
         if (current_line.length()) {
             current_line.pop_back();
         }
         return;
     }
 
-    if (character == "up") {
-        if (history.size()) {
-            if (history_iterator > 0) {
-                --history_iterator;
-            } else {
-                current_line = history[history_iterator];
-            }
+    if (key == KEY_UPARROW) {
+        if (idx_history > 0) {
+            current_line = history[--idx_history];
+            std::cout << idx_history << std::endl;
         }
         return;
     }
 
-    if (character == "down") {
-        if (history.size()) {
-            if (++history_iterator >= history.size()) {
-                history_iterator = static_cast<unsigned int>(history.size()) - 1;
-            }
-            current_line = history[history_iterator];
+    if (key == KEY_DOWNARROW) {
+        if (idx_history < history.size() - 1) {
+            current_line = history[++idx_history];
+            std::cout << idx_history << std::endl;
         }
         return;
     }
 
-    if (character == "dash") {
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::RShift)) {
-            character = "_";
+    if (key == KEY_PAGEUP) {
+        std::cout << "PAGEUP" << std::endl;
+        if (++echo_offset > echo_list.size()) {
+            --echo_offset;
+        }
+        return;
+    }
+
+    if (key == KEY_PAGEDOWN) {
+        std::cout << "PAGEDOWN" << std::endl;
+        if (--echo_offset <= 0) {
+            ++echo_offset;
+        }
+        return;
+    }
+
+    // is a standard character key
+    if (key <= KEY_SPACE) {
+        if (Keyboard::IsKeyPressed(KEY_LSHIFT) || Keyboard::IsKeyPressed(KEY_RSHIFT)) {
+            current_line += Keyboard::translate_shifted[key];
         } else {
-            character = "-";
+            current_line += Keyboard::translate[key];
         }
+    } else if (key == KEY_LSHIFT || key == KEY_RSHIFT) {
+        std::cout << "GameLib::Console::OnKey - Shift pressed" << std::endl;
+    } else {
+        std::cout << "GameLib::Console::OnKey - Unhandled key" << key << std::endl;
     }
-
-    current_line += character;
 }
 
 // ------------------------------------------------------------
@@ -197,19 +231,11 @@ void Console::execute() {
 
     std::cout << "execute command: " << spl[0] << std::endl;
 
+    game->Call(spl);
+
     history.push_back(current_line);
-    history_iterator = static_cast<unsigned int>(history.size());
+    idx_history = history.size();
     current_line.clear();
-
-    if (spl[0] == "echo") {
-        if (spl.size() > 1) {
-            echo_list.push_back(spl[1]);
-        }
-    }
-
-    else {
-        game->Call(spl);
-    }
 }
 
 // ------------------------------------------------------------

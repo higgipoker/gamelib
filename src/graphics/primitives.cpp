@@ -1,3 +1,28 @@
+/****************************************************************************
+ * Copyright (c) 2018 P. Higgins
+ *
+ * This software is provided 'as-is', without any express or implied
+ * warranty. In no event will the authors be held liable for any damages
+ * arising from the use of this software.
+ *
+ * Permission is granted to anyone to use this software for any purpose,
+ * including commercial applications, and to alter it and redistribute it
+ * freely, subject to the following restrictions:
+ *
+ * 1. The origin of this software must not be misrepresented; you must not
+ *    claim that you wrote the original software. If you use this software
+ *    in a product, an acknowledgment in the product documentation would be
+ *    appreciated but is not required.
+ * 2. Altered source versions must be plainly marked as such, and must not be
+ *    misrepresented as being the original software.
+ * 3. This notice may not be removed or altered from any source distribution.
+ ****************************************************************************/
+/**
+ * @file primitives.cpp
+ * @author Paul Higgins <paul.samuel.higgins@gmail.com>
+ * @date 2018
+ * @brief description
+ */
 #include "primitives.h"
 
 #include "../math/constants.h"
@@ -7,61 +32,61 @@
 
 namespace GameLib {
 
-Color Primitives::outline_color (0, 0, 0, 0);
-Color Primitives::fill_color (0, 0, 0, 0);
-Color Primitives::last_outline_color (0, 0, 0, 0);
-Color Primitives::last_fill_color (0, 0, 0, 0);
+Color Primitives::outline_color(0, 0, 0, 0);
+Color Primitives::fill_color(0, 0, 0, 0);
+Color Primitives::last_outline_color(0, 0, 0, 0);
+Color Primitives::last_fill_color(0, 0, 0, 0);
 
 // ------------------------------------------------------------
 // Circle
 // ------------------------------------------------------------
-void Primitives::Circle (Window &target, unsigned int x, unsigned int y, unsigned int radius) {
-    sf::CircleShape circle (radius);
-    circle.setFillColor (sf::Color (fill_color.r, fill_color.g, fill_color.b, fill_color.a));
-    circle.setOutlineThickness (1);
-    circle.setOutlineColor (sf::Color (outline_color.r, outline_color.g, outline_color.b, outline_color.a));
-    circle.setPosition (x - radius, y - radius);
-    target.Draw (circle);
+void Primitives::Circle(Window &target, unsigned int x, unsigned int y, unsigned int radius) {
+    sf::CircleShape circle(radius);
+    circle.setFillColor(sf::Color(fill_color.r, fill_color.g, fill_color.b, fill_color.a));
+    circle.setOutlineThickness(1);
+    circle.setOutlineColor(sf::Color(outline_color.r, outline_color.g, outline_color.b, outline_color.a));
+    circle.setPosition(x - radius, y - radius);
+    target.Draw(circle);
 }
 
 // ------------------------------------------------------------
 // Triangle
 // ------------------------------------------------------------
-void Primitives::Triangle (Window &target, unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2, unsigned int x3, unsigned int y3) {
+void Primitives::Triangle(Window &target, unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2, unsigned int x3, unsigned int y3) {
 
     // create an array of 3 vertices that define a triangle primitive
-    sf::VertexArray triangle (sf::Triangles, 3);
+    sf::VertexArray triangle(sf::Triangles, 3);
 
     // define the position of the triangle's points
-    triangle[0].position = sf::Vector2f (x1, y1);
-    triangle[1].position = sf::Vector2f (x2, y2);
-    triangle[2].position = sf::Vector2f (x3, y3);
+    triangle[0].position = sf::Vector2f(x1, y1);
+    triangle[1].position = sf::Vector2f(x2, y2);
+    triangle[2].position = sf::Vector2f(x3, y3);
 
     // define the color of the triangle's points
-    triangle[0].color = sf::Color (fill_color.r, fill_color.g, fill_color.b, fill_color.a);
+    triangle[0].color = sf::Color(fill_color.r, fill_color.g, fill_color.b, fill_color.a);
     triangle[1].color = triangle[0].color;
     triangle[2].color = triangle[0].color;
 
-    target.Draw (triangle);
+    target.Draw(triangle);
 }
 
 // ------------------------------------------------------------
 // Rectangle
 // ------------------------------------------------------------
-void Primitives::Rectangle (Window &target, unsigned int x, unsigned int y, unsigned int w, unsigned int h) {
+void Primitives::Rectangle(Window &target, unsigned int x, unsigned int y, unsigned int w, unsigned int h) {
     sf::RectangleShape rectangle;
-    rectangle.setSize (sf::Vector2f (w, h));
-    rectangle.setPosition (sf::Vector2f (x, y));
-    rectangle.setFillColor (sf::Color (fill_color.r, fill_color.g, fill_color.b, fill_color.a));
-    rectangle.setOutlineThickness (1);
-    rectangle.setOutlineColor (sf::Color (outline_color.r, outline_color.g, outline_color.b, outline_color.a));
-    target.Draw (rectangle);
+    rectangle.setSize(sf::Vector2f(w, h));
+    rectangle.setPosition(sf::Vector2f(x, y));
+    rectangle.setFillColor(sf::Color(fill_color.r, fill_color.g, fill_color.b, fill_color.a));
+    rectangle.setOutlineThickness(1);
+    rectangle.setOutlineColor(sf::Color(outline_color.r, outline_color.g, outline_color.b, outline_color.a));
+    target.Draw(rectangle);
 }
 
 // ------------------------------------------------------------
 // Lines
 // ------------------------------------------------------------
-void Primitives::Lines (Window &target, const std::vector<Line> &lines, unsigned int thickness) {
+void Primitives::Lines(Window &target, const std::vector<Line> &lines, unsigned int thickness) {
 
     // construct the vertex list
     std::vector<sf::Vertex> vertices;
@@ -70,22 +95,25 @@ void Primitives::Lines (Window &target, const std::vector<Line> &lines, unsigned
 
         // add the vertices
         for (auto it = lines.begin(); it != lines.end(); ++it) {
-            vertices.push_back (
-                sf::Vertex (sf::Vector2f ( (*it).x1 + i * 0.2f, (*it).y1 + i * 0.2f), sf::Color (outline_color.r, outline_color.g, outline_color.b, outline_color.a)));
-            vertices.push_back (
-                sf::Vertex (sf::Vector2f ( (*it).x2 + i * 0.2f, (*it).y2 + i * 0.2f), sf::Color (outline_color.r, outline_color.g, outline_color.b, outline_color.a)));
+            vertices.push_back(sf::Vertex(sf::Vector2f((*it).x1 + i * 0.2f, (*it).y1 + i * 0.2f),
+                                          sf::Color(outline_color.r, outline_color.g, outline_color.b, outline_color.a)));
+            vertices.push_back(sf::Vertex(sf::Vector2f((*it).x2 + i * 0.2f, (*it).y2 + i * 0.2f),
+                                          sf::Color(outline_color.r, outline_color.g, outline_color.b, outline_color.a)));
         }
     }
 
     // draw vertex list
-    target.window.draw (&vertices[0], vertices.size(), sf::Lines);
+    target.window.draw(&vertices[0], vertices.size(), sf::Lines);
 }
 
-void Primitives::DrawLine (Window &target, const Vector3 &point1, const Vector3 &point2, unsigned int thickness) {
+// ------------------------------------------------------------
+// Drawline
+// ------------------------------------------------------------
+void Primitives::DrawLine(Window &target, const Vector3 &point1, const Vector3 &point2, unsigned int thickness) {
     sf::Vertex vertices[4];
     Vector3 direction = point2 - point1;
-    Vector3 unit_direction = direction / std::sqrt (direction.x * direction.x + direction.y * direction.y);
-    Vector3 unit_perpendicular (-unit_direction.y, unit_direction.x);
+    Vector3 unit_direction = direction / std::sqrt(direction.x * direction.x + direction.y * direction.y);
+    Vector3 unit_perpendicular(-unit_direction.y, unit_direction.x);
 
     Vector3 offset = unit_perpendicular * (thickness / 2.f);
 
@@ -107,16 +135,16 @@ void Primitives::DrawLine (Window &target, const Vector3 &point1, const Vector3 
     vertices[3].position.y = tmp4.y;
 
     for (int i = 0; i < 4; ++i) {
-        vertices[i].color = sf::Color (outline_color.r, outline_color.g, outline_color.b, outline_color.a);
+        vertices[i].color = sf::Color(outline_color.r, outline_color.g, outline_color.b, outline_color.a);
     }
 
-    target.window.draw (vertices, 4, sf::Quads);
+    target.window.draw(vertices, 4, sf::Quads);
 }
 
 // ------------------------------------------------------------
 // Arc
 // ------------------------------------------------------------
-void Primitives::Arc (Window &target, float x, float y, float radius, float start, float end, unsigned int segments, unsigned int thickness) {
+void Primitives::Arc(Window &target, float x, float y, float radius, float start, float end, unsigned int segments, unsigned int thickness) {
 
     // construct the vertex list
     std::vector<sf::Vertex> vertices;
@@ -133,14 +161,14 @@ void Primitives::Arc (Window &target, float x, float y, float radius, float star
         int segments_drawn = 0;
 
         while (current <= act_end) {
-            float ax = x + radius * cosf (RADIANS (current));
-            float ay = y + radius * sinf (RADIANS (current));
-            current += ( (act_end - act_start) / segments);
+            float ax = x + radius * cosf(RADIANS(current));
+            float ay = y + radius * sinf(RADIANS(current));
+            current += ((act_end - act_start) / segments);
 
-            vertices.push_back (sf::Vertex (sf::Vector2f (ax, ay), sf::Color (outline_color.r, outline_color.g, outline_color.b, outline_color.a)));
+            vertices.push_back(sf::Vertex(sf::Vector2f(ax, ay), sf::Color(outline_color.r, outline_color.g, outline_color.b, outline_color.a)));
 
             if (segments_drawn) {
-                DrawLine (target, Vector3 (lastx, lasty), Vector3 (ax, ay), thickness);
+                DrawLine(target, Vector3(lastx, lasty), Vector3(ax, ay), thickness);
                 // target.Present();
             }
 
@@ -156,19 +184,25 @@ void Primitives::Arc (Window &target, float x, float y, float radius, float star
     }
 
     // draw vertex list
-    // target.window.draw(&vertices[0], vertices.size(), sf::LinesStrip);
+    target.window.draw(&vertices[0], vertices.size(), sf::LinesStrip);
 }
-
-void Primitives::OutlineColor (const Color &c) {
+// ------------------------------------------------------------
+// OutlineColor
+// ------------------------------------------------------------
+void Primitives::OutlineColor(const Color &c) {
     last_outline_color = outline_color;
     outline_color = c;
 }
-
-void Primitives::FillColor (const Color &c) {
+// ------------------------------------------------------------
+// FillColor
+// ------------------------------------------------------------
+void Primitives::FillColor(const Color &c) {
     last_fill_color = fill_color;
     fill_color = c;
 }
-
+// ------------------------------------------------------------
+// Restorecolors
+// ------------------------------------------------------------
 void Primitives::RestoreColors() {
     outline_color = last_outline_color;
     fill_color = last_fill_color;

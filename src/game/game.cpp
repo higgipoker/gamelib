@@ -1,33 +1,34 @@
 /****************************************************************************
- * Copyright (C) 2018 by Paul Higgins
+ * Copyright (c) 2018 P. Higgins
  *
- * This file is part of GameLib.
+ * This software is provided 'as-is', without any express or implied
+ * warranty. In no event will the authors be held liable for any damages
+ * arising from the use of this software.
  *
- *   Box is free software: you can redistribute it and/or modify it
- *   under the terms of the GNU Lesser General Public License as published
- *   by the Free Software Foundation, either version 3 of the License, or
- *   (at your option) any later version.
+ * Permission is granted to anyone to use this software for any purpose,
+ * including commercial applications, and to alter it and redistribute it
+ * freely, subject to the following restrictions:
  *
- *   Box is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU Lesser General Public License for more details.
- *
- *   You should have received a copy of the GNU Lesser General Public
- *   License along with GameLib. If not, see <http://www.gnu.org/licenses/>
+ * 1. The origin of this software must not be misrepresented; you must not
+ *    claim that you wrote the original software. If you use this software
+ *    in a product, an acknowledgment in the product documentation would be
+ *    appreciated but is not required.
+ * 2. Altered source versions must be plainly marked as such, and must not be
+ *    misrepresented as being the original software.
+ * 3. This notice may not be removed or altered from any source distribution.
  ****************************************************************************/
 /**
  * @file game.cpp
- * @author Paul Higgins
+ * @author Paul Higgins <paul.samuel.higgins@gmail.com>
  * @date 2018
- * @brief game implementation file
+ * @brief description
  */
-
 #include "game.h"
 
 #include <assert.h>
 #include <iostream>
 #include <typeinfo>
+#include <unistd.h>
 
 #include <SFML/System.hpp>
 
@@ -35,10 +36,9 @@
 
 namespace GameLib {
 
-static sf::Clock gameclock;
-static sf::Time currentTime;
-static float dt = 0.001f;
+static float dt = 0.01f;
 static float accumulator = 0.0f;
+static float target_frame_time = 0.0f;
 
 // ------------------------------------------------------------
 // sort predicate for renderable objects (for height)
@@ -57,9 +57,15 @@ struct {
 // ------------------------------------------------------------
 Game::Game(const std::string &gamename, unsigned int x, unsigned int y, unsigned int w, unsigned int h, bool fullscreen)
     : window(gamename, x, y, w, h, fullscreen), console(this) {
-    AddEntity(camera);
+
     AddEntity(console);
+    AddEntity(camera);
     fps = 0;
+
+    // inits static keyboard stuff
+    Keyboard::Init();
+
+    target_frame_time = 1.0f / static_cast<float>(Window::FPS);
 }
 
 // ------------------------------------------------------------
@@ -76,19 +82,14 @@ void Game::HandleInput(WindowEvent &event) {
             break;
 
         case WINDOW_EVENT_MOUSE_CLICKED:
-            on_mouse_click(sf::Mouse::getPosition().x - window.GetPosition().x, sf::Mouse::getPosition().y - window.GetPosition().y);
+            on_mouse_click(mouse.GetPosition().x - window.GetPosition().x, mouse.GetPosition().y - window.GetPosition().y);
             break;
 
         case WINDOW_EVENT_KEY_DOWN:
-            console.OnKey(event.param);
+            console.OnKey(static_cast<keycode>(event.param));
             break;
 
         case WINDOW_EVENT_MOUSE_WHEEL_MOVED:
-            if (std::stof(event.param) > 0) {
-                camera.ZoomIn();
-            } else {
-                camera.ZoomOut();
-            }
             break;
 
         case WINDOW_EVENT_MOUSE_MOVED:
@@ -103,24 +104,9 @@ void Game::HandleInput(WindowEvent &event) {
 // with thanks to Glenn Fielder (https://gafferongames.com/post/fix_your_timestep/)
 // ------------------------------------------------------------
 void Game::Simulate() {
-    sf::Time newTime = gameclock.getElapsedTime();
-    float frameTime = newTime.asSeconds() - currentTime.asSeconds();
-
-    if (frameTime > Window::FPS) {
-        frameTime = Window::FPS;
-    }
-
-    currentTime = newTime;
-    accumulator += frameTime;
-
-    int times = 0;
-    while (accumulator >= dt) {
+    do {
         step(dt);
-        accumulator -= dt;
-        ++times;
-    }
-
-    // std::cout << times << " sim steps per frame" << std::endl;
+    } while (false);
 }
 
 // ------------------------------------------------------------
@@ -136,7 +122,7 @@ void Game::Render() {
     std::sort(hud_entities.begin(), hud_entities.end(), sort_renderable);
 
     // set camera view
-    window.SetView(camera.GetView());
+    prepare_scene();
 
     // render all game graphics
     for (auto it = game_entities.begin(); it != game_entities.end(); ++it) {
@@ -148,19 +134,32 @@ void Game::Render() {
 
     // flip buffers
     window.Present();
+
+    // limit framerate
+    float newnewtime = gamestep_timer.GetLiveTime(); // milliseconds
+    float gametime = gamestep_timer.GetFrameTime();
+    float render_time = newnewtime - gametime; // current time in ms minus time since frame started
+    float target = (target_frame_time * 1000);
+    int waits = 0;
+    while (render_time < target) {
+        newnewtime = gamestep_timer.GetLiveTime();
+        render_time = newnewtime - gamestep_timer.GetFrameTime();
+        ++waits;
+    }
+    // std::cout << render_time << std::endl;
+    // std::cout << waits << std::endl;
+    // std::cout << render_time << " : " << target << std::endl;
+
+    // safe to assume render is done once per frame!
+    gamestep_timer.Update();
 }
 
 // ------------------------------------------------------------
 // render_hud
 // ------------------------------------------------------------
 void Game::render_hud() {
-    // hud view dimensions should match main camera view
-    hud_view.setSize(camera.GetView().getSize());
-    hud_view.setCenter(sf::Vector2f(hud_view.getSize().x / 2, hud_view.getSize().y / 2));
 
-    // activate hud view for rendering
-    window.SetView(hud_view);
-
+    prepare_hud();
     // render hud graphics
     for (auto it = hud_entities.begin(); it != hud_entities.end(); ++it) {
         (*it)->renderable->Render(window);
@@ -272,4 +271,30 @@ void Game::Call(std::string func, std::string n, ...) {
     std::cout << "Game::Call: " << func << ", " << n << std::endl;
 }
 
+// ------------------------------------------------------------
+// calc_fps
+// ------------------------------------------------------------
+void Game::CalcFPS() {
+    ++frames_this_second;
+    float elapsed_time = gamestep_timer.GetFrameTime() - fps_timer;
+
+    if (elapsed_time >= 1000) {
+        fps_timer = gamestep_timer.GetFrameTime();
+        fps = frames_this_second + 1;
+        frames_this_second = 0;
+    }
+}
+// ------------------------------------------------------------
+// prepare_scene
+// ------------------------------------------------------------
+void Game::prepare_scene() {
+    window.SetView(camera.GetSceneView());
+}
+
+// ------------------------------------------------------------
+// prepare_hud
+// ------------------------------------------------------------
+void Game::prepare_hud() {
+    window.SetView(camera.GetHudView());
+}
 } // GameLib

@@ -7,18 +7,18 @@
 namespace GameLib {
 
 class Tileset : public Sprite {
-public:
+  public:
     /**
      * @brief constructor
      */
-    explicit Tileset (const std::string &filename, Camera &c);
+    explicit Tileset(const std::string &filename, Camera &c);
 
     /**
      * @brief render to window
      */
-    virtual void Render (GameLib::Window &window) override;
+    virtual void Render(GameLib::Window &window) override;
 
-protected:
+  protected:
     /// tile world dimensions
     unsigned int floor_width, floor_height;
 

@@ -19,13 +19,13 @@ struct WindowEvent {
     /**
      * @brief constructor
      */
-    WindowEvent (void) : type (WINDOW_EVENT_NONE) {
+    WindowEvent(void) : type(WINDOW_EVENT_NONE) {
     }
     /// type
     event type;
 
     /// param
-    std::string param;
+    int param;
 };
 
 } // GameLib
