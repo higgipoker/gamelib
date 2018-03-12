@@ -16,6 +16,7 @@ struct Rectangle {
     float area() const;
     void contract(float amount);
     void SetSize(float _w, float _h);
+    void SetPosition(float _x, float _y);
     void SetCenter(float _x, float _y);
     Point GetCenter(void) const;
     Point getRandomPoint(void) const;
@@ -49,9 +50,7 @@ struct Line {
     Line(void);
     Line(float _x1, float _y1, float _x2, float _y2);
     void init(float _x1, float _y1, float _x2, float _y2);
-    float length() {
-        return sqrtf((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
-    }
+    float length() { return sqrtf((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)); }
     float x1, y1, x2, y2;
 };
 
@@ -62,9 +61,12 @@ struct Triangle {
     Triangle(Point &_p1, Point &_p2, Point &_p3);
     Triangle();
     float area() {
-        float side1 = sqrtf((p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y));
-        float side2 = sqrtf((p3.x - p2.x) * (p3.x - p2.x) + (p3.y - p2.y) * (p3.y - p2.y));
-        float side3 = sqrtf((p1.x - p3.x) * (p1.x - p3.x) + (p1.y - p3.y) * (p1.y - p3.y));
+        float side1 =
+            sqrtf((p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y));
+        float side2 =
+            sqrtf((p3.x - p2.x) * (p3.x - p2.x) + (p3.y - p2.y) * (p3.y - p2.y));
+        float side3 =
+            sqrtf((p1.x - p3.x) * (p1.x - p3.x) + (p1.y - p3.y) * (p1.y - p3.y));
         float s = (side1 + side2 + side3) / 2;
         float area = sqrtf(s * (s - side1) * (s - side2) * (s - side3));
         return area;

@@ -1,3 +1,28 @@
+/****************************************************************************
+ * Copyright (c) 2018 P. Higgins
+ *
+ * This software is provided 'as-is', without any express or implied
+ * warranty. In no event will the authors be held liable for any damages
+ * arising from the use of this software.
+ *
+ * Permission is granted to anyone to use this software for any purpose,
+ * including commercial applications, and to alter it and redistribute it
+ * freely, subject to the following restrictions:
+ *
+ * 1. The origin of this software must not be misrepresented; you must not
+ *    claim that you wrote the original software. If you use this software
+ *    in a product, an acknowledgment in the product documentation would be
+ *    appreciated but is not required.
+ * 2. Altered source versions must be plainly marked as such, and must not be
+ *    misrepresented as being the original software.
+ * 3. This notice may not be removed or altered from any source distribution.
+ ****************************************************************************/
+/**
+ * @file window.cpp
+ * @author Paul Higgins <paul.samuel.higgins@gmail.com>
+ * @date 2018
+ * @brief description
+ */
 #include "window.h"
 
 #include <iostream>
@@ -28,8 +53,10 @@ bool valid_videomode(unsigned int width, unsigned int height) {
 // ------------------------------------------------------------
 // Window
 // ------------------------------------------------------------
-Window::Window(const std::string &title, unsigned int x, unsigned int y, unsigned int w, unsigned int h, bool fullscreen) {
+Window::Window(const std::string &title, unsigned int x, unsigned int y, unsigned int w,
+               unsigned int h, bool fullscreen) {
     // default style
+    // unsigned int window_style = sf::Style::Titlebar | sf::Style::Close;
     unsigned int window_style = sf::Style::Default;
 
     // if fullscreen, look for a compatible video mode
@@ -58,44 +85,32 @@ Window::Window(const std::string &title, unsigned int x, unsigned int y, unsigne
 // ------------------------------------------------------------
 // destructor
 // ------------------------------------------------------------
-Window::~Window(void) {
-    window.close();
-}
+Window::~Window(void) { window.close(); }
 
 // ------------------------------------------------------------
 // Clear
 // ------------------------------------------------------------
-void Window::Clear(void) {
-    window.clear(sf::Color(255, 255, 255, 255));
-}
+void Window::Clear(void) { window.clear(sf::Color::Black); }
 
 // ------------------------------------------------------------
 // Present
 // ------------------------------------------------------------
-void Window::Present(void) {
-    window.display();
-}
+void Window::Present(void) { window.display(); }
 
 // ------------------------------------------------------------
 // IsOpen
 // ------------------------------------------------------------
-bool Window::IsOpen(void) {
-    return window.isOpen();
-}
+bool Window::IsOpen(void) { return window.isOpen(); }
 
 // ------------------------------------------------------------
 // ShowCursor
 // ------------------------------------------------------------
-void Window::ShowCursor() {
-    window.setMouseCursorVisible(true);
-}
+void Window::ShowCursor() { window.setMouseCursorVisible(true); }
 
 // ------------------------------------------------------------
 // HideCursor
 // ------------------------------------------------------------
-void Window::HideCursor() {
-    window.setMouseCursorVisible(false);
-}
+void Window::HideCursor() { window.setMouseCursorVisible(false); }
 
 // ------------------------------------------------------------
 // SetIcon
@@ -108,30 +123,22 @@ void Window::SetIcon(const std::string &filename) {
 // ------------------------------------------------------------
 // Draw
 // ------------------------------------------------------------
-void Window::Draw(Renderable &r) {
-    window.draw(r.get());
-}
+void Window::Draw(Renderable &r) { window.draw(r.get()); }
 
 // ------------------------------------------------------------
 // Draw
 // ------------------------------------------------------------
-void Window::Draw(sf::Drawable &d) {
-    window.draw(d);
-}
+void Window::Draw(sf::Drawable &d) { window.draw(d); }
 
 // ------------------------------------------------------------
 // Close
 // ------------------------------------------------------------
-void Window::Close() {
-    window.close();
-}
+void Window::Close() { window.close(); }
 
 // ------------------------------------------------------------
 // SetView
 // ------------------------------------------------------------
-void Window::SetView(sf::View view) {
-    window.setView(view);
-}
+void Window::SetView(sf::View view) { window.setView(view); }
 
 // ------------------------------------------------------------
 // PollEvent
@@ -158,16 +165,38 @@ WindowEvent Window::PollEvent(WindowEvent &wnd_event) {
 
         else if (sfml_event.type == sf::Event::EventType::KeyPressed) {
             wnd_event.type = WINDOW_EVENT_KEY_DOWN;
-            wnd_event.param = Keyboard::keys[sfml_event.key.code];
+            wnd_event.params.push_back(Keyboard::keys[sfml_event.key.code]);
         }
 
         else if (sfml_event.type == sf::Event::MouseWheelMoved) {
             wnd_event.type = WINDOW_EVENT_MOUSE_WHEEL_MOVED;
-            wnd_event.param = sfml_event.mouseWheel.delta;
+            wnd_event.params.push_back(sfml_event.mouseWheel.delta);
+        }
+
+        else if (sfml_event.type == sf::Event::Resized) {
+            // update the view to the new size of the window
+            wnd_event.type = WINDOW_EVENT_RESIZED;
+            wnd_event.params.push_back(static_cast<int>(sfml_event.size.width));
+            wnd_event.params.push_back(static_cast<int>(sfml_event.size.height));
         }
     }
 
     return wnd_event;
+}
+
+// ------------------------------------------------------------
+// ConvertMousePosition
+// ------------------------------------------------------------
+Point Window::GetMousePosition() {
+    // get the current mouse position in the window
+    sf::Vector2i pixelPos = sf::Mouse::getPosition(window);
+
+    // convert it to world coordinates
+    sf::Vector2f worldPos = window.mapPixelToCoords(pixelPos);
+
+    // return it
+    Point p(worldPos.x, worldPos.y);
+    return p;
 }
 
 } // GameLib

@@ -36,7 +36,7 @@ namespace GameLib {
 /**
  * @brief The Camera class
  */
-class Camera : public GameEntity {
+class Camera {
   public:
     /**
     * @brief Camera
@@ -49,10 +49,15 @@ class Camera : public GameEntity {
     ~Camera();
 
     /**
+     * @brief Init
+     */
+    void Init(int width, int height);
+
+    /**
      * @brief the main update function for an entity
      * @param dt time delta
      */
-    void Update(float dt) override;
+    void Update(float dt);
 
     /**
      * @brief set up the game world rect
@@ -65,6 +70,11 @@ class Camera : public GameEntity {
      * @param e game entity to follow
      */
     void Follow(GameEntity *e);
+
+    /**
+     * @brief UpdateSceneView eg window resized
+     */
+    void UpdateSceneView(int width, int height);
 
     /**
      * @brief get the current viewport
@@ -84,7 +94,17 @@ class Camera : public GameEntity {
     */
     sf::View &GetHudView();
 
+    /**
+     * @brief for maintain aspect ratio on window resize
+     * @param x
+     * @param y
+     */
+    void Letterbox(float window_width, float window_height);
+
   protected:
+    /// physical object for moving camera
+    Physical physical;
+
     /// current viewport
     Rectangle viewport;
 

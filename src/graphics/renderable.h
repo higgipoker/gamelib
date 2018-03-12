@@ -73,6 +73,16 @@ class Renderable {
     inline Point GetPosition() { return Point(geometry.x, geometry.y); }
 
     /**
+     * @brief Move
+     * @param x_offset
+     * @param y_offset
+     */
+    inline void Move(int x_offset, int y_offset) {
+        geometry.x += x_offset;
+        geometry.y += y_offset;
+    }
+
+    /**
      * @brief render
      * @param window render target
      */

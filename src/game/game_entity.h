@@ -46,7 +46,7 @@ class GameEntity {
     * @param p ready made physical aspect - subclass responsible for memory!
     * @param r ready made renderable aspect- subclass responsible for memory!
     */
-    explicit GameEntity(Physical *p, Renderable *r);
+    explicit GameEntity(Physical &p, Renderable &r);
 
     /**
      * @brief destruct
@@ -74,6 +74,10 @@ class GameEntity {
      */
     void SetPosition(float x, float y, float z = 0);
 
+    /**
+     * @brief GetPosition
+     * @return
+     */
     Point GetPosition();
 
     /**
@@ -93,10 +97,10 @@ class GameEntity {
     virtual void Call(std::vector<std::string> params);
 
     /// physical aspect associated with this entity
-    Physical *physical;
+    Physical &physical;
 
     /// renderable aspect associated with this entity
-    Renderable *renderable;
+    Renderable &renderable;
 
     /// easy access without dereferencing each time
     Vector3 &velocity;

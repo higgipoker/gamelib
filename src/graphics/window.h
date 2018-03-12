@@ -124,15 +124,20 @@ class Window {
     /**
      * @brief get size of window
      */
-    Vector3 GetSize() {
-        return Vector3(window.getSize().x, window.getSize().y);
-    }
+    Vector3 GetSize() { return Vector3(window.getSize().x, window.getSize().y); }
 
     /**
      * @brief VSync
      * @param on
      */
     void VSync(bool on) { window.setVerticalSyncEnabled(on); }
+
+    /**
+     * @brief ConvertMousePosition
+     * @param absolute
+     * @return
+     */
+    Point GetMousePosition();
 
     // lock framerate
     static const int FPS = 60;

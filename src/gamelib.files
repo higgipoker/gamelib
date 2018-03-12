@@ -1,5 +1,7 @@
 ../CMakeLists.txt
 gamelib.h
+graphics/hud.cpp
+graphics/hud.h
 input/keycodes.h
 input/mouse.cpp
 input/mouse.h

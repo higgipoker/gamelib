@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <vector>
 
 namespace GameLib {
 
@@ -10,7 +11,8 @@ enum event {
     WINDOW_EVENT_MOUSE_MOVED,
     WINDOW_EVENT_MOUSE_CLICKED,
     WINDOW_EVENT_MOUSE_WHEEL_MOVED,
-    WINDOW_EVENT_KEY_DOWN
+    WINDOW_EVENT_KEY_DOWN,
+    WINDOW_EVENT_RESIZED,
 };
 
 /** @brief event */
@@ -26,13 +28,13 @@ struct WindowEvent {
      */
     void Reset() {
         type = WINDOW_EVENT_NONE;
-        param = 0;
+        params.clear();
     }
     /// type
     event type;
 
     /// param
-    int param;
+    std::vector<int> params;
 };
 
 } // GameLib

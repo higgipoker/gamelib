@@ -25,15 +25,14 @@
  */
 #pragma once
 
-#include "../game/game_entity.h"
-#include "../graphics/renderable.h"
+#include "../graphics/hud.h"
 #include "../graphics/text.h"
 #include "../input/keycodes.h"
 #include "../utils/timer.h"
 
 namespace GameLib {
 class Game;
-class Console : public GameEntity, public Renderable {
+class Console : public Hud {
   public:
     /**
      * @brief construct
@@ -62,6 +61,11 @@ class Console : public GameEntity, public Renderable {
      * @param texts strings to echo
      */
     void Echo(const std::vector<std::string> &texts);
+
+    /**
+     * @brief SetHeight
+     */
+    void SetHeight(unsigned int h);
 
   private:
     // console height
@@ -92,7 +96,7 @@ class Console : public GameEntity, public Renderable {
     Game *game;
 
     /// a timer
-    int cursor_ticks;
+    int cursor_ticks = 0;
 
     /**
      * @brief render the cursor

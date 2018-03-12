@@ -18,23 +18,59 @@
  * 3. This notice may not be removed or altered from any source distribution.
  ****************************************************************************/
 /**
- * @file mouse.h
+ * @file hud.h
  * @author Paul Higgins <paul.samuel.higgins@gmail.com>
  * @date 2018
  * @brief description
  */
-#pragma once
-
-#include "../math/shapes.h"
+#include "renderable.h"
 
 namespace GameLib {
 
 /**
- * @brief The Mouse class
+ * @brief like a "window" in widget systems but called hud to avoid confusion
  */
-class Mouse {
+class Hud : public Renderable {
   public:
-    static Point GetPosition();
+    /**
+     * @brief Hud
+     */
+    Hud();
+
+    /**
+     * @brief ~Hud
+     */
+    virtual ~Hud();
+
+    /**
+     * @brief Render
+     * @param window
+     */
+    virtual void Render(Window &window) = 0;
+
+    /**
+     * @brief Hide
+     */
+    virtual void Hide();
+
+    /**
+     * @brief Show
+     */
+    virtual void Show();
+
+    /**
+     * @brief to control widgets
+     * @param msg
+     */
+    virtual void Send(const std::string &msg);
+    virtual void Send(const std::string &msg, std::vector<std::string> params);
+    virtual void Send(const std::string &msg, std::vector<int> params);
+
+    /// like the old standard windowing widgety system, each window(hud) can have children
+    std::vector<Hud *> children;
+
+    /// convenient access to parent
+    Hud *parent = nullptr;
 };
 
 } // namespace GameLib

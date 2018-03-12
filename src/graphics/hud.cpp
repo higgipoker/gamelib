@@ -18,87 +18,108 @@
  * 3. This notice may not be removed or altered from any source distribution.
  ****************************************************************************/
 /**
- * @file animation.cpp
+ * @file hud.cpp
  * @author Paul Higgins <paul.samuel.higgins@gmail.com>
  * @date 2018
  * @brief description
  */
-#include "animation.h"
-#include <iostream>
+#include "hud.h"
 namespace GameLib {
 
 // ------------------------------------------------------------
-// Constructor
+// funcname
 // ------------------------------------------------------------
-Animation::Animation(const std::string &id, float frametime, bool loopanim, int n, ...)
-    : name(id), loop(loopanim), running(false), frame_time(frametime) {
+Hud::Hud() {}
 
-    va_list vl;
-    va_start(vl, n);
-    for (int i = 0; i < n; i++) {
-        int val = va_arg(vl, int);
-        frames.push_back(static_cast<unsigned int>(val));
+// ------------------------------------------------------------
+// ~Hud
+// ------------------------------------------------------------
+Hud::~Hud() {}
+
+// ------------------------------------------------------------
+// Render
+// ------------------------------------------------------------
+void Hud::Render(Window &window) {
+
+    // if root hud object is invisible, so are all children!
+    if (!visible)
+        return;
+
+    // render this hud, then render children
+
+    for (auto it = children.begin(); it != children.end(); ++it) {
+        (*it)->Render(window);
     }
-    va_end(vl);
-
-    current_frame = frames.begin();
 }
 
 // ------------------------------------------------------------
-// Constructor
+// Send
 // ------------------------------------------------------------
-Animation::Animation(const std::string &id, float frametime, bool loopanim,
-                     std::vector<unsigned int> f)
-    : name(id), frames(f), current_frame(frames.begin()), loop(loopanim), running(false),
-      frame_time(frametime) {}
+void Hud::Send(const std::string &msg, std::vector<int> params) {
+    //
+    // SET POSITION
+    //
+    if (msg.compare("setposition") == 0) {
 
-// ------------------------------------------------------------
-// Start
-// ------------------------------------------------------------
-void Animation::Start() {
-    current_frame = frames.begin();
-    ticks = 0;
-    running = true;
-}
+        int x_difference = params[0] - static_cast<int>(GetPosition().x);
+        int y_difference = params[1] - static_cast<int>(GetPosition().y);
 
-// ------------------------------------------------------------
-// Step
-// ------------------------------------------------------------
-void Animation::Step() {
-    if (running) {
-        if (++ticks > frame_time) {
-            ticks = 0;
+        SetPosition(params[0], params[1]);
+        for (auto it = children.begin(); it != children.end(); ++it) {
+            (*it)->Move(x_difference, y_difference);
+        }
+    }
 
-            if (++current_frame == frames.end()) {
-                if (loop) {
-                    current_frame = frames.begin();
-                } else {
-                    running = false;
-                    --current_frame;
-                }
-            }
+    //
+    // Move
+    //
+    if (msg.compare("setposition") == 0) {
+
+        Move(params[0], params[1]);
+        for (auto it = children.begin(); it != children.end(); ++it) {
+            (*it)->Move(params[0], params[1]);
         }
     }
 }
 
 // ------------------------------------------------------------
-// Stop
+// Send
 // ------------------------------------------------------------
-void Animation::Stop() { running = false; }
+void Hud::Send(const std::string &msg) {
+
+    //
+    // SHOW
+    //
+    if (msg.compare("show") == 0) {
+        Show();
+        for (auto it = children.begin(); it != children.end(); ++it) {
+            (*it)->Show();
+        }
+    }
+
+    //
+    // HIDE
+    //
+    if (msg.compare("hide") == 0) {
+        Hide();
+        for (auto it = children.begin(); it != children.end(); ++it) {
+            (*it)->Hide();
+        }
+    }
+}
 
 // ------------------------------------------------------------
-// IsRunning
+// Hide
 // ------------------------------------------------------------
-bool Animation::IsRunning() const { return running; }
+void Hud::Hide() { visible = false; }
+// ------------------------------------------------------------
+// Show
+// ------------------------------------------------------------
+void Hud::Show() { visible = true; }
 
 // ------------------------------------------------------------
-// CurrentFrame
+// Send
 // ------------------------------------------------------------
-unsigned int Animation::CurrentFrame() const { return *current_frame; }
+void Hud::Send(const std::string &msg, std::vector<std::string> params) {}
 
-// ------------------------------------------------------------
-// SetSpeed
-// ------------------------------------------------------------
-void Animation::SetSpeed(unsigned int speed) { frame_time = speed; }
-
-} // GameLib
+} // namespace GameLib

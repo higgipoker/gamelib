@@ -41,22 +41,20 @@ const unsigned int MAX_ECHO_SIZE = 500;
 // ------------------------------------------------------------
 // Constructor
 // ------------------------------------------------------------
-Console::Console(Game *g) : GameEntity(new Physical(), this), height(200), text("fonts/terminus_bold.ttf", 20), cursor("fonts/terminus_bold.ttf", 20), game(g) {
+Console::Console(Game *g)
+    : height(200), text("fonts/terminus_bold.ttf", 20),
+      cursor("fonts/terminus_bold.ttf", 20), game(g) {
     this->z_order++;
-    hud = true;
     text.SetColor(Color(0, 255, 0, 255));
     cursor.SetColor(Color(0, 255, 0, 255));
 
-    name = "console";
     visible = false;
 }
 
 // ------------------------------------------------------------
 // Destructor
 // ------------------------------------------------------------
-Console::~Console() {
-    delete physical;
-}
+Console::~Console() {}
 
 // ------------------------------------------------------------
 // Render
@@ -71,7 +69,8 @@ void Console::Render(Window &window) {
     //
     Primitives::FillColor(Color(0, 0, 0, 255));
     Primitives::OutlineColor(Color(0, 0, 0, 255));
-    Primitives::Rectangle(window, 0, 0, static_cast<unsigned int>(window.GetSize().x), height);
+    Primitives::Rectangle(window, 0, 0, static_cast<unsigned int>(window.GetSize().x),
+                          height);
     Primitives::OutlineColor(Color(255, 255, 255, 255));
 
     unsigned int line_height = 22;
@@ -241,5 +240,10 @@ void Console::Echo(const std::vector<std::string> &texts) {
         echo_list.clear();
     }
 }
+
+// ------------------------------------------------------------
+// SetHeight
+// ------------------------------------------------------------
+void Console::SetHeight(unsigned int h) { height = h; }
 
 } // GameLib

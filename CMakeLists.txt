@@ -38,6 +38,7 @@ src/graphics/primitives.cpp
 src/graphics/color.cpp
 src/graphics/palette.cpp
 src/graphics/gfx_tools.cpp
+src/graphics/hud.cpp
 src/camera/camera.cpp
 src/input/input.cpp
 src/input/keyboard.cpp
@@ -83,6 +84,7 @@ src/graphics/text.h
 src/graphics/primitives.h
 src/graphics/color.h
 src/graphics/palette.h
+src/graphics/hud.h
 DESTINATION /usr/local/include/gamelib/graphics)
 
 #install camera header files
