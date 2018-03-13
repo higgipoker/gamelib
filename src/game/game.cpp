@@ -48,16 +48,13 @@ static const bool SCALE_ON_RESIZE_WINDOW = false;
 // sort predicate for renderable objects (for height)
 // ------------------------------------------------------------
 struct {
-    bool operator()(const GameEntity *r1, const GameEntity *r2) const {
-        return r1->renderable.z_order < r2->renderable.z_order;
-    }
+    bool operator()(const GameEntity *r1, const GameEntity *r2) const { return r1->renderable.z_order < r2->renderable.z_order; }
 } sort_renderable;
 
 // ------------------------------------------------------------
 // constructor
 // ------------------------------------------------------------
-Game::Game(const std::string &gamename, unsigned int x, unsigned int y, unsigned int w,
-           unsigned int h, bool fullscreen)
+Game::Game(const std::string &gamename, unsigned int x, unsigned int y, unsigned int w, unsigned int h, bool fullscreen)
     : window(gamename, x, y, w, h, fullscreen), console(this) {
 
     fps = 0;
@@ -70,9 +67,24 @@ Game::Game(const std::string &gamename, unsigned int x, unsigned int y, unsigned
 }
 
 // ------------------------------------------------------------
+// Tick
+// ------------------------------------------------------------
+void Game::Tick() {
+
+    gamestep_timer.Update();
+    ++game_frame;
+
+    handle_input(event);
+    simulate();
+    camera.Update(dt);
+    render();
+    calc_fps();
+}
+
+// ------------------------------------------------------------
 // HandleInput
 // ------------------------------------------------------------
-void Game::HandleInput(WindowEvent &event) {
+void Game::handle_input(WindowEvent &event) {
 
     window.PollEvent(event);
 
@@ -87,8 +99,7 @@ void Game::HandleInput(WindowEvent &event) {
                 Point p = window.GetMousePosition();
                 on_mouse_click(p.x, p.y);
             } else {
-                on_mouse_click(mouse.GetPosition().x - window.GetPosition().x,
-                               mouse.GetPosition().y - window.GetPosition().y);
+                on_mouse_click(mouse.GetPosition().x - window.GetPosition().x, mouse.GetPosition().y - window.GetPosition().y);
             }
         } break;
 
@@ -116,7 +127,7 @@ void Game::HandleInput(WindowEvent &event) {
                 //                console.SetHeight(static_cast<unsigned
                 //                int>(event.params.at(1) / 3));
 
-                // camera.Letterbox(event.params.at(0), event.params.at(1));
+                camera.Letterbox(event.params.at(0), event.params.at(1));
             }
             break;
     }
@@ -126,21 +137,12 @@ void Game::HandleInput(WindowEvent &event) {
 // ------------------------------------------------------------
 // Simulate
 // ------------------------------------------------------------
-void Game::Simulate() {
-  step(dt);
-}
-
-// ------------------------------------------------------------
-// UpdateCameraa
-// ------------------------------------------------------------
-void Game::UpdateCamera(){
-  camera.Update(dt);
-}
+void Game::simulate() { step(dt); }
 
 // ------------------------------------------------------------
 // Render
 // ------------------------------------------------------------
-void Game::Render() {
+void Game::render() {
 
     // clear
     window.Clear();
@@ -162,10 +164,6 @@ void Game::Render() {
 
     // flip buffers
     window.Present();
-
-    // safe to assume render is done once per frame!
-    gamestep_timer.Update();
-    ++game_frame;
 
     // limit framerate
     float newnewtime = gamestep_timer.GetLiveTime();
@@ -287,14 +285,12 @@ void Game::Call(std::vector<std::string> params) {
 // ------------------------------------------------------------
 // Call
 // ------------------------------------------------------------
-void Game::Call(std::string func, std::string n, ...) {
-    std::cout << "Game::Call: " << func << ", " << n << std::endl;
-}
+void Game::Call(std::string func, std::string n, ...) { std::cout << "Game::Call: " << func << ", " << n << std::endl; }
 
 // ------------------------------------------------------------
 // calc_fps
 // ------------------------------------------------------------
-void Game::CalcFPS() {
+void Game::calc_fps() {
     ++frames_this_second;
     float elapsed_time = gamestep_timer.GetFrameTime() - fps_timer;
 

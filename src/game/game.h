@@ -59,32 +59,16 @@ class Game {
       * @brief destruct
       */
     virtual ~Game() {}
-    
+
     /**
      * @brief OnStart
      */
     virtual void OnStart() { gamestep_timer.Start(); }
-    
-    /**
-    * @brief Simulate
-    * @param dt
-    */
-    void Simulate();
 
     /**
-     * @brief Render
+     * @brief Tick
      */
-    void Render();
-    
-    /**
-     * @brief UpdateCameraa
-     */
-    void UpdateCamera();
-    
-    /**
-    * @brief HandleInput
-    */
-    virtual void HandleInput(WindowEvent &event);   
+    virtual void Tick();
 
     /**
     * @brief add a game entity
@@ -116,11 +100,6 @@ class Game {
     void Call(std::string func, std::string n, ...);
 
     /**
-     * @brief calc_fps
-     */
-    void CalcFPS();
-
-    /**
      * @brief workingDirectory
      * @return
      */
@@ -143,7 +122,23 @@ class Game {
     std::vector<GameEntity *> game_entities;
 
     /// hud entities
-    std::vector<GameEntity *> hud_entities;   
+    std::vector<GameEntity *> hud_entities;
+
+    /**
+    * @brief Simulate
+    * @param dt
+    */
+    void simulate();
+
+    /**
+     * @brief Render
+     */
+    void render();
+
+    /**
+    * @brief HandleInput
+    */
+    virtual void handle_input(WindowEvent &event);
 
     /**
      * @brief prepare_scene
@@ -154,6 +149,11 @@ class Game {
      * @brief prepare_hud
      */
     virtual void prepare_hud();
+
+    /**
+     * @brief calc_fps
+     */
+    void calc_fps();
 
     /**
      * @brief step the simulation

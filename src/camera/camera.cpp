@@ -65,8 +65,7 @@ void Camera::Follow(GameEntity *e) { following = e; }
 void Camera::Update(float dt) {
 
     if (following) {
-        Vector3 distance = following->physical.position -
-                           Vector3(viewport.GetCenter().x, viewport.GetCenter().y);
+        Vector3 distance = following->physical.position - Vector3(viewport.GetCenter().x, viewport.GetCenter().y);
         float mag = distance.magnitude();
         physical.velocity = distance.normalised() * SPEED * dt * mag;
         physical.position += physical.velocity;
@@ -129,41 +128,38 @@ sf::View &Camera::GetHudView() {
 // ------------------------------------------------------------
 // UpdateSceneView
 // ------------------------------------------------------------
-void Camera::UpdateSceneView(int width, int height) {
-    viewport.SetSize(width, height);
-    // scene_view.setSize(sf::Vector2f(width, height));
-}
+void Camera::UpdateSceneView(int width, int height) { viewport.SetSize(width, height); }
 
 // ------------------------------------------------------------
 // SetOffset
 // ------------------------------------------------------------
 void Camera::Letterbox(float window_width, float window_height) {
-    float windowRatio = window_width / (float)window_height;
-    float viewRatio = scene_view.getSize().x / (float)scene_view.getSize().y;
-    float sizeX = 1;
-    float sizeY = 1;
-    float posX = 0;
-    float posY = 0;
+    float window_ratio = window_width / static_cast<float>(window_height);
+    float view_ratio = scene_view.getSize().x / static_cast<float>(scene_view.getSize().y);
+    float size_x = 1;
+    float size_y = 1;
+    float pos_x = 0;
+    float pos_y = 0;
 
-    bool horizontalSpacing = true;
-    if (windowRatio < viewRatio)
-        horizontalSpacing = false;
+    bool horizontal_spacing = true;
+    if (window_ratio < view_ratio)
+        horizontal_spacing = false;
 
-    // If horizontalSpacing is true, the black bars will appear on the left and right
-    // side.
+    // If horizontal_spacing is true, the black bars will appear on the left and right side.
     // Otherwise, the black bars will appear on the top and bottom.
 
-    if (horizontalSpacing) {
-        sizeX = viewRatio / windowRatio;
-        posX = (1 - sizeX) / 2.f;
+    if (horizontal_spacing) {
+        size_x = view_ratio / window_ratio;
+        pos_x = (1 - size_x) / 2.f;
     }
 
     else {
-        sizeY = windowRatio / viewRatio;
-        posY = (1 - sizeY) / 2.f;
+        size_y = window_ratio / view_ratio;
+        pos_y = (1 - size_y) / 2.f;
     }
 
-    scene_view.setViewport(sf::FloatRect(posX, posY, sizeX, sizeY));
-    hud_view.setViewport(sf::FloatRect(posX, posY, sizeX, sizeY));
+    scene_view.setViewport(sf::FloatRect(pos_x, pos_y, size_x, size_y));
+    hud_view.setViewport(sf::FloatRect(pos_x, pos_y, size_x, size_y));
+    hud_view.setSize(viewport.w, viewport.h);
 }
 } // GameLib
