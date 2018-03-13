@@ -70,23 +70,9 @@ Game::Game(const std::string &gamename, unsigned int x, unsigned int y, unsigned
 }
 
 // ------------------------------------------------------------
-// Run
-// ------------------------------------------------------------
-void Game::Run() {
-    on_start();
-    while (running) {
-        handle_input(event);
-        camera.Update(dt);
-        simulate();
-        render();
-        CalcFPS();
-    }
-}
-
-// ------------------------------------------------------------
 // HandleInput
 // ------------------------------------------------------------
-void Game::handle_input(WindowEvent &event) {
+void Game::HandleInput(WindowEvent &event) {
 
     window.PollEvent(event);
 
@@ -138,19 +124,23 @@ void Game::handle_input(WindowEvent &event) {
 }
 
 // ------------------------------------------------------------
-// with thanks to Glenn Fielder
-// (https://gafferongames.com/post/fix_your_timestep/)
+// Simulate
 // ------------------------------------------------------------
-void Game::simulate() {
-    do {
-        step(dt);
-    } while (false);
+void Game::Simulate() {
+  step(dt);
+}
+
+// ------------------------------------------------------------
+// UpdateCameraa
+// ------------------------------------------------------------
+void Game::UpdateCamera(){
+  camera.Update(dt);
 }
 
 // ------------------------------------------------------------
 // Render
 // ------------------------------------------------------------
-void Game::render() {
+void Game::Render() {
 
     // clear
     window.Clear();

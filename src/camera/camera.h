@@ -26,7 +26,7 @@
 #pragma once
 
 // tmp
-#include "../sfml/graphics/sfml_renderable.h"
+#include "../graphics/renderable.h"
 
 #include "../game/game_entity.h"
 #include "../math/shapes.h"

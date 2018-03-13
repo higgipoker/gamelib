@@ -34,7 +34,7 @@ class Text : public Renderable {
     /**
      * @brief get a drawable context
      */
-    virtual const sf::Drawable &get() override;
+    virtual const sf::Drawable &Get() override;
 
     /**
      * @brief set text

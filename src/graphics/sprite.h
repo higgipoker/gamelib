@@ -9,6 +9,9 @@
 
 namespace GameLib {
 
+/**
+ * @brief The Sprite class
+ */
 class Sprite : public Renderable {
   public:
     /**
@@ -111,7 +114,7 @@ class Sprite : public Renderable {
         sprite.setOrigin(x, y);
     }
 
-    /// a renderable entity may or may not have a shadow
+    /// a rsprite may or may not have a shadow
     Sprite *shadow;
 
   protected:

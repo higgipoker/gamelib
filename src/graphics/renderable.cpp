@@ -8,48 +8,41 @@
 
 namespace GameLib {
 
-int Renderable::shadow_z = 0;
 static std::map<std::string, TrackableTexture> texture_list;
 
 // ------------------------------------------------------------
 // constructor
 // ------------------------------------------------------------
-Renderable::Renderable()
-    : z_order(0), texture_filename("[non-textured-renderable]") {
-    texture = nullptr;
-    paletted_texture = nullptr;
+Renderable::Renderable(){
 }
 
 // ------------------------------------------------------------
 // Constructor
 // ------------------------------------------------------------
 Renderable::Renderable(const std::string &filename)
-    : z_order(0), texture(nullptr), texture_filename(filename) {
+    :texture_filename(filename) {
 
-    paletted_texture = nullptr;
-
+    // if the same texture source exists, don't create a duplicate
     auto it = texture_list.find(filename);
-
     if (it != texture_list.end()) {
         texture = (*it).second.tex;
         (*it).second.ref_counter++;
 
     } else {
-
+      
+        // create new texture
         texture = new sf::Texture();
-
         if (!texture->loadFromFile(filename)) {
             std::cout << "Could not load image file: " << filename << std::endl;
-
         } else {
-            texture_list.insert(
-                std::make_pair(filename, TrackableTexture(texture)));
+            texture_list.insert(std::make_pair(filename, TrackableTexture(texture)));
         }
     }
 
     // set renderable texture for future use
     sprite.setTexture(*texture);
 
+    // dimensions tracking
     geometry.w = texture->getSize().x;
     geometry.h = texture->getSize().y;
 }
@@ -99,13 +92,6 @@ void Renderable::Render(GameLib::Window &window) {
 
     if (visible) {
         window.Draw(*this);
-
-#ifdef RENDER_DEBUG
-        // outline
-        Primitives::Rectangle(window, this->GetPosition().x,
-                              this->GetPosition().y, this->GetWidth(),
-                              this->GetHeight());
-#endif
     }
 }
 
@@ -118,18 +104,6 @@ void Renderable::SetPosition(float x, float y) {
     sprite.setPosition(sf::Vector2f(x, y));
 }
 
-// ------------------------------------------------------------
-// count_renderables
-// ------------------------------------------------------------
-unsigned int Renderable::count_renderables() {
-    unsigned int total = 0;
-
-    for (auto it = texture_list.begin(); it != texture_list.end(); ++it) {
-        total += (*it).second.ref_counter;
-    }
-
-    return total;
-}
 
 // ------------------------------------------------------------
 // SwapColors

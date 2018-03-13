@@ -28,7 +28,7 @@ void StateMachine::InitState (State *_s) {
 }
 
 //  --------------------------------------------------
-//  change state
+//  Step
 //  --------------------------------------------------
 void StateMachine::Step (float dt) {
     // step the current state

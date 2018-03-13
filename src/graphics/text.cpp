@@ -24,7 +24,7 @@ void GameLib::Text::Render(Window &window) {
     window.Draw(text);
 }
 
-const sf::Drawable &Text::get() {
+const sf::Drawable &Text::Get() {
     return text;
 }
 

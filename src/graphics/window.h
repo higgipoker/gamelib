@@ -25,9 +25,9 @@
  */
 #pragma once
 
+#include <vector>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
-#include <vector>
 
 #include "../math/vector3.h"
 #include "events.h"
@@ -150,7 +150,7 @@ class Window {
     sf::Image img_icon;
 
   public:
-    // tmp
+    // gives access to internal sfml window for drawing primitives
     friend class Primitives;
 };
 

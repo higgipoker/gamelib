@@ -59,11 +59,32 @@ class Game {
       * @brief destruct
       */
     virtual ~Game() {}
+    
+    /**
+     * @brief OnStart
+     */
+    virtual void OnStart() { gamestep_timer.Start(); }
+    
+    /**
+    * @brief Simulate
+    * @param dt
+    */
+    void Simulate();
 
     /**
-     * @brief Run
+     * @brief Render
      */
-    void Run();
+    void Render();
+    
+    /**
+     * @brief UpdateCameraa
+     */
+    void UpdateCamera();
+    
+    /**
+    * @brief HandleInput
+    */
+    virtual void HandleInput(WindowEvent &event);   
 
     /**
     * @brief add a game entity
@@ -122,28 +143,7 @@ class Game {
     std::vector<GameEntity *> game_entities;
 
     /// hud entities
-    std::vector<GameEntity *> hud_entities;
-
-    /**
-     * @brief OnStart
-     */
-    virtual void on_start() { gamestep_timer.Start(); }
-
-    /**
-    * @brief HandleInput
-    */
-    virtual void handle_input(WindowEvent &event);
-
-    /**
-    * @brief Simulate
-    * @param dt
-    */
-    void simulate();
-
-    /**
-     * @brief Render
-     */
-    void render();
+    std::vector<GameEntity *> hud_entities;   
 
     /**
      * @brief prepare_scene

@@ -15,23 +15,22 @@ namespace GameLib {
 struct TrackableTexture {
 
     /**
-     * @brief constructor
-     */
-    TrackableTexture() : tex(nullptr), ref_counter(1) {}
-
-    /**
      * @brief constructor with initialiser
      */
     explicit TrackableTexture(sf::Texture *t) : tex(t), ref_counter(1) {}
 
     /// the actual texture
-    sf::Texture *tex;
+    sf::Texture *tex = nullptr;
 
     /// reference counter
-    unsigned int ref_counter;
+    unsigned int ref_counter = 1;
 };
 
 class Window;
+
+/**
+ * @brief The Renderable class
+ */
 class Renderable {
   public:
     /**
@@ -58,7 +57,7 @@ class Renderable {
     /**
       * @brief gets the Drawable aspect
       */
-    inline virtual const sf::Drawable &get() { return sprite; }
+    inline virtual const sf::Drawable &Get() { return sprite; }
 
     /**
      * @brief set the deat rect
@@ -71,16 +70,6 @@ class Renderable {
      * @brief get the dest rect
      */
     inline Point GetPosition() { return Point(geometry.x, geometry.y); }
-
-    /**
-     * @brief Move
-     * @param x_offset
-     * @param y_offset
-     */
-    inline void Move(int x_offset, int y_offset) {
-        geometry.x += x_offset;
-        geometry.y += y_offset;
-    }
 
     /**
      * @brief render
@@ -114,10 +103,7 @@ class Renderable {
     void SwapColors(std::vector<std::pair<Color, Color>> palette);
 
     /// depth
-    float z_order;
-
-    /// the floor z for shdows
-    static int shadow_z;
+    float z_order = 0;
 
     /// visible
     bool visible = true;
@@ -127,23 +113,18 @@ class Renderable {
     Rectangle geometry;
 
     /// sfml texture
-    sf::Texture *texture;
+    sf::Texture *texture = nullptr;
 
     /// since textures can be shared, when we swap colors (paletted texture), we
     /// have to save it in a new texture and not
     /// overwrite the original
-    sf::Texture *paletted_texture;
+    sf::Texture *paletted_texture = nullptr;
 
-    /// a sfml sprite
+    /// the basic renderable in sfml is a sprite object
     sf::Sprite sprite;
 
     /// save as reference to texture being used
-    std::string texture_filename;
-
-    /**
-     * @brief helper to count number of renderables made
-     */
-    static unsigned int count_renderables();
+    std::string texture_filename  = "[non-textured-renderable]";
 
     /**
      * @brief helper set the texture

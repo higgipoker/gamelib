@@ -79,7 +79,7 @@ Window::Window(const std::string &title, unsigned int x, unsigned int y, unsigne
     window.setPosition(sf::Vector2i(static_cast<int>(x), static_cast<int>(y)));
 
     // testing force framerate (not needed when using "fixed timestep")
-    window.setFramerateLimit(FPS);
+    //window.setFramerateLimit(FPS);
 }
 
 // ------------------------------------------------------------
@@ -123,7 +123,7 @@ void Window::SetIcon(const std::string &filename) {
 // ------------------------------------------------------------
 // Draw
 // ------------------------------------------------------------
-void Window::Draw(Renderable &r) { window.draw(r.get()); }
+void Window::Draw(Renderable &r) { window.draw(r.Get()); }
 
 // ------------------------------------------------------------
 // Draw
