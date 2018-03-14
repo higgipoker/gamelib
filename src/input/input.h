@@ -13,7 +13,7 @@ enum input_event { UP = 0, DOWN, LEFT, RIGHT, FIRE_DOWN, FIRE_UP, FIRE_LENGTH, F
  * @brief The Input class
  */
 class Input {
-public:
+  public:
     /**
      * @brief Input
      */
@@ -32,7 +32,7 @@ public:
     /// event states
     int event_states[TOTAL_EVENTS];
 
-protected:
+  protected:
     sf::Clock fire_timer;
 
     /**
