@@ -68,7 +68,7 @@ class Game {
     /**
      * @brief Tick
      */
-    virtual void Tick();
+    void Tick();
 
     /**
     * @brief add a game entity
@@ -84,7 +84,7 @@ class Game {
     /**
      * @brief get an entity based on id
      */
-    GameEntity *GetEntity(const std::string &name);
+    GameEntity &GetEntity(const std::string &name);
 
     /**
      * @brief call a function
@@ -118,7 +118,7 @@ class Game {
     bool running = true;
 
   protected:
-    /// game physical entities
+    /// game entities
     std::vector<GameEntity *> game_entities;
 
     /// hud entities
@@ -172,6 +172,11 @@ class Game {
      * @param y
      */
     virtual void on_mouse_click(float x, float y) = 0;
+    
+    /**
+     * @brief limit_framerate
+     */
+    void limit_framerate();
 
     /// console
     Console console;
