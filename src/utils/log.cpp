@@ -6,6 +6,10 @@
 
 namespace GameLib {
 
+/**
+ * @brief Log
+ * @param args
+ */
 void Log(std::string args, ...) {
     std::ostringstream log;
     va_list vl;
@@ -16,28 +20,28 @@ void Log(std::string args, ...) {
     for (size_t i = 0; args[i] != '\0'; ++i) {
 
         switch (args[i]) { // Type to expect.
-        case 'i': {
-            int i = va_arg(vl, int);
-            log << i;
-        } break;
+            case 'i': {
+                int i = va_arg(vl, int);
+                log << i;
+            } break;
 
-        case 'f': {
-            double f = va_arg(vl, double);
-            log << f;
-        } break;
+            case 'f': {
+                double f = va_arg(vl, double);
+                log << f;
+            } break;
 
-        case 'c': {
-            char c = static_cast<char>(va_arg(vl, int));
-            log << c;
-        } break;
+            case 'c': {
+                char c = static_cast<char>(va_arg(vl, int));
+                log << c;
+            } break;
 
-        case 's': {
-            char *s = va_arg(vl, char *);
-            log << s;
-        } break;
+            case 's': {
+                char *s = va_arg(vl, char *);
+                log << s;
+            } break;
 
-        default:
-            break;
+            default:
+                break;
         }
     }
     va_end(vl);

@@ -52,8 +52,7 @@ class Game {
     * @param h window height
     * @param fullscreen full screen or not
     */
-    Game(const std::string &gamename, unsigned int x, unsigned int y, unsigned int w,
-         unsigned int h, bool fullscreen);
+    Game(const std::string &gamename, unsigned int x, unsigned int y, unsigned int w, unsigned int h, bool fullscreen);
 
     /**
       * @brief destruct
@@ -68,7 +67,18 @@ class Game {
     /**
      * @brief Tick
      */
-    void Tick();
+    void OnFrame();
+
+    /**
+    * @brief HandleInput
+    */
+    virtual void HandleInput(WindowEvent &event);
+
+    /**
+    * @brief Simulate
+    * @param dt
+    */
+    void Simulate(float _dt);
 
     /**
     * @brief add a game entity
@@ -125,20 +135,9 @@ class Game {
     std::vector<GameEntity *> hud_entities;
 
     /**
-    * @brief Simulate
-    * @param dt
-    */
-    void simulate();
-
-    /**
      * @brief Render
      */
     void render();
-
-    /**
-    * @brief HandleInput
-    */
-    virtual void handle_input(WindowEvent &event);
 
     /**
      * @brief prepare_scene
@@ -172,7 +171,7 @@ class Game {
      * @param y
      */
     virtual void on_mouse_click(float x, float y) = 0;
-    
+
     /**
      * @brief limit_framerate
      */

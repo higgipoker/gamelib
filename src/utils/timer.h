@@ -35,33 +35,24 @@ class Timer {
     /**
      * @brief Start
      */
-    void Start() {
-        clock.restart();
-    }
+    void Start() { clock.restart(); }
 
     /**
      * @brief call this once per frame!
      */
-    void Update() {
-        last_ticks = ticks;
-        ticks = GetLiveTime();
-    }
+    void Update() { ticks = GetLiveTime(); }
 
     /**
-     * @brief GetFrameTimer
+     * @brief gets time this frame started
      * @return
      */
-    float GetFrameTime() {
-        return ticks;
-    }
+    float GetFrameTime() { return ticks; }
 
     /**
-     * @brief GetLiveTime
+     * @brief gets actual time expired
      * @return
      */
-    float GetLiveTime() {
-        return clock.getElapsedTime().asMilliseconds();
-    }
+    float GetLiveTime() { return clock.getElapsedTime().asMilliseconds(); }
 
   protected:
     /// sfml implementation
@@ -69,9 +60,6 @@ class Timer {
 
     // update once per frame
     float ticks = 0;
-
-    // updated once per frame
-    float last_ticks = 0;
 };
 
 } // GameLib

@@ -37,7 +37,6 @@
 
 namespace GameLib {
 
-static float dt = 0.01f;
 static float accumulator = 0.0f;
 static float target_frame_time = 0.0f;
 
@@ -48,130 +47,122 @@ static const bool SCALE_ON_RESIZE_WINDOW = false;
 // sort predicate for renderable objects (for height)
 // ------------------------------------------------------------
 struct {
-  bool operator()(const GameEntity *r1, const GameEntity *r2) const {
-    return r1->renderable.z_order < r2->renderable.z_order;
-  }
+    bool operator()(const GameEntity *r1, const GameEntity *r2) const { return r1->renderable.z_order < r2->renderable.z_order; }
 } sort_renderable;
 
 // ------------------------------------------------------------
 // constructor
 // ------------------------------------------------------------
-Game::Game(const std::string &gamename, unsigned int x, unsigned int y,
-           unsigned int w, unsigned int h, bool fullscreen)
-  : window(gamename, x, y, w, h, fullscreen)
-  , console(this) {
+Game::Game(const std::string &gamename, unsigned int x, unsigned int y, unsigned int w, unsigned int h, bool fullscreen)
+    : window(gamename, x, y, w, h, fullscreen), console(this) {
 
-  fps = 0;
+    fps = 0;
 
-  // inits static keyboard stuff
-  Keyboard::Init();
+    // inits static keyboard stuff
+    Keyboard::Init();
 
-  // how long one frame should take
-  target_frame_time = 1.0f / static_cast<float>(Window::FPS);
+    // how long one frame should take
+    target_frame_time = 1.0f / static_cast<float>(Window::FPS);
 }
 
 // ------------------------------------------------------------
 // Tick
 // ------------------------------------------------------------
-void Game::Tick() {
+void Game::OnFrame() {
 
-  gamestep_timer.Update();
-  ++game_frame;
+    gamestep_timer.Update();
+    ++game_frame;
 
-  handle_input(event);
-  simulate();
-  camera.Update(dt);
-  render();
-  calc_fps();
+    // handle_input(event);
+    // Simulate();
+    render();
+    calc_fps();
 }
 
 // ------------------------------------------------------------
 // HandleInput
 // ------------------------------------------------------------
-void Game::handle_input(WindowEvent &event) {
+void Game::HandleInput(WindowEvent &event) {
 
-  window.PollEvent(event);
+    window.PollEvent(event);
 
-  switch (event.type) {
+    switch (event.type) {
 
-  case WINDOW_EVENT_CLOSE:
-    running = false;
-    break;
+        case WINDOW_EVENT_CLOSE:
+            running = false;
+            break;
 
-  case WINDOW_EVENT_MOUSE_CLICKED: {
-    if (SCALE_ON_RESIZE_WINDOW) {
-      Point p = window.GetMousePosition();
-      on_mouse_click(p.x, p.y);
-    } else {
-      on_mouse_click(mouse.GetPosition().x - window.GetPosition().x,
-                     mouse.GetPosition().y - window.GetPosition().y);
+        case WINDOW_EVENT_MOUSE_CLICKED: {
+            if (SCALE_ON_RESIZE_WINDOW) {
+                Point p = window.GetMousePosition();
+                on_mouse_click(p.x, p.y);
+            } else {
+                on_mouse_click(mouse.GetPosition().x - window.GetPosition().x, mouse.GetPosition().y - window.GetPosition().y);
+            }
+        } break;
+
+        case WINDOW_EVENT_KEY_DOWN:
+            console.OnKey(static_cast<keycode>(event.params.at(0)));
+            break;
+
+        case WINDOW_EVENT_MOUSE_WHEEL_MOVED:
+            break;
+
+        case WINDOW_EVENT_MOUSE_MOVED:
+            break;
+
+        case WINDOW_EVENT_NONE:
+            break;
+
+        case WINDOW_EVENT_RESIZED:
+
+            //
+            // this shows more of the scene
+            //
+            if (!SCALE_ON_RESIZE_WINDOW) {
+                //                camera.UpdateSceneView(event.params.at(0),
+                //                event.params.at(1));
+                //                console.SetHeight(static_cast<unsigned
+                //                int>(event.params.at(1) / 3));
+
+                camera.Letterbox(event.params.at(0), event.params.at(1));
+            }
+            break;
     }
-  } break;
-
-  case WINDOW_EVENT_KEY_DOWN:
-    console.OnKey(static_cast<keycode>(event.params.at(0)));
-    break;
-
-  case WINDOW_EVENT_MOUSE_WHEEL_MOVED:
-    break;
-
-  case WINDOW_EVENT_MOUSE_MOVED:
-    break;
-
-  case WINDOW_EVENT_NONE:
-    break;
-
-  case WINDOW_EVENT_RESIZED:
-
-    //
-    // this shows more of the scene
-    //
-    if (!SCALE_ON_RESIZE_WINDOW) {
-      //                camera.UpdateSceneView(event.params.at(0),
-      //                event.params.at(1));
-      //                console.SetHeight(static_cast<unsigned
-      //                int>(event.params.at(1) / 3));
-
-      camera.Letterbox(event.params.at(0), event.params.at(1));
-    }
-    break;
-  }
-  event.Reset();
+    event.Reset();
 }
 
 // ------------------------------------------------------------
 // Simulate
 // ------------------------------------------------------------
-void Game::simulate() {
-  step(dt);
-}
+void Game::Simulate(float _dt) { step(_dt); }
 
 // ------------------------------------------------------------
 // Render
 // ------------------------------------------------------------
 void Game::render() {
 
-  window.Clear();
-  prepare_scene();
-  for (auto it = game_entities.begin(); it != game_entities.end(); ++it) {
-    (*it)->renderable.Render(window);
-  }
-  prepare_hud();
-  for (auto it = hud_entities.begin(); it != hud_entities.end(); ++it) {
-    (*it)->renderable.Render(window);
-  }
-  console.Render(window);
-  window.Present();
-  limit_framerate();
+    window.Clear();
+    prepare_scene();
+    for (auto it = game_entities.begin(); it != game_entities.end(); ++it) {
+        (*it)->renderable.Render(window);
+    }
+    prepare_hud();
+    for (auto it = hud_entities.begin(); it != hud_entities.end(); ++it) {
+        (*it)->renderable.Render(window);
+    }
+    console.Render(window);
+    window.Present();
+    limit_framerate();
 }
 
 // ------------------------------------------------------------
 // step
 // ------------------------------------------------------------
 void Game::step(float dt) {
-  for (auto it = game_entities.begin(); it != game_entities.end(); ++it) {
-    (*it)->Update(dt);
-  }
+    for (auto it = game_entities.begin(); it != game_entities.end(); ++it) {
+        (*it)->Update(dt);
+    }
 }
 
 // ------------------------------------------------------------
@@ -179,25 +170,25 @@ void Game::step(float dt) {
 // ------------------------------------------------------------
 void Game::AddEntity(GameEntity &entity) {
 
-  // hud entities go in a different list
-  if (entity.hud) {
-    hud_entities.push_back(&entity);
-  } else {
-    game_entities.push_back(&entity);
-  }
+    // hud entities go in a different list
+    if (entity.hud) {
+        hud_entities.push_back(&entity);
+    } else {
+        game_entities.push_back(&entity);
+    }
 }
 
 // ------------------------------------------------------------
 // GetEntityNames
 // ------------------------------------------------------------
 std::vector<std::string> Game::GetEntityNames() {
-  std::vector<std::string> names;
-  for (auto it = game_entities.begin(); it != game_entities.end(); ++it) {
-    names.push_back("\"" + (*it)->GetName() + "\"");
-  }
-  std::sort(names.begin(), names.end());
+    std::vector<std::string> names;
+    for (auto it = game_entities.begin(); it != game_entities.end(); ++it) {
+        names.push_back("\"" + (*it)->GetName() + "\"");
+    }
+    std::sort(names.begin(), names.end());
 
-  return names;
+    return names;
 }
 
 // ------------------------------------------------------------
@@ -205,134 +196,132 @@ std::vector<std::string> Game::GetEntityNames() {
 // ------------------------------------------------------------
 GameEntity &Game::GetEntity(const std::string &name) {
 
-  try {
-    for (auto it = game_entities.begin(); it != game_entities.end(); ++it) {
-      if ((*it)->GetName() == name) {
-        return **it;
-      }
+    try {
+        for (auto it = game_entities.begin(); it != game_entities.end(); ++it) {
+            if ((*it)->GetName() == name) {
+                return **it;
+            }
+        }
+        throw "oops";
+    } catch (...) {
+        // fatal...
+        std::cout << "Entity not found: " << name << std::endl;
     }
-    throw "oops";
-  } catch (...) {
-    // fatal...
-    std::cout << "Entity not found: " << name << std::endl;    
-  }  
 }
 
 // ------------------------------------------------------------
 // Call
 // ------------------------------------------------------------
 void Game::Call(std::vector<std::string> params) {
-  if (params.size() == 0)
-    return;
+    if (params.size() == 0)
+        return;
 
-  if (params[0] == "list") {
-    std::vector<std::string> texts = GetEntityNames();
-    console.Echo(texts);
-  }
-
-  else if (params[0] == "fps") {
-    std::vector<std::string> texts;
-    texts.push_back(Converter::IntToString(static_cast<int>(fps)));
-    console.Echo(texts);
-  }
-
-  else if (params[0] == "frame") {
-    std::vector<std::string> texts;
-    texts.push_back(Converter::IntToString(static_cast<int>(game_frame)));
-    console.Echo(texts);
-  }
-
-  else if (params[0] == "quit" || params[0] == "q" || params[0] == "exit") {
-    running = false;
-  }
-
-  else if (params[0] == "call") {
-    if (params.size() > 1) {
-      std::string entity_name = params[1];
-
-      auto name_set = GameEntity::entity_names;
-
-      std::vector<std::string> new_params(params.begin() + 2, params.end());
-
-      for (auto it = game_entities.begin(); it != game_entities.end(); ++it) {
-        if ((*it)->GetName() == entity_name) {
-          (*it)->Call(new_params);
-          return;
-        }
-      }
-      for (auto it = hud_entities.begin(); it != hud_entities.end(); ++it) {
-        if ((*it)->GetName() == entity_name) {
-          (*it)->Call(new_params);
-          return;
-        }
-      }
-      std::cout << "Entity not found: " << entity_name << std::endl;
+    if (params[0] == "list") {
+        std::vector<std::string> texts = GetEntityNames();
+        console.Echo(texts);
     }
-  }
+
+    else if (params[0] == "fps") {
+        std::vector<std::string> texts;
+        texts.push_back(Converter::IntToString(static_cast<int>(fps)));
+        console.Echo(texts);
+    }
+
+    else if (params[0] == "frame") {
+        std::vector<std::string> texts;
+        texts.push_back(Converter::IntToString(static_cast<int>(game_frame)));
+        console.Echo(texts);
+    }
+
+    else if (params[0] == "quit" || params[0] == "q" || params[0] == "exit") {
+        running = false;
+    }
+
+    else if (params[0] == "call") {
+        if (params.size() > 1) {
+            std::string entity_name = params[1];
+
+            auto name_set = GameEntity::entity_names;
+
+            std::vector<std::string> new_params(params.begin() + 2, params.end());
+
+            for (auto it = game_entities.begin(); it != game_entities.end(); ++it) {
+                if ((*it)->GetName() == entity_name) {
+                    (*it)->Call(new_params);
+                    return;
+                }
+            }
+            for (auto it = hud_entities.begin(); it != hud_entities.end(); ++it) {
+                if ((*it)->GetName() == entity_name) {
+                    (*it)->Call(new_params);
+                    return;
+                }
+            }
+            std::cout << "Entity not found: " << entity_name << std::endl;
+        }
+    }
 }
 
 // ------------------------------------------------------------
 // Call
 // ------------------------------------------------------------
-void Game::Call(std::string func, std::string n, ...) {
-  std::cout << "Game::Call: " << func << ", " << n << std::endl;
-}
+void Game::Call(std::string func, std::string n, ...) { std::cout << "Game::Call: " << func << ", " << n << std::endl; }
 
 // ------------------------------------------------------------
 // calc_fps
 // ------------------------------------------------------------
 void Game::calc_fps() {
-  ++frames_this_second;
-  float elapsed_time = gamestep_timer.GetFrameTime() - fps_timer;
+    ++frames_this_second;
+    float elapsed_time = gamestep_timer.GetFrameTime() - fps_timer;
 
-  if (elapsed_time >= 1000) {
-    fps_timer = gamestep_timer.GetFrameTime();
-    fps = frames_this_second + 1;
-    frames_this_second = 0;
-  }
+    if (elapsed_time >= 1000) {
+        fps_timer = gamestep_timer.GetFrameTime();
+        fps = frames_this_second + 1;
+        frames_this_second = 0;
+    }
 }
 // ------------------------------------------------------------
 // prepare_scene
 // ------------------------------------------------------------
 void Game::prepare_scene() {
-  // sort the render list in z-order
-  std::sort(game_entities.begin(), game_entities.end(), sort_renderable);
-  window.SetView(camera.GetSceneView());
+    // sort the render list in z-order
+    std::sort(game_entities.begin(), game_entities.end(), sort_renderable);
+    window.SetView(camera.GetSceneView());
 }
 
 // ------------------------------------------------------------
 // prepare_hud
 // ------------------------------------------------------------
 void Game::prepare_hud() {
-  // sort the render list in z-order
-  std::sort(hud_entities.begin(), hud_entities.end(), sort_renderable);
-  window.SetView(camera.GetHudView());
+    // sort the render list in z-order
+    std::sort(hud_entities.begin(), hud_entities.end(), sort_renderable);
+    window.SetView(camera.GetHudView());
 }
 
 // ------------------------------------------------------------
 // WorkingDirectory
 // ------------------------------------------------------------
 std::string Game::WorkingDirectory() {
-  char path[128];
-  getcwd(path, sizeof(path));
-  Log("ss", "Working Directory: ", std::string(path).c_str());
+    char path[128];
+    getcwd(path, sizeof(path));
+    Log("ss", "Working Directory: ", std::string(path).c_str());
 
-  return path;
+    return path;
 }
 
 // ------------------------------------------------------------
 // limit_framerate
 // ------------------------------------------------------------
 void Game::limit_framerate() {
-  // limit framerate
-  float newnewtime = gamestep_timer.GetLiveTime();
-  float gametime = gamestep_timer.GetFrameTime();
-  float render_time = newnewtime - gametime;
-  float target = (target_frame_time * 1000);
-  while (render_time < target) {
-    newnewtime = gamestep_timer.GetLiveTime();
-    render_time = newnewtime - gamestep_timer.GetFrameTime();
-  }
+    // limit framerate
+    float newnewtime = gamestep_timer.GetLiveTime();
+    float gametime = gamestep_timer.GetFrameTime();
+    float render_time = newnewtime - gametime;
+    float target = (target_frame_time * 1000);
+    while (render_time < target) {
+        newnewtime = gamestep_timer.GetLiveTime();
+        render_time = newnewtime - gamestep_timer.GetFrameTime();
+    }
 }
 
 } // GameLib
