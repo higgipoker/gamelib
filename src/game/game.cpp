@@ -144,12 +144,12 @@ void Game::render() {
 
     window.Clear();
     prepare_scene();
-    for (auto it = game_entities.begin(); it != game_entities.end(); ++it) {
-        (*it)->renderable.Render(window);
+    for (auto entity : game_entities) {
+        entity->renderable.Render(window);
     }
     prepare_hud();
-    for (auto it = hud_entities.begin(); it != hud_entities.end(); ++it) {
-        (*it)->renderable.Render(window);
+    for (auto entity : hud_entities) {
+        entity->renderable.Render(window);
     }
     console.Render(window);
     window.Present();
@@ -160,8 +160,8 @@ void Game::render() {
 // step
 // ------------------------------------------------------------
 void Game::step(float dt) {
-    for (auto it = game_entities.begin(); it != game_entities.end(); ++it) {
-        (*it)->Update(dt);
+    for (auto entity : game_entities) {
+        entity->Update(dt);
     }
 }
 
@@ -183,8 +183,8 @@ void Game::AddEntity(GameEntity &entity) {
 // ------------------------------------------------------------
 std::vector<std::string> Game::GetEntityNames() {
     std::vector<std::string> names;
-    for (auto it = game_entities.begin(); it != game_entities.end(); ++it) {
-        names.push_back("\"" + (*it)->GetName() + "\"");
+    for (auto entity : game_entities) {
+        names.push_back("\"" + entity->GetName() + "\"");
     }
     std::sort(names.begin(), names.end());
 
@@ -197,9 +197,9 @@ std::vector<std::string> Game::GetEntityNames() {
 GameEntity &Game::GetEntity(const std::string &name) {
 
     try {
-        for (auto it = game_entities.begin(); it != game_entities.end(); ++it) {
-            if ((*it)->GetName() == name) {
-                return **it;
+        for (auto entity : game_entities) {
+            if (entity->GetName() == name) {
+                return *entity;
             }
         }
         throw "oops";
@@ -245,15 +245,15 @@ void Game::Call(std::vector<std::string> params) {
 
             std::vector<std::string> new_params(params.begin() + 2, params.end());
 
-            for (auto it = game_entities.begin(); it != game_entities.end(); ++it) {
-                if ((*it)->GetName() == entity_name) {
-                    (*it)->Call(new_params);
+            for (auto entity : game_entities) {
+                if (entity->GetName() == entity_name) {
+                    entity->Call(new_params);
                     return;
                 }
             }
-            for (auto it = hud_entities.begin(); it != hud_entities.end(); ++it) {
-                if ((*it)->GetName() == entity_name) {
-                    (*it)->Call(new_params);
+            for (auto entity : hud_entities) {
+                if (entity->GetName() == entity_name) {
+                    entity->Call(new_params);
                     return;
                 }
             }

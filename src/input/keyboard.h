@@ -59,11 +59,11 @@ class Keyboard : public Input {
      * @return
      */
     static bool IsKeyPressed(keycode code) {
-        int sf_key;
+        int sf_key = 0;
 
-        for (auto it = keys.begin(); it != keys.end(); ++it) {
-            if ((*it).second == code) {
-                sf_key = (*it).first;
+        for (auto key : keys) {
+            if (key.second == code) {
+                sf_key = key.first;
             }
         }
 

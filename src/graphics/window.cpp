@@ -41,8 +41,8 @@ bool valid_videomode(unsigned int width, unsigned int height) {
     std::vector<sf::VideoMode> modes = sf::VideoMode::getFullscreenModes();
 
     // search forone that matched the requested width and height
-    for (auto it = modes.begin(); it != modes.end(); ++it) {
-        if ((*it).width == width && (*it).height == height) {
+    for (auto mode : modes) {
+        if (mode.width == width && mode.height == height) {
             return true;
         }
     }
@@ -53,8 +53,7 @@ bool valid_videomode(unsigned int width, unsigned int height) {
 // ------------------------------------------------------------
 // Window
 // ------------------------------------------------------------
-Window::Window(const std::string &title, unsigned int x, unsigned int y, unsigned int w,
-               unsigned int h, bool fullscreen) {
+Window::Window(const std::string &title, unsigned int x, unsigned int y, unsigned int w, unsigned int h, bool fullscreen) {
     // default style
     // unsigned int window_style = sf::Style::Titlebar | sf::Style::Close;
     unsigned int window_style = sf::Style::Default;
@@ -79,7 +78,7 @@ Window::Window(const std::string &title, unsigned int x, unsigned int y, unsigne
     window.setPosition(sf::Vector2i(static_cast<int>(x), static_cast<int>(y)));
 
     // testing force framerate (not needed when using "fixed timestep")
-    //window.setFramerateLimit(FPS);
+    // window.setFramerateLimit(FPS);
 }
 
 // ------------------------------------------------------------

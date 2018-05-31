@@ -26,8 +26,7 @@ Sprite::Sprite(const std::string &filename, unsigned int num_rows, unsigned int 
     }
 }
 
-Sprite::~Sprite() {
-}
+Sprite::~Sprite() {}
 
 void Sprite::Render(Window &window) {
     // shadow gets drawn first
@@ -40,9 +39,7 @@ void Sprite::Render(Window &window) {
 // ------------------------------------------------------------------
 // SetFrame
 // ------------------------------------------------------------------
-void Sprite::SetFrame(unsigned int frame) {
-    sprite.setTextureRect(rects.at(frame));
-}
+void Sprite::SetFrame(unsigned int frame) { sprite.setTextureRect(rects.at(frame)); }
 
 // ------------------------------------------------------------------
 // AddAnimation
@@ -95,9 +92,9 @@ void Sprite::SetAnimation(const std::string &name) {
     if (current_animation && current_animation->name == name)
         return;
 
-    for (auto it = animations.begin(); it != animations.end(); ++it) {
-        if ((*it).name == name) {
-            current_animation = &(*it);
+    for (auto animation : animations) {
+        if (animation.name == name) {
+            current_animation = &animation;
             current_animation->Start();
             break;
         }
@@ -111,16 +108,12 @@ void Sprite::SetAnimation(const std::string &name) {
 // ------------------------------------------------------------------
 // Scale
 // ------------------------------------------------------------------
-void Sprite::Scale(float x_factor, float y_factor) {
-    sprite.setScale(x_factor, y_factor);
-}
+void Sprite::Scale(float x_factor, float y_factor) { sprite.setScale(x_factor, y_factor); }
 
 // ------------------------------------------------------------------
 // Scale
 // ------------------------------------------------------------------
-void Sprite::Scale(float factor) {
-    sprite.setScale(factor, factor);
-}
+void Sprite::Scale(float factor) { sprite.setScale(factor, factor); }
 
 // ------------------------------------------------------------------
 // SetAnimationSpeed

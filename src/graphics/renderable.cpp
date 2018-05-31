@@ -13,14 +13,12 @@ static std::map<std::string, TrackableTexture> texture_list;
 // ------------------------------------------------------------
 // constructor
 // ------------------------------------------------------------
-Renderable::Renderable(){
-}
+Renderable::Renderable() {}
 
 // ------------------------------------------------------------
 // Constructor
 // ------------------------------------------------------------
-Renderable::Renderable(const std::string &filename)
-    :texture_filename(filename) {
+Renderable::Renderable(const std::string &filename) : texture_filename(filename) {
 
     // if the same texture source exists, don't create a duplicate
     auto it = texture_list.find(filename);
@@ -29,7 +27,7 @@ Renderable::Renderable(const std::string &filename)
         (*it).second.ref_counter++;
 
     } else {
-      
+
         // create new texture
         texture = new sf::Texture();
         if (!texture->loadFromFile(filename)) {
@@ -50,8 +48,7 @@ Renderable::Renderable(const std::string &filename)
 // ------------------------------------------------------------
 // Constructor
 // ------------------------------------------------------------
-Renderable::Renderable(const GameLib::Renderable &other)
-    : z_order(0), texture(nullptr), texture_filename(other.texture_filename) {
+Renderable::Renderable(const GameLib::Renderable &other) : z_order(0), texture(nullptr), texture_filename(other.texture_filename) {
     paletted_texture = nullptr;
 }
 
@@ -104,7 +101,6 @@ void Renderable::SetPosition(float x, float y) {
     sprite.setPosition(sf::Vector2f(x, y));
 }
 
-
 // ------------------------------------------------------------
 // SwapColors
 // ------------------------------------------------------------
@@ -117,8 +113,8 @@ void Renderable::SwapColors(std::vector<std::pair<Color, Color>> palette) {
     paletted_texture = new sf::Texture();
     sf::Image img = texture->copyToImage();
 
-    for (auto it = palette.begin(); it != palette.end(); ++it) {
-        replace_color(img, *it);
+    for (auto colour : palette) {
+        replace_color(img, colour);
     }
 
     paletted_texture->loadFromImage(img);

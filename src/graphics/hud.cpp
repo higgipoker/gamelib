@@ -47,8 +47,8 @@ void Hud::Render(Window &window) {
 
     // render this hud, then render children
 
-    for (auto it = children.begin(); it != children.end(); ++it) {
-        (*it)->Render(window);
+    for (auto child : children) {
+        child->Render(window);
     }
 }
 
@@ -65,8 +65,8 @@ void Hud::Send(const std::string &msg, std::vector<int> params) {
         int y_difference = params[1] - static_cast<int>(GetPosition().y);
 
         SetPosition(params[0], params[1]);
-        for (auto it = children.begin(); it != children.end(); ++it) {
-            (*it)->Move(x_difference, y_difference);
+        for (auto child : children) {
+            child->Move(x_difference, y_difference);
         }
     }
 
@@ -76,8 +76,8 @@ void Hud::Send(const std::string &msg, std::vector<int> params) {
     if (msg.compare("setposition") == 0) {
 
         Move(params[0], params[1]);
-        for (auto it = children.begin(); it != children.end(); ++it) {
-            (*it)->Move(params[0], params[1]);
+        for (auto child : children) {
+            child->Move(params[0], params[1]);
         }
     }
 }
@@ -92,8 +92,8 @@ void Hud::Send(const std::string &msg) {
     //
     if (msg.compare("show") == 0) {
         Show();
-        for (auto it = children.begin(); it != children.end(); ++it) {
-            (*it)->Show();
+        for (auto child : children) {
+            child->Show();
         }
     }
 
@@ -102,8 +102,8 @@ void Hud::Send(const std::string &msg) {
     //
     if (msg.compare("hide") == 0) {
         Hide();
-        for (auto it = children.begin(); it != children.end(); ++it) {
-            (*it)->Hide();
+        for (auto child : children) {
+            child->Hide();
         }
     }
 }
