@@ -88,16 +88,12 @@ class Sprite : public Renderable {
     /**
      * @brief get current width
      */
-    virtual inline float GetWidth() override {
-        return sprite_width;
-    }
+    virtual inline float GetWidth() override { return sprite_width; }
 
     /**
      * @brief get current height
      */
-    virtual inline float GetHeight() override {
-        return sprite_height;
-    }
+    virtual inline float GetHeight() override { return sprite_height; }
 
     /**
      * @brief dynamically alter the speed of the current animation
@@ -110,25 +106,23 @@ class Sprite : public Renderable {
      * @param x x origin
      * @param y y origin
      */
-    inline void SetOrigin(float x, float y) {
-        sprite.setOrigin(x, y);
-    }
+    inline void SetOrigin(float x, float y) { sprite.setOrigin(x, y); }
 
     /// a rsprite may or may not have a shadow
-    Sprite *shadow;
+    Sprite *shadow = nullptr;
 
   protected:
     /// spritesheet rects
     std::vector<sf::IntRect> rects;
 
     /// each sprite width and height
-    unsigned int sprite_width, sprite_height;
+    unsigned int sprite_width = 0, sprite_height = 0;
 
     /// a list of possible animations for the sprite (list of frame numbers to cycle through)
     std::vector<Animation> animations;
 
     /// pointer to current animation
-    Animation *current_animation;
+    Animation *current_animation = nullptr;
 };
 
 } // GameLib

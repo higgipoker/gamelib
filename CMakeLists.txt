@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 2.6)
 
 # ----------------------------------------------------------------------------------------------------
-# compiler flags
+# use c++11
 add_definitions(-std=c++11)
 
 # ----------------------------------------------------------------------------------------------------
@@ -9,18 +9,17 @@ add_definitions(-std=c++11)
 project (gamelib)
 
 # ----------------------------------------------------------------------------------------------------
-# cmake environment varables
+# library output folder
 set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 
 
 # ----------------------------------------------------------------------------------------------------
 # include dirs
-include_directories(${PROJECT_SOURCE_DIR}/src)
-include_directories(/usr/local/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../SFML-2.5.0/include)
 
 # ----------------------------------------------------------------------------------------------------
 # library dirs
-link_directories(/usr/local/lib)
+#link_directories(/usr/local/lib)
 
 # ----------------------------------------------------------------------------------------------------
 # project build
@@ -147,8 +146,3 @@ DESTINATION /usr/local/include/gamelib/files)
 install(FILES
 src/gamelib.h
 DESTINATION /usr/local/include/gamelib)
-
-# --------------------------------------------------
-# link libs
-# --------------------------------------------------
-

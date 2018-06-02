@@ -92,9 +92,8 @@ void Sprite::SetAnimation(const std::string &name) {
     if (current_animation && current_animation->name == name)
         return;
 
-    for (auto animation : animations) {
-        if (animation.name == name) {
-            current_animation = &animation;
+    for (current_animation = &(*animations.begin()); current_animation != &*animations.end(); ++current_animation) {
+        if (current_animation->name == name) {
             current_animation->Start();
             break;
         }
