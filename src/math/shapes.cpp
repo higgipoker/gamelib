@@ -78,8 +78,7 @@ Circle::Circle() { x = y = radius = 0; }
 
 bool Circle::in_rect(const Rectangle &r) {
 
-    if (x - radius > r.x && x + radius < r.x + r.w && y - radius > r.y &&
-        y + radius < r.y + r.h) {
+    if (x - radius > r.x && x + radius < r.x + r.w && y - radius > r.y && y + radius < r.y + r.h) {
         return true;
     }
 
@@ -135,9 +134,18 @@ Point Rectangle::getRandomPoint(void) const {
 
     return p;
 }
+
+Size2D::Size2D() {
+    w = 0;
+    h = 0;
+}
+
+Size2D::Size2D(float _w, float _h) {
+    w = _w;
+    h = _h;
+}
 bool Rectangle::overlaps(const Rectangle &_rect) const {
-    if (this->x < _rect.x + _rect.w && this->x + this->w > _rect.x &&
-        this->y < _rect.y + _rect.h && this->y + this->h > _rect.y) {
+    if (this->x < _rect.x + _rect.w && this->x + this->w > _rect.x && this->y < _rect.y + _rect.h && this->y + this->h > _rect.y) {
         return true;
     }
 
@@ -184,8 +192,7 @@ Ball::Ball(float _x, float _y, float _z, float _radius) {
 // ----------------------------------------------------------------------------------------------------
 // UprightVerticalPlane
 // ----------------------------------------------------------------------------------------------------
-UprightVerticalPlane::UprightVerticalPlane(float _x, float _y, float _depth,
-                                           float _height) {
+UprightVerticalPlane::UprightVerticalPlane(float _x, float _y, float _depth, float _height) {
     x = _x;
     y = _y;
     depth = _depth;
@@ -195,8 +202,7 @@ UprightVerticalPlane::UprightVerticalPlane(float _x, float _y, float _depth,
 // ----------------------------------------------------------------------------------------------------
 // UprightHorizontalPlane
 // ----------------------------------------------------------------------------------------------------
-UprightHorizontalPlane::UprightHorizontalPlane(float _x, float _y, float _width,
-                                               float _height) {
+UprightHorizontalPlane::UprightHorizontalPlane(float _x, float _y, float _width, float _height) {
     x = _x;
     y = _y;
     width = _width;

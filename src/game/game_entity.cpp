@@ -37,9 +37,7 @@ std::set<std::string> GameEntity::entity_names;
 // ------------------------------------------------------------
 // Constructor
 // ------------------------------------------------------------
-GameEntity::GameEntity(Physical &p, Renderable &r)
-    : physical(p), renderable(r), velocity(physical.velocity),
-      anchor_type(ANCHOR_CENTER) {}
+GameEntity::GameEntity(Physical &p, Renderable &r) : physical(p), renderable(r), velocity(physical.velocity), anchor_type(ANCHOR_CENTER) {}
 
 // ------------------------------------------------------------
 //
@@ -76,9 +74,7 @@ void GameEntity::SetPosition(float x, float y, float z) {
     }
 }
 
-Point GameEntity::GetPosition() {
-    return Point(physical.position.x, physical.position.y);
-}
+Point GameEntity::GetPosition() { return Point(physical.position.x, physical.position.y); }
 
 // ------------------------------------------------------------
 // anchor
@@ -91,12 +87,10 @@ void GameEntity::anchor() {
             renderable.SetPosition(physical.position.x, physical.position.y);
             break;
         case ANCHOR_CENTER:
-            renderable.SetPosition(physical.position.x - renderable.GetWidth() / 2,
-                                   physical.position.y - renderable.GetHeight() / 2);
+            renderable.SetPosition(physical.position.x - renderable.GetSize().w / 2, physical.position.y - renderable.GetSize().h / 2);
             break;
         case ANCHOR_BASELINE:
-            renderable.SetPosition(physical.position.x - renderable.GetWidth() / 2,
-                                   physical.position.y - renderable.GetHeight());
+            renderable.SetPosition(physical.position.x - renderable.GetSize().w / 2, physical.position.y - renderable.GetSize().h);
             break;
     }
 }
@@ -124,8 +118,7 @@ std::string GameEntity::GetName() { return name; }
 void GameEntity::Call(std::vector<std::string> params) {
     if (params[0] == "move") {
         std::vector<std::string> new_params(params.begin() + 1, params.end());
-        SetPosition(atoi(new_params[0].c_str()), atoi(new_params[1].c_str()),
-                    atoi(new_params[2].c_str()));
+        SetPosition(atoi(new_params[0].c_str()), atoi(new_params[1].c_str()), atoi(new_params[2].c_str()));
     }
 }
 

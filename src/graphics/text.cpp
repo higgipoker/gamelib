@@ -3,6 +3,9 @@
 
 namespace GameLib {
 
+// ------------------------------------------------------------
+// Text
+// ------------------------------------------------------------
 Text::Text(const std::string &fontfile) {
 
     if (!font.loadFromFile(fontfile)) {
@@ -12,48 +15,52 @@ Text::Text(const std::string &fontfile) {
     text.setFont(font);
 }
 
-Text::Text(const std::string &fontfile, const std::string &label) : text(label, font) {
+// ------------------------------------------------------------
+// Text
+// ------------------------------------------------------------
+Text::Text(const std::string &fontfile, const std::string &label)
+    : text(label, font) {
 
     if (!font.loadFromFile(fontfile)) {
         std::cout << "could not load font: " << fontfile << std::endl;
     }
 }
 
+// ------------------------------------------------------------
+// Render
+// ------------------------------------------------------------
 void GameLib::Text::Render(Window &window) {
     text.setPosition(geometry.x, geometry.y);
     window.Draw(text);
 }
 
-const sf::Drawable &Text::Get() {
-    return text;
-}
+// ------------------------------------------------------------
+// Get
+// ------------------------------------------------------------
+const sf::Drawable &Text::Get() { return text; }
 
-void Text::SetText(const std::string &label) {
-    text.setString(label);
-}
+// ------------------------------------------------------------
+// SetText
+// ------------------------------------------------------------
+void Text::SetText(const std::string &label) { text.setString(label); }
 
-std::string Text::GetText() {
-    return text.getString();
-}
+// ------------------------------------------------------------
+// GetText
+// ------------------------------------------------------------
+std::string Text::GetText() { return text.getString(); }
 
+// ------------------------------------------------------------
+// SetColor
+// ------------------------------------------------------------
 void Text::SetColor(const Color &c) {
     text.setOutlineColor(sf::Color(c.r, c.g, c.b, c.a));
 }
 
-float Text::GetWidth() {
-    return text.getLocalBounds().width;
-}
-
-float Text::GetHeight() {
-    return text.getLocalBounds().height;
-}
-
-Label::Label(const std::string &fontname, unsigned int fontheight) : Text(fontname) {
-    text.setCharacterSize(fontheight);
-}
-
-Label::Label(const std::string &fontname, unsigned int fontheight, const std::string &label) : Text(fontname, label) {
-    text.setCharacterSize(fontheight);
+// ------------------------------------------------------------
+// GetSize
+// ------------------------------------------------------------
+Dimension Text::GetSize() {
+    return Dimension(text.getLocalBounds().width, text.getLocalBounds().height);
 }
 
 } // GameLib

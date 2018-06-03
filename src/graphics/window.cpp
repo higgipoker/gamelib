@@ -34,7 +34,7 @@
 namespace GameLib {
 
 // ------------------------------------------------------------
-// plain old function
+// plain old function to find video modes
 // ------------------------------------------------------------
 bool valid_videomode(unsigned int width, unsigned int height) {
     // get list of supported video modes
@@ -55,7 +55,6 @@ bool valid_videomode(unsigned int width, unsigned int height) {
 // ------------------------------------------------------------
 Window::Window(const std::string &title, unsigned int x, unsigned int y, unsigned int w, unsigned int h, bool fullscreen) {
     // default style
-    // unsigned int window_style = sf::Style::Titlebar | sf::Style::Close;
     unsigned int window_style = sf::Style::Default;
 
     // if fullscreen, look for a compatible video mode
@@ -137,7 +136,7 @@ void Window::Close() { window.close(); }
 // ------------------------------------------------------------
 // SetView
 // ------------------------------------------------------------
-void Window::SetView(sf::View view) { window.setView(view); }
+void Window::SetView(const sf::View &view) { window.setView(view); }
 
 // ------------------------------------------------------------
 // PollEvent

@@ -33,6 +33,7 @@ src/graphics/sprite.cpp
 src/graphics/tileset.cpp
 src/graphics/animation.cpp
 src/graphics/text.cpp
+src/graphics/label.cpp
 src/graphics/primitives.cpp
 src/graphics/color.cpp
 src/graphics/palette.cpp
@@ -80,6 +81,7 @@ src/graphics/sprite.h
 src/graphics/tileset.h
 src/graphics/animation.h
 src/graphics/text.h
+src/graphics/label.h
 src/graphics/primitives.h
 src/graphics/color.h
 src/graphics/palette.h

@@ -44,6 +44,17 @@ struct Point {
 };
 
 /**
+ * @brief The Size2D struct
+ */
+typedef struct Size2D {
+    Size2D();
+    Size2D(float _w, float _h);
+
+    float w = 0;
+    float h = 0;
+} Dimension;
+
+/**
  * @brief The Line struct
  */
 struct Line {
@@ -61,12 +72,9 @@ struct Triangle {
     Triangle(Point &_p1, Point &_p2, Point &_p3);
     Triangle();
     float area() {
-        float side1 =
-            sqrtf((p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y));
-        float side2 =
-            sqrtf((p3.x - p2.x) * (p3.x - p2.x) + (p3.y - p2.y) * (p3.y - p2.y));
-        float side3 =
-            sqrtf((p1.x - p3.x) * (p1.x - p3.x) + (p1.y - p3.y) * (p1.y - p3.y));
+        float side1 = sqrtf((p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y));
+        float side2 = sqrtf((p3.x - p2.x) * (p3.x - p2.x) + (p3.y - p2.y) * (p3.y - p2.y));
+        float side3 = sqrtf((p1.x - p3.x) * (p1.x - p3.x) + (p1.y - p3.y) * (p1.y - p3.y));
         float s = (side1 + side2 + side3) / 2;
         float area = sqrtf(s * (s - side1) * (s - side2) * (s - side3));
         return area;

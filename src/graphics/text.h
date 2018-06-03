@@ -57,12 +57,7 @@ class Text : public Renderable {
     /**
      * @brief get text width
      */
-    float GetWidth() override;
-
-    /**
-    * @brief get text height
-    */
-    float GetHeight() override;
+    Dimension GetSize() override;
 
   protected:
     /// an sfml font
@@ -70,32 +65,6 @@ class Text : public Renderable {
 
     /// sfml text object
     sf::Text text;
-};
-
-/** @brief special kind of text with just one line */
-class Label : public Text {
-  public:
-    /**
-     * @brief construct
-     * @param fontname path to font file on disk
-     * @param fontheight font size
-     */
-    Label(const std::string &fontname, unsigned int fontheight);
-
-    /**
-     * @brief construct
-     * @param fontname path to font file on disk
-     * @param fontheight font size
-     * @param label text to show
-     */
-    Label(const std::string &fontname, unsigned int fontheight, const std::string &label);
-
-    /**
-     * @brief get current dimensions
-     */
-    virtual inline float GetHeight() override {
-        return text.getCharacterSize();
-    }
 };
 
 } // GameLib

@@ -88,12 +88,7 @@ class Sprite : public Renderable {
     /**
      * @brief get current width
      */
-    virtual inline float GetWidth() override { return sprite_width; }
-
-    /**
-     * @brief get current height
-     */
-    virtual inline float GetHeight() override { return sprite_height; }
+    virtual inline Dimension GetSize() override { return Dimension(sprite_width, sprite_height); }
 
     /**
      * @brief dynamically alter the speed of the current animation

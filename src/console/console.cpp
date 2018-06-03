@@ -67,7 +67,7 @@ void Console::Render(Window &window) {
     //
     Primitives::FillColor(Color(0, 0, 0, 255));
     Primitives::OutlineColor(Color(0, 0, 0, 255));
-    Primitives::Rectangle(window, 0, 0, static_cast<unsigned int>(window.GetSize().x), height);
+    Primitives::Rectangle(window, 0, 0, static_cast<unsigned int>(window.GetSize().w), height);
     Primitives::OutlineColor(Color(255, 255, 255, 255));
 
     unsigned int line_height = 22;

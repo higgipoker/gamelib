@@ -29,16 +29,17 @@ class Input {
      */
     virtual void Update() = 0;
 
-    /// event states
-    int event_states[TOTAL_EVENTS];
-
-  protected:
-    sf::Clock fire_timer;
-
     /**
      * @brief reset
      */
     void Reset();
+
+    /// event states
+    int event_states[TOTAL_EVENTS];
+
+    sf::Clock fire_timer;
+
+  protected:
 };
 
 } // GameLib

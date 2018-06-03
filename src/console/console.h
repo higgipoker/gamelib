@@ -26,7 +26,7 @@
 #pragma once
 
 #include "../graphics/hud.h"
-#include "../graphics/text.h"
+#include "../graphics/label.h"
 #include "../input/keycodes.h"
 #include "../utils/timer.h"
 

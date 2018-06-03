@@ -25,9 +25,9 @@
  */
 #pragma once
 
-#include <vector>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
+#include <vector>
 
 #include "../math/vector3.h"
 #include "events.h"
@@ -35,6 +35,9 @@
 
 namespace GameLib {
 
+/**
+ * @brief  Wrapper for sfml window
+ */
 class Window {
   public:
     /**
@@ -46,8 +49,7 @@ class Window {
      * @param h
      * @param fullscreen
      */
-    explicit Window(const std::string &title, unsigned int x, unsigned int y,
-                    unsigned int w, unsigned int h, bool fullscreen = false);
+    explicit Window(const std::string &title, unsigned int x, unsigned int y, unsigned int w, unsigned int h, bool fullscreen = false);
 
     /**
   * @brief destructor
@@ -105,7 +107,7 @@ class Window {
      * @brief set the viewport
      * @param  v view to set
      */
-    void SetView(sf::View v);
+    void SetView(const sf::View &v);
 
     // tmp for testing
     /**
@@ -117,14 +119,12 @@ class Window {
     /**
      * @brief get position of window
      */
-    Vector3 GetPosition() {
-        return Vector3(window.getPosition().x, window.getPosition().y);
-    }
+    Point GetPosition() { return Point(window.getPosition().x, window.getPosition().y); }
 
     /**
      * @brief get size of window
      */
-    Vector3 GetSize() { return Vector3(window.getSize().x, window.getSize().y); }
+    Dimension GetSize() { return Dimension(window.getSize().x, window.getSize().y); }
 
     /**
      * @brief VSync

@@ -90,17 +90,12 @@ class Renderable {
     /**
      * @brief get current dimensions
      */
-    virtual inline float GetWidth() { return geometry.w; }
-
-    /**
-     * @brief get current dimensions
-     */
-    virtual inline float GetHeight() { return geometry.h; }
+    virtual inline Dimension GetSize() { return Dimension(geometry.w, geometry.h); }
 
     /**
      * @brief color swap
      */
-    void SwapColors(std::vector<std::pair<Color, Color>> palette);
+    void SwapColors(const std::vector<std::pair<Color, Color>> &palette);
 
     /// depth
     float z_order = 0;
@@ -124,12 +119,7 @@ class Renderable {
     sf::Sprite sprite;
 
     /// save as reference to texture being used
-    std::string texture_filename  = "[non-textured-renderable]";
-
-    /**
-     * @brief helper set the texture
-     */
-    void set_texture(const std::string &filename);
+    std::string texture_filename = "[non-textured-renderable]";
 };
 
 } // GameLib

@@ -104,7 +104,7 @@ void Renderable::SetPosition(float x, float y) {
 // ------------------------------------------------------------
 // SwapColors
 // ------------------------------------------------------------
-void Renderable::SwapColors(std::vector<std::pair<Color, Color>> palette) {
+void Renderable::SwapColors(const std::vector<std::pair<Color, Color>> &palette) {
 
     if (paletted_texture) {
         delete paletted_texture;
