@@ -123,4 +123,12 @@ void Sprite::SetAnimationSpeed(unsigned int time) {
     }
 }
 
+void Sprite::IncAnimationSpeed(){
+    current_animation->IncSpeed();
+}
+
+void Sprite::DecAnimationSpeed(){
+    current_animation->DecSpeed();
+}
+
 } // GameLib

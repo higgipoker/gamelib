@@ -1,5 +1,6 @@
 #pragma once
 #include <math.h>
+#include <SFML/Graphics/Rect.hpp>
 namespace GameLib {
 
 class Vector3;
@@ -21,6 +22,7 @@ struct Rectangle {
     Point GetCenter(void) const;
     Point getRandomPoint(void) const;
     bool overlaps(const Rectangle &_rect) const;
+    bool overlaps(const sf::FloatRect &_rect) const;
     bool contains(const Point &_p) const;
     float x, y, w, h;
 };

@@ -95,6 +95,8 @@ class Sprite : public Renderable {
      * @param speed new speed
      */
     void SetAnimationSpeed(unsigned int speed);
+    void IncAnimationSpeed();
+    void DecAnimationSpeed();
 
     /**
      * @brief set origin for transformations

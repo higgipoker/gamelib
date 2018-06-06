@@ -85,6 +85,8 @@ class Animation {
      * @param speed new speed
      */
     void SetSpeed(unsigned int speed);
+    void IncSpeed();
+    void DecSpeed();
 
     /// a name to identify the anmation
     std::string name;

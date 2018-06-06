@@ -30,18 +30,18 @@ namespace GameLib {
 // ------------------------------------------------------------
 // Constructor
 // ------------------------------------------------------------
-Animation::Animation(const std::string &id, float frametime, bool loopanim, int n, ...)
+Animation::Animation(const std::string &id, float frametime, bool loopanim,
+                     int n, ...)
     : name(id), loop(loopanim), running(false), frame_time(frametime) {
+  va_list vl;
+  va_start(vl, n);
+  for (int i = 0; i < n; i++) {
+    int val = va_arg(vl, int);
+    frames.push_back(static_cast<unsigned int>(val));
+  }
+  va_end(vl);
 
-    va_list vl;
-    va_start(vl, n);
-    for (int i = 0; i < n; i++) {
-        int val = va_arg(vl, int);
-        frames.push_back(static_cast<unsigned int>(val));
-    }
-    va_end(vl);
-
-    current_frame = frames.begin();
+  current_frame = frames.begin();
 }
 
 // ------------------------------------------------------------
@@ -49,36 +49,40 @@ Animation::Animation(const std::string &id, float frametime, bool loopanim, int 
 // ------------------------------------------------------------
 Animation::Animation(const std::string &id, float frametime, bool loopanim,
                      std::vector<unsigned int> f)
-    : name(id), frames(f), current_frame(frames.begin()), loop(loopanim), running(false),
+    : name(id),
+      frames(f),
+      current_frame(frames.begin()),
+      loop(loopanim),
+      running(false),
       frame_time(frametime) {}
 
 // ------------------------------------------------------------
 // Start
 // ------------------------------------------------------------
 void Animation::Start() {
-    current_frame = frames.begin();
-    ticks = 0;
-    running = true;
+  current_frame = frames.begin();
+  ticks = 0;
+  running = true;
 }
 
 // ------------------------------------------------------------
 // Step
 // ------------------------------------------------------------
 void Animation::Step() {
-    if (running) {
-        if (++ticks > frame_time) {
-            ticks = 0;
+  if (running) {
+    if (++ticks > frame_time) {
+      ticks = 0;
 
-            if (++current_frame == frames.end()) {
-                if (loop) {
-                    current_frame = frames.begin();
-                } else {
-                    running = false;
-                    --current_frame;
-                }
-            }
+      if (++current_frame == frames.end()) {
+        if (loop) {
+          current_frame = frames.begin();
+        } else {
+          running = false;
+          --current_frame;
         }
+      }
     }
+  }
 }
 
 // ------------------------------------------------------------
@@ -100,5 +104,11 @@ unsigned int Animation::CurrentFrame() const { return *current_frame; }
 // SetSpeed
 // ------------------------------------------------------------
 void Animation::SetSpeed(unsigned int speed) { frame_time = speed; }
+void Animation::IncSpeed() {
+  if (frame_time-- <= 0) {
+    frame_time = 0;
+  }
+}
+void Animation::DecSpeed() { frame_time++; }
 
-} // GameLib
+}  // namespace GameLib

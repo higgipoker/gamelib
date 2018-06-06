@@ -147,11 +147,11 @@ void Game::render() {
     for (auto entity : game_entities) {
         entity->renderable.Render(window);
     }
-    prepare_hud();
-    for (auto entity : hud_entities) {
-        entity->renderable.Render(window);
-    }
-    console.Render(window);
+//    prepare_hud();
+//    for (auto entity : hud_entities) {
+//        entity->renderable.Render(window);
+//    }
+//    console.Render(window);
     window.Present();
     limit_framerate();
 }
@@ -286,7 +286,7 @@ void Game::calc_fps() {
 void Game::prepare_scene() {
     // sort the render list in z-order
     std::sort(game_entities.begin(), game_entities.end(), sort_renderable);
-    window.SetView(camera.GetSceneView());
+    window.SetView(camera);
 }
 
 // ------------------------------------------------------------

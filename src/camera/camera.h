@@ -25,6 +25,8 @@
  */
 #pragma once
 
+#include <SFML/Graphics/View.hpp>
+
 // tmp
 #include "../graphics/renderable.h"
 
@@ -36,95 +38,87 @@ namespace GameLib {
 /**
  * @brief The Camera class
  */
-class Camera {
-  public:
-    /**
-    * @brief Camera
-    */
-    explicit Camera();
+class Camera : public sf::View {
+ public:
+  /**
+   * @brief Camera
+   */
+  explicit Camera();
 
-    /**
-      *@brief destruct
-     */
-    ~Camera();
+  /**
+   *@brief destruct
+   */
+  ~Camera();
 
-    /**
-     * @brief Init
-     */
-    void Init(int width, int height);
+  /**
+   * @brief Init
+   */
+  void Init(int width, int height);
 
-    /**
-     * @brief the main update function for an entity
-     * @param dt time delta
-     */
-    void Update(float dt);
+  /**
+   * @brief the main update function for an entity
+   * @param dt time delta
+   */
+  void Update(float dt);
 
-    /**
-     * @brief set up the game world rect
-     * @param world_rect rectangle
-     */
-    void SetWorldRect(const Rectangle &world_rect);
+  /**
+   * @brief set up the game world rect
+   * @param world_rect rectangle
+   */
+  void SetWorldRect(const Rectangle &world_rect);
 
-    /**
-     * @brief follow a game entity
-     * @param e game entity to follow
-     */
-    void Follow(GameEntity *e);
+  /**
+   * @brief follow a game entity
+   * @param e game entity to follow
+   */
+  void Follow(GameEntity *e);
 
-    /**
-     * @brief UpdateSceneView eg window resized
-     */
-    void UpdateSceneView(int width, int height);
+  /**
+   * @brief UpdateSceneView eg window resized
+   */
+  void UpdateSceneView(int width, int height);
 
-    /**
-     * @brief get the current viewport
-     */
-    Rectangle &GetViewport();
+  /**
+   * @brief GetHudView
+   * @return
+   */
+  sf::View &GetHudView();
 
-    // tmp
-    /**
-     * @brief GetSceneView
-     * @return
-     */
-    sf::View &GetSceneView();
+  /**
+   * @brief for maintain aspect ratio on window resize
+   * @param x
+   * @param y
+   */
+  void Letterbox(float window_width, float window_height);
 
-    /**
-    * @brief GetHudView
-    * @return
-    */
-    sf::View &GetHudView();
+  /**
+   * @brief sf::Rect::GetViewInWorld
+   */
+  sf::IntRect GetViewInWorld();
 
-    /**
-     * @brief for maintain aspect ratio on window resize
-     * @param x
-     * @param y
-     */
-    void Letterbox(float window_width, float window_height);
+ protected:
+  /// physical object for moving camera
+  Physical physical;
 
-  protected:
-    /// physical object for moving camera
-    Physical physical;
+  /// whole game world
+  Rectangle world;
 
-    /// current viewport
-    Rectangle viewport;
+  /// only move camera if target outside this Rectangle
+  Rectangle anchor_rect;
 
-    /// whole game world
-    Rectangle world;
+  /// track which entity we are following
+  GameEntity *following;
 
-    /// only move camera if target outside this Rectangle
-    Rectangle anchor_rect;
+  /**
+   * @brief helper to update position
+   */
+  void update_position();
 
-    /// track which entity we are following
-    GameEntity *following;
+  /// a camera is basically a wrapper around a sfml view
+  //sf::View scene_view;
 
-    /**
-     * @brief helper to update position
-     */
-    void update_position();
-
-    // TODO
-    sf::View scene_view;
-    sf::View hud_view;
+  /// todo this should be detached from the camera (a hud should overlay all cameras, move to window)
+  sf::View hud_view;
 };
 
-} // GameLib
+}  // namespace GameLib

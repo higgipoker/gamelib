@@ -41,11 +41,13 @@ Camera::~Camera() {}
 // Init
 // ------------------------------------------------------------
 void Camera::Init(int width, int height) {
-    viewport.SetSize(width, height);
-    scene_view.setCenter(viewport.x + viewport.w / 2, viewport.y + viewport.h / 2);
-    scene_view.setSize(viewport.w, viewport.h);
-    hud_view.setCenter(width / 2, height / 2);
-    Letterbox(width, height);
+  //    hud_view.setCenter(width / 2, height / 2);
+  //    //Letterbox(width, height);
+  //    setViewport(sf::FloatRect(0,0,width, height));
+  //    setCenter(width / 2, height / 2);
+
+  setSize(800, 600);
+  setCenter(400, 300);
 }
 
 // ------------------------------------------------------------
@@ -58,108 +60,121 @@ void Camera::SetWorldRect(const Rectangle &world_rect) { world = world_rect; }
 // ------------------------------------------------------------
 void Camera::Follow(GameEntity *e) { following = e; }
 
-#define SPEED 50
+#define SPEED 1
 // ------------------------------------------------------------
 // Update
 // ------------------------------------------------------------
 void Camera::Update(float dt) {
+  if (following) {
+    Vector3 distance =
+        following->physical.position - Vector3(getCenter().x, getCenter().y);
+    float mag = distance.magnitude();
+    physical.velocity = distance.normalised() * SPEED * dt * mag;
+    physical.position += physical.velocity;
+  }
 
-    if (following) {
-        Vector3 distance = following->physical.position - Vector3(viewport.GetCenter().x, viewport.GetCenter().y);
-        float mag = distance.magnitude();
-        physical.velocity = distance.normalised() * SPEED * dt * mag;
-        physical.position += physical.velocity;
-    }
-
-    update_position();
+  update_position();
 }
 
 // ------------------------------------------------------------
 // update_position
 // ------------------------------------------------------------
 void Camera::update_position() {
+  // check for min bounds
+  //  int tmp = physical.position.x - getViewport().width / 2;
+  //  std::cout << tmp << std::endl;
 
-    // check for min bounds
-    if (physical.position.x - viewport.w / 2 < 0) {
-        physical.position.x = viewport.w / 2;
-    }
+  //  if (physical.position.x - world.w / 2 < 0) {
+  //    physical.position.x = world.w / 2;
+  //  }
 
-    if (physical.position.y - viewport.h / 2 < 0) {
-        physical.position.y = viewport.h / 2;
-    }
+  //  if (physical.position.y - world.h / 2 < 0) {
+  //    physical.position.y = world.h / 2;
+  //  }
 
-    // check for horizontal bounds
-    if (physical.position.x + viewport.w / 2 > world.w) {
-        physical.position.x = world.w - viewport.w / 2;
-    }
+  sf::IntRect v = GetViewInWorld();
 
-    // check for vertical bounds
-    if (physical.position.y + viewport.h / 2 > world.h) {
-        physical.position.y = world.h - viewport.h / 2;
-    }
+  // not too far left
+  if (physical.position.x - v.width / 2 < 0) {
+    physical.position.x = v.width/2;
+  }
 
-    // set viewport with "physical.position" at center point
-    viewport.SetCenter(physical.position.x, physical.position.y);
-}
+  // not too far right
+  if (physical.position.x + v.width / 2 > world.w) {
+    physical.position.x = world.w - v.width / 2;
+  }
 
-// ------------------------------------------------------------
-// GetViewPort
-// ------------------------------------------------------------
-Rectangle &Camera::GetViewport() { return viewport; }
+  // not too far up
+  if (physical.position.y - v.height / 2 < 0) {
+    physical.position.y = v.height / 2;
+  }
 
-// ------------------------------------------------------------
-// GetSceneView
-// ------------------------------------------------------------
-sf::View &Camera::GetSceneView() {
-    scene_view.setSize(viewport.w, viewport.h);
-    scene_view.setCenter(viewport.x + viewport.w / 2, viewport.y + viewport.h / 2);
-    return scene_view;
+  // not too far down
+  if (physical.position.y + v.height / 2 > world.h) {
+    physical.position.y = world.h - v.height / 2;
+  }
+
+  // set viewport with "physical.position" at center point
+  setCenter(physical.position.x, physical.position.y);
 }
 
 // ------------------------------------------------------------
 // GetHudView
 // ------------------------------------------------------------
 sf::View &Camera::GetHudView() {
-    // hud view dimensions should match main camera view
-    hud_view.setSize(viewport.w, viewport.h);
-    return hud_view;
+  // hud view dimensions should match main camera view
+  hud_view.setSize(getViewport().left, getViewport().height);
+  return hud_view;
 }
 
 // ------------------------------------------------------------
 // UpdateSceneView
 // ------------------------------------------------------------
-void Camera::UpdateSceneView(int width, int height) { viewport.SetSize(width, height); }
+void Camera::UpdateSceneView(int width, int height) {
+  //  setViewport(
+  //      sf::FloatRect(getViewport().left, getViewport().top, width, height));
+}
 
 // ------------------------------------------------------------
 // SetOffset
 // ------------------------------------------------------------
 void Camera::Letterbox(float window_width, float window_height) {
-    float window_ratio = window_width / static_cast<float>(window_height);
-    float view_ratio = scene_view.getSize().x / static_cast<float>(scene_view.getSize().y);
-    float size_x = 1;
-    float size_y = 1;
-    float pos_x = 0;
-    float pos_y = 0;
+  return;
+  float window_ratio = window_width / static_cast<float>(window_height);
+  float view_ratio = getSize().x / static_cast<float>(getSize().y);
+  float size_x = 1;
+  float size_y = 1;
+  float pos_x = 0;
+  float pos_y = 0;
 
-    bool horizontal_spacing = true;
-    if (window_ratio < view_ratio)
-        horizontal_spacing = false;
+  bool horizontal_spacing = true;
+  if (window_ratio < view_ratio) horizontal_spacing = false;
 
-    // If horizontal_spacing is true, the black bars will appear on the left and right side.
-    // Otherwise, the black bars will appear on the top and bottom.
+  // If horizontal_spacing is true, the black bars will appear on the left and
+  // right side. Otherwise, the black bars will appear on the top and bottom.
 
-    if (horizontal_spacing) {
-        size_x = view_ratio / window_ratio;
-        pos_x = (1 - size_x) / 2.f;
-    }
+  if (horizontal_spacing) {
+    size_x = view_ratio / window_ratio;
+    pos_x = (1 - size_x) / 2.f;
+  }
 
-    else {
-        size_y = window_ratio / view_ratio;
-        pos_y = (1 - size_y) / 2.f;
-    }
+  else {
+    size_y = window_ratio / view_ratio;
+    pos_y = (1 - size_y) / 2.f;
+  }
 
-    scene_view.setViewport(sf::FloatRect(pos_x, pos_y, size_x, size_y));
-    hud_view.setViewport(sf::FloatRect(pos_x, pos_y, size_x, size_y));
-    hud_view.setSize(viewport.w, viewport.h);
+  setViewport(sf::FloatRect(pos_x, pos_y, size_x, size_y));
+  hud_view.setViewport(sf::FloatRect(pos_x, pos_y, size_x, size_y));
+  hud_view.setSize(getViewport().left, getViewport().height);
 }
-} // GameLib
+
+sf::IntRect Camera::GetViewInWorld() {
+  int w = getSize().x * (getViewport().width);
+  int h = getSize().y * (getViewport().height);
+  int x = getCenter().x - w / 2;
+  int y = getCenter().y - h / 2;
+
+  sf::IntRect rect(x, y, w, h);
+  return rect;
+}
+}  // namespace GameLib
