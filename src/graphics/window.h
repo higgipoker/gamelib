@@ -142,9 +142,10 @@ class Window {
     // lock framerate
     static const int FPS = 60;
 
-  protected:
     /// sfml window
     sf::RenderWindow window;
+  protected:
+
 
     /// an image for the window icon
     sf::Image img_icon;

@@ -46,8 +46,9 @@ void Camera::Init(int width, int height) {
   //    setViewport(sf::FloatRect(0,0,width, height));
   //    setCenter(width / 2, height / 2);
 
-  setSize(800, 600);
-  setCenter(400, 300);
+  setSize(width, height);
+  setCenter(width/2, height/2);
+  //zoom(2);
 }
 
 // ------------------------------------------------------------
@@ -73,7 +74,7 @@ void Camera::Update(float dt) {
     physical.position += physical.velocity;
   }
 
-  update_position();
+  update_position(); 
 }
 
 // ------------------------------------------------------------

@@ -37,7 +37,11 @@ std::set<std::string> GameEntity::entity_names;
 // ------------------------------------------------------------
 // Constructor
 // ------------------------------------------------------------
-GameEntity::GameEntity(Physical &p, Renderable &r) : physical(p), renderable(r), velocity(physical.velocity), anchor_type(ANCHOR_CENTER) {}
+GameEntity::GameEntity(Physical &p, Renderable &r)
+    : physical(p),
+      renderable(r),
+      velocity(physical.velocity),
+      anchor_type(ANCHOR_CENTER) {}
 
 // ------------------------------------------------------------
 //
@@ -48,63 +52,74 @@ GameEntity::~GameEntity(void) {}
 // Update
 // ------------------------------------------------------------
 void GameEntity::Update(float dt) {
-
-    // centers the entity based on anchor type
-    anchor();
+  // centers the entity based on anchor type
+  anchor();
 }
 
 // ------------------------------------------------------------
 // Move
 // ------------------------------------------------------------
 void GameEntity::Move(float dx, float dy) {
-    physical.position.x += dx;
-    physical.position.y += dy;
+  physical.position.x += dx;
+  physical.position.y += dy;
 }
 
 // ------------------------------------------------------------
 // SetPosition
 // ------------------------------------------------------------
 void GameEntity::SetPosition(float x, float y, float z) {
+  physical.position.x = x;
+  physical.position.y = y;
 
-    physical.position.x = x;
-    physical.position.y = y;
-
-    if (z > TOL) {
-        physical.position.z = z;
-    }
+  if (z > TOL) {
+    physical.position.z = z;
+  }
 }
 
-Point GameEntity::GetPosition() { return Point(physical.position.x, physical.position.y); }
+Point GameEntity::GetPosition() {
+  return Point(physical.position.x, physical.position.y);
+}
 
 // ------------------------------------------------------------
 // anchor
 // ------------------------------------------------------------
 void GameEntity::anchor() {
+  switch (anchor_type) {
+    case ANCHOR_NONE:
+      renderable.SetPosition(physical.position.x, physical.position.y);
+      break;
+    case ANCHOR_CENTER:
+      renderable.SetPosition(physical.position.x - renderable.GetSize().w / 2,
+                             physical.position.y - renderable.GetSize().h / 2);
+      break;
+    case ANCHOR_BASELINE:
+      renderable.SetPosition(physical.position.x - renderable.GetSize().w / 2,
+                             physical.position.y - renderable.GetSize().h);
+      break;
+  }
 
-    switch (anchor_type) {
+  // offset y depending on height for perspective
+  // convert pixels to cm
+  // tmp hard coded 1cm = 0.133px, 1px = 7.5cm
+  float z_cm = physical.position.z * 7.6f;
 
-        case ANCHOR_NONE:
-            renderable.SetPosition(physical.position.x, physical.position.y);
-            break;
-        case ANCHOR_CENTER:
-            renderable.SetPosition(physical.position.x - renderable.GetSize().w / 2, physical.position.y - renderable.GetSize().h / 2);
-            break;
-        case ANCHOR_BASELINE:
-            renderable.SetPosition(physical.position.x - renderable.GetSize().w / 2, physical.position.y - renderable.GetSize().h);
-            break;
-    }
+  if (z_cm) {
+    // tmp hard code offset = 0.133px per cm
+    float y_offset = 0.133 * z_cm;
+    renderable.Move(0, -y_offset);
+  }
 }
 
 // ------------------------------------------------------------
 // SetName
 // ------------------------------------------------------------
 void GameEntity::SetName(const std::string &n) {
-    name = n;
-    if (entity_names.find(name) == entity_names.end()) {
-        entity_names.insert(name);
-    } else {
-        std::cout << "Could not set name: " << name << std::endl;
-    }
+  name = n;
+  if (entity_names.find(name) == entity_names.end()) {
+    entity_names.insert(name);
+  } else {
+    std::cout << "Could not set name: " << name << std::endl;
+  }
 }
 
 // ------------------------------------------------------------
@@ -116,10 +131,11 @@ std::string GameEntity::GetName() { return name; }
 // Call
 // ------------------------------------------------------------
 void GameEntity::Call(std::vector<std::string> params) {
-    if (params[0] == "move") {
-        std::vector<std::string> new_params(params.begin() + 1, params.end());
-        SetPosition(atoi(new_params[0].c_str()), atoi(new_params[1].c_str()), atoi(new_params[2].c_str()));
-    }
+  if (params[0] == "move") {
+    std::vector<std::string> new_params(params.begin() + 1, params.end());
+    SetPosition(atoi(new_params[0].c_str()), atoi(new_params[1].c_str()),
+                atoi(new_params[2].c_str()));
+  }
 }
 
-} // GameLiib
+}  // namespace GameLib

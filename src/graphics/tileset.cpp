@@ -1,5 +1,10 @@
 #include "tileset.h"
 #include <iostream>
+
+#include <GL/glu.h>
+#include "SFML/Graphics.hpp"
+#include "SFML/OpenGL.hpp"
+
 namespace GameLib {
 
 Tileset::Tileset(const std::string &filename, Camera &c)
@@ -32,7 +37,8 @@ void Tileset::Render(GameLib::Window &window) {
       }
     }
   }
-  std::cout << drawn_tiles << std::endl;
+
+  window.window.setActive(false);
 }
 
 }  // namespace GameLib
