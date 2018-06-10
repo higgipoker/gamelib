@@ -89,12 +89,19 @@ class Camera : public sf::View {
    * @param x
    * @param y
    */
-  void Letterbox(float window_width, float window_height);
+  void Letterbox();
 
   /**
    * @brief sf::Rect::GetViewInWorld
    */
   sf::IntRect GetViewInWorld();
+
+  /**
+   * @brief OnWindowResized
+   * @param x
+   * @param y
+   */
+  void OnWindowResized(int x, int y);
 
  protected:
   /// physical object for moving camera
@@ -115,9 +122,10 @@ class Camera : public sf::View {
   void update_position();
 
   /// a camera is basically a wrapper around a sfml view
-  //sf::View scene_view;
+  // sf::View scene_view;
 
-  /// todo this should be detached from the camera (a hud should overlay all cameras, move to window)
+  /// todo this should be detached from the camera (a hud should overlay all
+  /// cameras, move to window)
   sf::View hud_view;
 };
 

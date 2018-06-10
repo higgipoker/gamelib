@@ -78,6 +78,7 @@ Window::Window(const std::string &title, unsigned int x, unsigned int y, unsigne
 
     // testing force framerate (not needed when using "fixed timestep")
     // window.setFramerateLimit(FPS);
+    window.setVerticalSyncEnabled(true);
 }
 
 // ------------------------------------------------------------

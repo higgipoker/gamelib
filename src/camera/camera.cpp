@@ -47,8 +47,8 @@ void Camera::Init(int width, int height) {
   //    setCenter(width / 2, height / 2);
 
   setSize(width, height);
-  setCenter(width/2, height/2);
-  //zoom(2);
+  setCenter(width / 2, height / 2);
+  // zoom(0.5);
 }
 
 // ------------------------------------------------------------
@@ -74,7 +74,8 @@ void Camera::Update(float dt) {
     physical.position += physical.velocity;
   }
 
-  update_position(); 
+  update_position();
+  //Letterbox();
 }
 
 // ------------------------------------------------------------
@@ -97,7 +98,7 @@ void Camera::update_position() {
 
   // not too far left
   if (physical.position.x - v.width / 2 < 0) {
-    physical.position.x = v.width/2;
+    physical.position.x = v.width / 2;
   }
 
   // not too far right
@@ -139,8 +140,10 @@ void Camera::UpdateSceneView(int width, int height) {
 // ------------------------------------------------------------
 // SetOffset
 // ------------------------------------------------------------
-void Camera::Letterbox(float window_width, float window_height) {
-  return;
+void Camera::Letterbox() {
+  int window_width = getSize().x;
+  int window_height = getSize().y;
+
   float window_ratio = window_width / static_cast<float>(window_height);
   float view_ratio = getSize().x / static_cast<float>(getSize().y);
   float size_x = 1;
@@ -178,4 +181,10 @@ sf::IntRect Camera::GetViewInWorld() {
   sf::IntRect rect(x, y, w, h);
   return rect;
 }
+
+void Camera::OnWindowResized(int x, int y) {
+  // setSize(x, y);
+  // setCenter(x / 2, y / 2);
+}
+
 }  // namespace GameLib
