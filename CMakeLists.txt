@@ -23,8 +23,8 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../SFML-2.5.0/include)
 
 # ----------------------------------------------------------------------------------------------------
 # project build
-#add_library(gamelib STATIC
-add_library(gamelib SHARED
+add_library(gamelib STATIC
+#add_library(gamelib SHARED
 src/gamelib.h
 src/graphics/events.h
 src/graphics/window.cpp
@@ -57,6 +57,7 @@ src/utils/timer.cpp
 src/utils/converter.cpp
 src/utils/log.cpp
 src/utils/grid.cpp
+src/utils/perspective.cpp
 src/files/file.cpp
 )
 # ----------------------------------------------------------------------------------------------------
@@ -65,7 +66,7 @@ src/files/file.cpp
 
 # ----------------------------------------------------------------------------------------------------
 # install
-install (TARGETS gamelib DESTINATION /usr/local/lib)
+#install (TARGETS gamelib DESTINATION /usr/local/lib)
 
 #gamelib header
 install(FILES
@@ -137,6 +138,7 @@ src/utils/timer.h
 src/utils/converter.h
 src/utils/log.h
 src/utils/grid.h
+src/utils/perspective.h
 DESTINATION /usr/local/include/gamelib/utils)
 
 #install files header files
