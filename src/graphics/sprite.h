@@ -108,12 +108,12 @@ class Sprite : public Renderable {
     /// a rsprite may or may not have a shadow
     Sprite *shadow = nullptr;
 
-  protected:
-    /// spritesheet rects
-    std::vector<sf::IntRect> rects;
-
     /// each sprite width and height
     unsigned int sprite_width = 0, sprite_height = 0;
+
+  protected:
+    /// spritesheet rects
+    std::vector<sf::IntRect> rects;   
 
     /// a list of possible animations for the sprite (list of frame numbers to cycle through)
     std::vector<Animation> animations;

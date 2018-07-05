@@ -46,11 +46,6 @@ class Camera : public sf::View {
   explicit Camera();
 
   /**
-   *@brief destruct
-   */
-  ~Camera();
-
-  /**
    * @brief Init
    */
   void Init(int width, int height);
@@ -79,12 +74,6 @@ class Camera : public sf::View {
   void UpdateSceneView(int width, int height);
 
   /**
-   * @brief GetHudView
-   * @return
-   */
-  sf::View &GetHudView();
-
-  /**
    * @brief for maintain aspect ratio on window resize
    * @param x
    * @param y
@@ -110,9 +99,6 @@ class Camera : public sf::View {
   /// whole game world
   Rectangle world;
 
-  /// only move camera if target outside this Rectangle
-  Rectangle anchor_rect;
-
   /// track which entity we are following
   GameEntity *following;
 
@@ -120,13 +106,6 @@ class Camera : public sf::View {
    * @brief helper to update position
    */
   void update_position();
-
-  /// a camera is basically a wrapper around a sfml view
-  // sf::View scene_view;
-
-  /// todo this should be detached from the camera (a hud should overlay all
-  /// cameras, move to window)
-  sf::View hud_view;
 };
 
 }  // namespace GameLib

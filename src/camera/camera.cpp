@@ -33,22 +33,11 @@ namespace GameLib {
 Camera::Camera() { following = nullptr; }
 
 // ------------------------------------------------------------
-// ~Camera
-// ------------------------------------------------------------
-Camera::~Camera() {}
-
-// ------------------------------------------------------------
 // Init
 // ------------------------------------------------------------
 void Camera::Init(int width, int height) {
-  //    hud_view.setCenter(width / 2, height / 2);
-  //    //Letterbox(width, height);
-  //    setViewport(sf::FloatRect(0,0,width, height));
-  //    setCenter(width / 2, height / 2);
-
   setSize(width, height);
   setCenter(width / 2, height / 2);
-  // zoom(0.5);
 }
 
 // ------------------------------------------------------------
@@ -61,7 +50,7 @@ void Camera::SetWorldRect(const Rectangle &world_rect) { world = world_rect; }
 // ------------------------------------------------------------
 void Camera::Follow(GameEntity *e) { following = e; }
 
-#define SPEED 1
+#define SPEED 2
 // ------------------------------------------------------------
 // Update
 // ------------------------------------------------------------
@@ -75,25 +64,14 @@ void Camera::Update(float dt) {
   }
 
   update_position();
-  //Letterbox();
+  // Letterbox();
 }
 
 // ------------------------------------------------------------
 // update_position
 // ------------------------------------------------------------
 void Camera::update_position() {
-  // check for min bounds
-  //  int tmp = physical.position.x - getViewport().width / 2;
-  //  std::cout << tmp << std::endl;
-
-  //  if (physical.position.x - world.w / 2 < 0) {
-  //    physical.position.x = world.w / 2;
-  //  }
-
-  //  if (physical.position.y - world.h / 2 < 0) {
-  //    physical.position.y = world.h / 2;
-  //  }
-
+  // confine to world bounds
   sf::IntRect v = GetViewInWorld();
 
   // not too far left
@@ -116,17 +94,7 @@ void Camera::update_position() {
     physical.position.y = world.h - v.height / 2;
   }
 
-  // set viewport with "physical.position" at center point
   setCenter(physical.position.x, physical.position.y);
-}
-
-// ------------------------------------------------------------
-// GetHudView
-// ------------------------------------------------------------
-sf::View &Camera::GetHudView() {
-  // hud view dimensions should match main camera view
-  hud_view.setSize(getViewport().left, getViewport().height);
-  return hud_view;
 }
 
 // ------------------------------------------------------------
@@ -168,8 +136,6 @@ void Camera::Letterbox() {
   }
 
   setViewport(sf::FloatRect(pos_x, pos_y, size_x, size_y));
-  hud_view.setViewport(sf::FloatRect(pos_x, pos_y, size_x, size_y));
-  hud_view.setSize(getViewport().left, getViewport().height);
 }
 
 sf::IntRect Camera::GetViewInWorld() {
@@ -183,8 +149,8 @@ sf::IntRect Camera::GetViewInWorld() {
 }
 
 void Camera::OnWindowResized(int x, int y) {
-  // setSize(x, y);
-  // setCenter(x / 2, y / 2);
+//  setSize(x, y);
+//  setCenter(x / 2, y / 2);
 }
 
 }  // namespace GameLib

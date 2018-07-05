@@ -41,7 +41,7 @@ const unsigned int MAX_ECHO_SIZE = 500;
 // ------------------------------------------------------------
 // Constructor
 // ------------------------------------------------------------
-Console::Console(Game *g) : height(200), text("fonts/terminus_bold.ttf", 20), cursor("fonts/terminus_bold.ttf", 20), game(g) {
+Console::Console(Game &g) : height(200), text("fonts/terminus_bold.ttf", 20), cursor("fonts/terminus_bold.ttf", 20), game(g) {
     this->z_order++;
     text.SetColor(Color(0, 255, 0, 255));
     cursor.SetColor(Color(0, 255, 0, 255));
@@ -218,7 +218,7 @@ void Console::execute() {
 
     std::cout << "execute command: " << spl[0] << std::endl;
 
-    game->Call(spl);
+    game.Call(spl);
 
     history.push_back(current_line);
     idx_history = static_cast<int>(history.size());

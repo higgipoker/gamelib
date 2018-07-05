@@ -124,6 +124,9 @@ class GameEntity {
     /// keep the list unique
     static std::set<std::string> entity_names;
 
+    /// tmp test
+    bool perspectivize = false;
+
   public:
     friend class Game;
 };

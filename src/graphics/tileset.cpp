@@ -37,8 +37,6 @@ void Tileset::Render(GameLib::Window &window) {
       }
     }
   }
-
-  window.window.setActive(false);
 }
 
 }  // namespace GameLib

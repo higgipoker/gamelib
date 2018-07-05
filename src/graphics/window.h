@@ -39,120 +39,133 @@ namespace GameLib {
  * @brief  Wrapper for sfml window
  */
 class Window {
-  public:
-    /**
-     * @brief Window
-     * @param title
-     * @param x
-     * @param y
-     * @param w
-     * @param h
-     * @param fullscreen
-     */
-    explicit Window(const std::string &title, unsigned int x, unsigned int y, unsigned int w, unsigned int h, bool fullscreen = false);
+ public:
+  /**
+   * @brief Window
+   * @param title
+   * @param x
+   * @param y
+   * @param w
+   * @param h
+   * @param fullscreen
+   */
+  explicit Window(const std::string &title, unsigned int x, unsigned int y,
+                  unsigned int w, unsigned int h, bool fullscreen = false);
 
-    /**
-  * @brief destructor
-  */
-    ~Window();
+  /**
+   * @brief destructor
+   */
+  ~Window();
 
-    /**
-     * @brief poll for window events
-     */
-    WindowEvent PollEvent(WindowEvent &wnd_event);
+  /**
+   * @brief poll for window events
+   */
+  WindowEvent PollEvent(WindowEvent &wnd_event);
 
-    /**
-     * @brief clear window
-     */
-    void Clear();
+  /**
+   * @brief clear window
+   */
+  void Clear();
 
-    /**
-     * @brief flip back buffer
-     */
-    void Present();
+  /**
+   * @brief flip back buffer
+   */
+  void Present();
 
-    /**
-     * @brief is window still open
-     */
-    bool IsOpen();
+  /**
+   * @brief is window still open
+   */
+  bool IsOpen();
 
-    /**
-     * @brief show cursor
-     */
-    void ShowCursor();
+  /**
+   * @brief show cursor
+   */
+  void ShowCursor();
 
-    /**
-     * @brief hide cursor
-     */
-    void HideCursor();
+  /**
+   * @brief hide cursor
+   */
+  void HideCursor();
 
-    /**
-     * @brief constructorset icon image
-     * @param filename image file name
-     */
-    void SetIcon(const std::string &filename);
+  /**
+   * @brief constructorset icon image
+   * @param filename image file name
+   */
+  void SetIcon(const std::string &filename);
 
-    /**
-     * @brief draw a renderable object
-     * @param r renderable object to draw
-     */
-    void Draw(Renderable &r);
+  /**
+   * @brief draw a renderable object
+   * @param r renderable object to draw
+   */
+  void Draw(Renderable &r);
 
-    /**
-     * @brief close the window
-     */
-    void Close();
+  /**
+   * @brief close the window
+   */
+  void Close();
 
-    /**
-     * @brief set the viewport
-     * @param  v view to set
-     */
-    void SetView(const sf::View &v);
+  /**
+   * @brief set the viewport
+   * @param  v view to set
+   */
+  void SetView(const sf::View &v);
 
-    // tmp for testing
-    /**
-     * @brief Draw
-     * @param d
-     */
-    void Draw(sf::Drawable &d);
+  // tmp for testing
+  /**
+   * @brief Draw
+   * @param d
+   */
+  void Draw(sf::Drawable &d);
 
-    /**
-     * @brief get position of window
-     */
-    Point GetPosition() { return Point(window.getPosition().x, window.getPosition().y); }
+  /**
+   * @brief get position of window
+   */
+  Point GetPosition() {
+    return Point(window.getPosition().x, window.getPosition().y);
+  }
 
-    /**
-     * @brief get size of window
-     */
-    Dimension GetSize() { return Dimension(window.getSize().x, window.getSize().y); }
+  /**
+   * @brief get size of window
+   */
+  Dimension GetSize() {
+    return Dimension(window.getSize().x, window.getSize().y);
+  }
 
-    /**
-     * @brief VSync
-     * @param on
-     */
-    void VSync(bool on) { window.setVerticalSyncEnabled(on); }
+  /**
+   * @brief VSync
+   * @param on
+   */
+  void VSync(bool on) { window.setVerticalSyncEnabled(on); }
 
-    /**
-     * @brief ConvertMousePosition
-     * @param absolute
-     * @return
-     */
-    Point GetMousePosition();
+  /**
+   * @brief ConvertMousePosition
+   * @param absolute
+   * @return
+   */
+  Point GetMousePosition();
 
-    // lock framerate
-    static const int FPS = 60;
+  /**
+   * @brief OnResize
+   * @param x
+   * @param y
+   */
+  void OnResize(int x, int y);
 
-    /// sfml window
-    sf::RenderWindow window;
-  protected:
+  // lock framerate
+  static const int FPS = 60;
 
+  /// sfml window
+  sf::RenderWindow window;
 
-    /// an image for the window icon
-    sf::Image img_icon;
+  sf::View hud_view;
 
-  public:
-    // gives access to internal sfml window for drawing primitives
-    friend class Primitives;
+ protected:
+  /// an image for the window icon
+  sf::Image img_icon;
+
+ public:
+  // gives access to internal sfml window for drawing primitives
+  friend class Primitives;
 };
 
-} // GameLib
+}  // namespace GameLib

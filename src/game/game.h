@@ -25,6 +25,7 @@
  */
 #pragma once
 
+#include <vector>
 #include "../camera/camera.h"
 #include "../console/console.h"
 #include "../graphics/renderable.h"
@@ -34,7 +35,6 @@
 #include "../physics/physical.h"
 #include "../utils/timer.h"
 #include "game_entity.h"
-#include <vector>
 
 namespace GameLib {
 
@@ -42,158 +42,159 @@ namespace GameLib {
  * @brief The Game class
  */
 class Game {
-  public:
-    /**
-    * @brief constructor
-    * @param gamename name of game
-    * @param x window x position
-    * @param y window y position
-    * @param w window width
-    * @param h window height
-    * @param fullscreen full screen or not
-    */
-    Game(const std::string &gamename, unsigned int x, unsigned int y, unsigned int w, unsigned int h, bool fullscreen);
+ public:
+  /**
+   * @brief constructor
+   * @param gamename name of game
+   * @param x window x position
+   * @param y window y position
+   * @param w window width
+   * @param h window height
+   * @param fullscreen full screen or not
+   */
+  Game(const std::string &gamename, unsigned int x, unsigned int y,
+       unsigned int w, unsigned int h, bool fullscreen);
 
-    /**
-      * @brief destruct
-      */
-    virtual ~Game() {}
+  /**
+   * @brief destruct
+   */
+  virtual ~Game() {}
 
-    /**
-     * @brief OnStart
-     */
-    virtual void OnStart() { gamestep_timer.Start(); }
+  /**
+   * @brief Tick
+   */
+  void OnFrame();
 
-    /**
-     * @brief Tick
-     */
-    void OnFrame();
+  /**
+   * @brief HandleInput
+   */
+  virtual void HandleInput(WindowEvent &event);
 
-    /**
-    * @brief HandleInput
-    */
-    virtual void HandleInput(WindowEvent &event);
+  /**
+   * @brief Simulate
+   * @param dt
+   */
+  void Simulate(float _dt);
 
-    /**
-    * @brief Simulate
-    * @param dt
-    */
-    void Simulate(float _dt);
+  /**
+   * @brief add a game entity
+   * @param entity entity to add
+   */
+  void AddEntity(GameEntity &entity);
 
-    /**
-    * @brief add a game entity
-    * @param entity entity to add
-    */
-    void AddEntity(GameEntity &entity);
+  /**
+   * @brief get list of entity names
+   */
+  std::vector<std::string> GetEntityNames();
 
-    /**
-     * @brief get list of entity names
-     */
-    std::vector<std::string> GetEntityNames();
+  /**
+   * @brief get an entity based on id
+   */
+  GameEntity &GetEntity(const std::string &name);
 
-    /**
-     * @brief get an entity based on id
-     */
-    GameEntity &GetEntity(const std::string &name);
+  /**
+   * @brief call a function
+   * @param params list of params
+   */
+  void Call(std::vector<std::string> params);
 
-    /**
-     * @brief call a function
-     * @param params list of params
-     */
-    void Call(std::vector<std::string> params);
+  /**
+   * @brief call a function
+   * @param func function name
+   * @param n number of params
+   */
+  void Call(std::string func, std::string n, ...);
 
-    /**
-     * @brief call a function
-     * @param func function name
-     * @param n number of params
-     */
-    void Call(std::string func, std::string n, ...);
+  /**
+   * @brief workingDirectory
+   * @return
+   */
+  std::string WorkingDirectory();
 
-    /**
-     * @brief workingDirectory
-     * @return
-     */
-    std::string WorkingDirectory();
+  /// game main window
+  Window window;
 
-    /// game main window
-    Window window;
+  /// a camera
+  Camera camera;
 
-    /// a camera
-    Camera camera;
+  /// mouse interface
+  Mouse mouse;
 
-    /// mouse interface
-    Mouse mouse;
+  /// main loop control
+  bool running = true;
 
-    /// main loop control
-    bool running = true;
+ protected:
+  /// game entities
+  std::vector<GameEntity *> game_entities;
 
-  protected:
-    /// game entities
-    std::vector<GameEntity *> game_entities;
+  /// hud entities
+  std::vector<GameEntity *> hud_entities;
 
-    /// hud entities
-    std::vector<GameEntity *> hud_entities;
+  /**
+   * @brief Render
+   */
+  void render();
 
-    /**
-     * @brief Render
-     */
-    void render();
+  /**
+   * @brief prepare_scene
+   */
+  virtual void prepare_scene();
 
-    /**
-     * @brief prepare_scene
-     */
-    virtual void prepare_scene();
+  /**
+   * @brief prepare_hud
+   */
+  virtual void prepare_hud();
 
-    /**
-     * @brief prepare_hud
-     */
-    virtual void prepare_hud();
+  /**
+   * @brief calc_fps
+   */
+  void calc_fps();
 
-    /**
-     * @brief calc_fps
-     */
-    void calc_fps();
+  /**
+   * @brief step the simulation
+   * @param dt time delta
+   */
+  void step(float dt);
 
-    /**
-     * @brief step the simulation
-     * @param dt time delta
-     */
-    void step(float dt);
+  /**
+   * @brief helper to render the hud
+   */
+  void render_hud();
 
-    /**
-     * @brief helper to render the hud
-     */
-    void render_hud();
+  /**
+   * @brief on_mouse_click
+   * @param x
+   * @param y
+   */
+  virtual void on_mouse_click(float x, float y) = 0;
 
-    /**
-     * @brief on_mouse_click
-     * @param x
-     * @param y
-     */
-    virtual void on_mouse_click(float x, float y) = 0;
+  /**
+   * @brief limit_framerate
+   */
+  void limit_framerate();
 
-    /**
-     * @brief limit_framerate
-     */
-    void limit_framerate();
+  /**
+   * @brief on_start
+   */
+  void on_start() { gamestep_timer.Start(); }
 
-    /// console
-    Console console;
+  /// console
+  Console console;
 
-    /// a timer
-    Timer gamestep_timer;
+  /// a timer
+  Timer gamestep_timer;
 
-    /// event for main loop
-    GameLib::WindowEvent event;
+  /// event for main loop
+  GameLib::WindowEvent event;
 
-    /// current frame tracker
-    int game_frame = 0;
+  /// current frame tracker
+  int game_frame = 0;
 
-    /// fps stuff
-    float fps = 0;
-    float frames_this_second = 0;
-    float lastTime = 0.0f;
-    float fps_timer = 0.0f;
+  /// fps stuff
+  float fps = 0;
+  float frames_this_second = 0;
+  float lastTime = 0.0f;
+  float fps_timer = 0.0f;
 };
 
-} // GameLib
+}  // namespace GameLib

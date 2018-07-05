@@ -29,6 +29,7 @@
 #include <iostream>
 
 #include "../graphics/sprite.h"
+#include "../utils/perspective.h"
 
 namespace GameLib {
 
@@ -98,15 +99,8 @@ void GameEntity::anchor() {
       break;
   }
 
-  // offset y depending on height for perspective
-  // convert pixels to cm
-  // tmp hard coded 1cm = 0.133px, 1px = 7.5cm
-  float z_cm = physical.position.z * 7.6f;
-
-  if (z_cm) {
-    // tmp hard code offset = 0.133px per cm
-    float y_offset = 0.133 * z_cm;
-    renderable.Move(0, -y_offset);
+  if (perspectivize) {
+    Perspective::Perspetcivize(*this);
   }
 }
 

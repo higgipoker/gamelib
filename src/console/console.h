@@ -33,80 +33,80 @@
 namespace GameLib {
 class Game;
 class Console : public Hud {
-  public:
-    /**
-     * @brief construct
-     */
-    explicit Console(Game *g);
+ public:
+  /**
+   * @brief construct
+   */
+  explicit Console(Game &g);
 
-    /**
-      @brief destruct
-     */
-    ~Console();
+  /**
+    @brief destruct
+   */
+  ~Console();
 
-    /**
-    * @brief render
-    * @param window render target
-    */
-    virtual void Render(Window &window) override;
+  /**
+   * @brief render
+   * @param window render target
+   */
+  virtual void Render(Window &window) override;
 
-    /**
-     * @brief key press
-     * @param character the char pressed
-     */
-    void OnKey(keycode key);
+  /**
+   * @brief key press
+   * @param character the char pressed
+   */
+  void OnKey(keycode key);
 
-    /**
-     * @brief echo something
-     * @param texts strings to echo
-     */
-    void Echo(const std::vector<std::string> &texts);
+  /**
+   * @brief echo something
+   * @param texts strings to echo
+   */
+  void Echo(const std::vector<std::string> &texts);
 
-    /**
-     * @brief SetHeight
-     */
-    void SetHeight(unsigned int h);
+  /**
+   * @brief SetHeight
+   */
+  void SetHeight(unsigned int h);
 
-  private:
-    // console height
-    unsigned int height;
+ private:
+  // console height
+  unsigned int height;
 
-    /// text renderable
-    Label text;
+  /// text renderable
+  Label text;
 
-    /// cursor
-    Label cursor;
+  /// cursor
+  Label cursor;
 
-    /// current text
-    std::string current_line;
+  /// current text
+  std::string current_line;
 
-    /// command history
-    std::vector<std::string> history;
+  /// command history
+  std::vector<std::string> history;
 
-    /// track current history pointer
-    int idx_history = 0;
+  /// track current history pointer
+  int idx_history = 0;
 
-    /// an echo list
-    std::vector<std::string> echo_list;
+  /// an echo list
+  std::vector<std::string> echo_list;
 
-    /// track echo offset
-    int echo_offset = 1;
+  /// track echo offset
+  int echo_offset = 1;
 
-    /// pointer to game for function calls
-    Game *game;
+  /// pointer to game for function calls
+  Game &game;
 
-    /// a timer
-    int cursor_ticks = 0;
+  /// a timer
+  int cursor_ticks = 0;
 
-    /**
-     * @brief render the cursor
-     */
-    bool show_cursor = false;
+  /**
+   * @brief render the cursor
+   */
+  bool show_cursor = false;
 
-    /**
-     * @brief execute the current command
-     */
-    void execute();
+  /**
+   * @brief execute the current command
+   */
+  void execute();
 };
 
-} // GameLib
+}  // namespace GameLib

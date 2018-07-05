@@ -37,48 +37,55 @@ namespace GameLib {
 // plain old function to find video modes
 // ------------------------------------------------------------
 bool valid_videomode(unsigned int width, unsigned int height) {
-    // get list of supported video modes
-    std::vector<sf::VideoMode> modes = sf::VideoMode::getFullscreenModes();
+  // get list of supported video modes
+  std::vector<sf::VideoMode> modes = sf::VideoMode::getFullscreenModes();
 
-    // search forone that matched the requested width and height
-    for (auto mode : modes) {
-        if (mode.width == width && mode.height == height) {
-            return true;
-        }
+  // search forone that matched the requested width and height
+  for (auto mode : modes) {
+    if (mode.width == width && mode.height == height) {
+      return true;
     }
+  }
 
-    return false;
+  return false;
 }
 
 // ------------------------------------------------------------
 // Window
 // ------------------------------------------------------------
-Window::Window(const std::string &title, unsigned int x, unsigned int y, unsigned int w, unsigned int h, bool fullscreen) {
-    // default style
-    unsigned int window_style = sf::Style::Default;
+Window::Window(const std::string &title, unsigned int x, unsigned int y,
+               unsigned int w, unsigned int h, bool fullscreen) {
+  // default style
+  unsigned int window_style = sf::Style::Default;
 
-    // if fullscreen, look for a compatible video mode
-    if (fullscreen) {
-        sf::VideoMode desktop_mode = sf::VideoMode::getDesktopMode();
-        window_style = sf::Style::None;
-        w = desktop_mode.width;
-        h = desktop_mode.height;
-        if (valid_videomode(w, h)) {
-            window_style = sf::Style::Fullscreen;
-        } else {
-            std::cout << "No valid fullscreen mode for " << w << "x" << h << std::endl;
-        }
+  // if fullscreen, look for a compatible video mode
+  if (fullscreen) {
+    sf::VideoMode desktop_mode = sf::VideoMode::getDesktopMode();
+    window_style = sf::Style::None;
+    w = desktop_mode.width;
+    h = desktop_mode.height;
+    if (valid_videomode(w, h)) {
+      window_style = sf::Style::Fullscreen;
+    } else {
+      std::cout << "No valid fullscreen mode for " << w << "x" << h
+                << std::endl;
     }
+  }
 
-    // create new window with requested styles
-    window.create(sf::VideoMode(w, h), title, window_style);
+  // create new window with requested styles
+  window.create(sf::VideoMode(w, h), title, window_style);
 
-    // move to requested position
-    window.setPosition(sf::Vector2i(static_cast<int>(x), static_cast<int>(y)));
+  // move to requested position
+  window.setPosition(sf::Vector2i(static_cast<int>(x), static_cast<int>(y)));
 
-    // testing force framerate (not needed when using "fixed timestep")
-    // window.setFramerateLimit(FPS);
-    window.setVerticalSyncEnabled(true);
+  // set up the hud view
+  hud_view.setSize(w, h);
+  hud_view.setCenter(w / 2, h / 2);
+  hud_view.setViewport(sf::FloatRect(0.f, 0.f, 1.0f, 1.0f));
+
+  // testing force framerate (not needed when using "fixed timestep")
+   window.setFramerateLimit(FPS);
+  // window.setVerticalSyncEnabled(true);
 }
 
 // ------------------------------------------------------------
@@ -115,8 +122,9 @@ void Window::HideCursor() { window.setMouseCursorVisible(false); }
 // SetIcon
 // ------------------------------------------------------------
 void Window::SetIcon(const std::string &filename) {
-    img_icon.loadFromFile(filename);
-    window.setIcon(img_icon.getSize().x, img_icon.getSize().y, img_icon.getPixelsPtr());
+  img_icon.loadFromFile(filename);
+  window.setIcon(img_icon.getSize().x, img_icon.getSize().y,
+                 img_icon.getPixelsPtr());
 }
 
 // ------------------------------------------------------------
@@ -143,59 +151,67 @@ void Window::SetView(const sf::View &view) { window.setView(view); }
 // PollEvent
 // ------------------------------------------------------------
 WindowEvent Window::PollEvent(WindowEvent &wnd_event) {
-    // sfml event
-    sf::Event sfml_event;
+  // sfml event
+  sf::Event sfml_event;
 
-    // sfml polling
-    while (window.pollEvent(sfml_event)) {
-        // convert to genereic GameLib event
-        if (sfml_event.type == sf::Event::Closed) {
-            window.close();
-            wnd_event.type = WINDOW_EVENT_CLOSE;
-        }
-
-        else if (sfml_event.type == sf::Event::MouseMoved) {
-            wnd_event.type = WINDOW_EVENT_MOUSE_MOVED;
-        }
-
-        else if (sfml_event.type == sf::Event::MouseButtonPressed) {
-            wnd_event.type = WINDOW_EVENT_MOUSE_CLICKED;
-        }
-
-        else if (sfml_event.type == sf::Event::EventType::KeyPressed) {
-            wnd_event.type = WINDOW_EVENT_KEY_DOWN;
-            wnd_event.params.push_back(Keyboard::keys[sfml_event.key.code]);
-        }
-
-        else if (sfml_event.type == sf::Event::MouseWheelMoved) {
-            wnd_event.type = WINDOW_EVENT_MOUSE_WHEEL_MOVED;
-            wnd_event.params.push_back(sfml_event.mouseWheel.delta);
-        }
-
-        else if (sfml_event.type == sf::Event::Resized) {
-            // update the view to the new size of the window
-            wnd_event.type = WINDOW_EVENT_RESIZED;
-            wnd_event.params.push_back(static_cast<int>(sfml_event.size.width));
-            wnd_event.params.push_back(static_cast<int>(sfml_event.size.height));
-        }
+  // sfml polling
+  while (window.pollEvent(sfml_event)) {
+    // convert to genereic GameLib event
+    if (sfml_event.type == sf::Event::Closed) {
+      window.close();
+      wnd_event.type = WINDOW_EVENT_CLOSE;
     }
 
-    return wnd_event;
+    else if (sfml_event.type == sf::Event::MouseMoved) {
+      wnd_event.type = WINDOW_EVENT_MOUSE_MOVED;
+    }
+
+    else if (sfml_event.type == sf::Event::MouseButtonPressed) {
+      wnd_event.type = WINDOW_EVENT_MOUSE_CLICKED;
+    }
+
+    else if (sfml_event.type == sf::Event::EventType::KeyPressed) {
+      wnd_event.type = WINDOW_EVENT_KEY_DOWN;
+      wnd_event.params.push_back(Keyboard::keys[sfml_event.key.code]);
+    }
+
+    else if (sfml_event.type == sf::Event::MouseWheelMoved) {
+      wnd_event.type = WINDOW_EVENT_MOUSE_WHEEL_MOVED;
+      wnd_event.params.push_back(sfml_event.mouseWheel.delta);
+    }
+
+    else if (sfml_event.type == sf::Event::Resized) {
+      // update the view to the new size of the window
+      wnd_event.type = WINDOW_EVENT_RESIZED;
+      wnd_event.params.push_back(static_cast<int>(sfml_event.size.width));
+      wnd_event.params.push_back(static_cast<int>(sfml_event.size.height));
+    }
+  }
+
+  return wnd_event;
 }
 
 // ------------------------------------------------------------
 // ConvertMousePosition
 // ------------------------------------------------------------
 Point Window::GetMousePosition() {
-    // get the current mouse position in the window
-    sf::Vector2i pixelPos = sf::Mouse::getPosition(window);
+  // get the current mouse position in the window
+  sf::Vector2i pixelPos = sf::Mouse::getPosition(window);
 
-    // convert it to world coordinates
-    sf::Vector2f worldPos = window.mapPixelToCoords(pixelPos);
+  // convert it to world coordinates
+  sf::Vector2f worldPos = window.mapPixelToCoords(pixelPos);
 
-    // return it
-    Point p(worldPos.x, worldPos.y);
-    return p;
+  // return it
+  Point p(worldPos.x, worldPos.y);
+  return p;
 }
 
-} // GameLib
+// ------------------------------------------------------------
+// OnResize
+// ------------------------------------------------------------
+void Window::OnResize(int x, int y) {
+  hud_view.setSize(x, y);
+  hud_view.setCenter(x / 2, y / 2);
+}
+
+}  // namespace GameLib

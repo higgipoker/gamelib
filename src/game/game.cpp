@@ -40,9 +40,6 @@ namespace GameLib {
 static float accumulator = 0.0f;
 static float target_frame_time = 0.0f;
 
-// temp window behaviour
-static const bool SCALE_ON_RESIZE_WINDOW = false;
-
 // ------------------------------------------------------------
 // sort predicate for renderable objects (for height)
 // ------------------------------------------------------------
@@ -57,7 +54,7 @@ struct {
 // ------------------------------------------------------------
 Game::Game(const std::string &gamename, unsigned int x, unsigned int y,
            unsigned int w, unsigned int h, bool fullscreen)
-    : window(gamename, x, y, w, h, fullscreen), console(this) {
+    : window(gamename, x, y, w, h, fullscreen), console(*this) {
   fps = 0;
 
   // inits static keyboard stuff
@@ -65,6 +62,8 @@ Game::Game(const std::string &gamename, unsigned int x, unsigned int y,
 
   // how long one frame should take
   target_frame_time = 1.0f / static_cast<float>(Window::FPS);
+
+  on_start();
 }
 
 // ------------------------------------------------------------
@@ -92,13 +91,9 @@ void Game::HandleInput(WindowEvent &event) {
       break;
 
     case WINDOW_EVENT_MOUSE_CLICKED: {
-      if (SCALE_ON_RESIZE_WINDOW) {
-        Point p = window.GetMousePosition();
-        on_mouse_click(p.x, p.y);
-      } else {
-        on_mouse_click(mouse.GetPosition().x - window.GetPosition().x,
-                       mouse.GetPosition().y - window.GetPosition().y);
-      }
+      on_mouse_click(mouse.GetPosition().x - window.GetPosition().x,
+                     mouse.GetPosition().y - window.GetPosition().y);
+
     } break;
 
     case WINDOW_EVENT_KEY_DOWN:
@@ -106,6 +101,11 @@ void Game::HandleInput(WindowEvent &event) {
       break;
 
     case WINDOW_EVENT_MOUSE_WHEEL_MOVED:
+      if (event.params.at(0) > 0) {
+        camera.zoom(0.9);
+      } else {
+        camera.zoom(1.1);
+      }
       break;
 
     case WINDOW_EVENT_MOUSE_MOVED:
@@ -115,18 +115,8 @@ void Game::HandleInput(WindowEvent &event) {
       break;
 
     case WINDOW_EVENT_RESIZED:
-
-      //
-      // this shows more of the scene
-      //
-      if (!SCALE_ON_RESIZE_WINDOW) {
-        //                camera.UpdateSceneView(event.params.at(0),
-        //                event.params.at(1));
-        //                console.SetHeight(static_cast<unsigned
-        //                int>(event.params.at(1) / 3));
-
-        camera.OnWindowResized(event.params.at(0), event.params.at(1));
-      }
+      camera.OnWindowResized(event.params.at(0), event.params.at(1));
+      window.OnResize(event.params.at(0), event.params.at(1));
       break;
   }
   event.Reset();
@@ -146,13 +136,14 @@ void Game::render() {
   for (auto entity : game_entities) {
     entity->renderable.Render(window);
   }
-  //    prepare_hud();
-  //    for (auto entity : hud_entities) {
-  //        entity->renderable.Render(window);
-  //    }
-  //    console.Render(window);
+  prepare_hud();
+  for (auto entity : hud_entities) {
+    entity->renderable.Render(window);
+  }
+  console.Render(window);
   window.Present();
-  limit_framerate();
+  window.SetView(camera);
+  // limit_framerate();
 }
 
 // ------------------------------------------------------------
@@ -293,7 +284,7 @@ void Game::prepare_scene() {
 void Game::prepare_hud() {
   // sort the render list in z-order
   std::sort(hud_entities.begin(), hud_entities.end(), sort_renderable);
-  window.SetView(camera.GetHudView());
+  window.SetView(window.hud_view);
 }
 
 // ------------------------------------------------------------
